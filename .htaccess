@@ -1,0 +1,17 @@
+RewriteEngine On
+
+# Allow existing files
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# Allow directories
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# ROUTING SYSTEM
+RewriteRule ^([a-zA-Z0-9-]+)/?$ index.php?route=$1 [L,QSA]
+
+# Sitemap
+RewriteRule ^sitemap.xml$ sitemap-index.php [L]
+
+ErrorDocument 404 /404.php
