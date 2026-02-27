@@ -153,6 +153,8 @@ if($route && str_contains($route,'-pincode')){
 <a href="/about.php">About</a>
 <a href="/contact.php">Contact</a>
 <a href="/privacy-policy.php">Privacy</a>
+<a href="/terms.php">Terms</a>
+<a href="/disclaimer.php">Disclaimer</a>
 </nav>
 </div>
 
