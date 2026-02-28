@@ -106,14 +106,9 @@ elseif($route && str_contains($route,'-pincode')){
 ?>
 
 <?php
-require_once "config/db.php";
-
 /* =========================
    SEO META ENGINE (SAFE)
 ========================= */
-
-$route = $_GET['route'] ?? '';
-
 
 /* =========================
    BREADCRUMB ENGINE
@@ -141,6 +136,7 @@ $seoTitle = "India Pincode Search – Find Post Office, District & State";
 $seoDescription = "Search Indian PIN Codes, Post Offices, Districts and States across India using official postal data.";
 
 $canonical = "https://pincodelocator.co.in/";
+$metaRobots = "index, follow";
 
 /* STATE PAGE */
 if($pageType=="office"){
@@ -171,11 +167,11 @@ elseif($route && str_contains($route,'-pincode')){
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#4f46e5">
 
-<title><?= $seoTitle ?></title>
+<title><?= htmlspecialchars($seoTitle, ENT_QUOTES, "UTF-8") ?></title>
 
-<meta name="description" content="<?= $seoDescription ?>">
+<meta name="description" content="<?= htmlspecialchars($seoDescription, ENT_QUOTES, "UTF-8") ?>">
 
-<link rel="canonical" href="<?= $canonical ?>">
+<link rel="canonical" href="<?= htmlspecialchars($canonical, ENT_QUOTES, "UTF-8") ?>">
 
 <?php if($route): ?>
 <script type="application/ld+json">
@@ -196,7 +192,7 @@ elseif($route && str_contains($route,'-pincode')){
 </script>
 <?php endif; ?>
 
-<meta name="robots" content="index, follow">
+<meta name="robots" content="<?= htmlspecialchars($metaRobots, ENT_QUOTES, "UTF-8") ?>">
 
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
