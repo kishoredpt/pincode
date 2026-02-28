@@ -1,198 +1,156 @@
 <?php
-include "config/db.php";
+require_once 'config/db.php';
 
-$slug = $_GET['slug'] ?? '';
+$slug = trim($_GET['slug'] ?? '');
+if ($slug === '') {
+    header("Location:/404.php");
+    exit;
+}
 
 /* -----------------------------
    Detect Page Type
 ------------------------------*/
-
-if(str_contains($slug,'post-office')){
-   $type="office";
-}
-elseif(str_contains($slug,'pincode')){
-   $type="pincode";
-}
-elseif(str_contains($slug,'district')){
-   $type="district";
-}
-else{
-   die("Invalid page");
+if (str_contains($slug, 'post-office')) {
+    $type = "office";
+} elseif (str_contains($slug, 'pincode')) {
+    $type = "pincode";
+} elseif (str_contains($slug, 'district')) {
+    $type = "district";
+} else {
+    header("Location:/404.php");
+    exit;
 }
 
+if ($type === "office") {
+    preg_match('/pincode-(\d+)/', $slug, $match);
+    $pincode = $match[1] ?? '';
 
-/* -----------------------------
-   OFFICE PAGE
-------------------------------*/
+    if (!preg_match('/^\d{6}$/', $pincode)) {
+        header("Location:/404.php");
+        exit;
+    }
 
-if($type=="office"){
+    $stmt = $conn->prepare("SELECT * FROM post_offices WHERE pincode=? LIMIT 1");
+    $stmt->bind_param('s', $pincode);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $office = $result->fetch_assoc();
 
-preg_match('/pincode-(\d+)/',$slug,$match);
-$pincode = $match[1];
+    if (!$office) {
+        header("Location:/404.php");
+        exit;
+    }
 
-$sql = "SELECT * FROM post_offices WHERE pincode='$pincode' LIMIT 1";
-$result = $conn->query($sql);
-$office = $result->fetch_assoc();
-
-$title = $office['officename']." Post Office - ".$office['pincode'];
-$description = "Complete details of ".$office['officename']." Post Office located in ".$office['district'].", ".$office['statename']." including delivery status and location.";
-
+    $pageTitle = $office['officename'] . " Post Office - " . $office['pincode'];
+    $metaDescription = "Complete details of " . $office['officename'] . " Post Office located in " . $office['district'] . ", " . $office['statename'] . " including delivery status and location.";
 }
 
-/* -----------------------------
-   PINCODE PAGE
-------------------------------*/
+if ($type === "pincode") {
+    preg_match('/(\d{6})/', $slug, $match);
+    $pincode = $match[1] ?? '';
 
-if($type=="pincode"){
+    if (!preg_match('/^\d{6}$/', $pincode)) {
+        header("Location:/404.php");
+        exit;
+    }
 
-preg_match('/(\d{6})/',$slug,$match);
-$pincode = $match[1];
+    $stmt = $conn->prepare("SELECT * FROM post_offices WHERE pincode=?");
+    $stmt->bind_param('s', $pincode);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-$sql = "SELECT * FROM post_offices WHERE pincode='$pincode'";
-$result = $conn->query($sql);
+    $row = $result->fetch_assoc();
+    if (!$row) {
+        header("Location:/404.php");
+        exit;
+    }
 
-$row = $result->fetch_assoc();
-
-$title = "Pincode ".$pincode." Post Office Details - ".$row['district'];
-$description = "Find all post offices under pincode ".$pincode." in ".$row['district']." district of ".$row['statename'].".";
-
+    $pageTitle = "Pincode " . $pincode . " Post Office Details - " . $row['district'];
+    $metaDescription = "Find all post offices under pincode " . $pincode . " in " . $row['district'] . " district of " . $row['statename'] . ".";
 }
 
-/* -----------------------------
-   DISTRICT PAGE
-------------------------------*/
+if ($type === "district") {
+    $district = strtoupper(str_replace("-", " ", explode("-district", $slug)[0] ?? ''));
+    if ($district === '') {
+        header("Location:/404.php");
+        exit;
+    }
 
-if($type=="district"){
+    $stmt = $conn->prepare("SELECT * FROM post_offices WHERE district=? LIMIT 50");
+    $stmt->bind_param('s', $district);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-$district = strtoupper(str_replace("-"," ",explode("-district",$slug)[0]));
+    $row = $result->fetch_assoc();
+    if (!$row) {
+        header("Location:/404.php");
+        exit;
+    }
 
-$sql="SELECT * FROM post_offices WHERE district='$district' LIMIT 50";
-$result=$conn->query($sql);
-
-$row = $result->fetch_assoc();
-
-$title = $district." District Post Offices List";
-$description = "Complete list of post offices located in ".$district." district with pincodes and delivery information.";
-
+    $pageTitle = $district . " District Post Offices List";
+    $metaDescription = "Complete list of post offices located in " . $district . " district with pincodes and delivery information.";
 }
 
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title><?php echo $title; ?></title>
-
-<meta name="description" content="<?php echo $description; ?>">
-
-<script src="https://cdn.tailwindcss.com"></script>
-
-</head>
-
-<body class="bg-white text-black">
-
-<div class="max-w-4xl mx-auto px-4 py-10">
-
-<h1 class="text-3xl font-bold mb-6">
-<?php echo $title; ?>
-</h1>
-
-<p class="mb-8 text-gray-700">
-<?php echo $description; ?>
-</p>
-
-<?php
-/* -----------------------------
-   OFFICE OUTPUT
-------------------------------*/
-if($type=="office"){
+include 'includes/header.php';
 ?>
 
-<div class="border rounded-xl p-6 shadow">
+<div class="container" style="padding:40px 0;">
+<h1><?= htmlspecialchars($pageTitle); ?></h1>
+<p class="mb-8 text-gray-700"><?= htmlspecialchars($metaDescription); ?></p>
 
-<p><b>Office Name:</b> <?php echo $office['officename']; ?></p>
-<p><b>Pincode:</b> <?php echo $office['pincode']; ?></p>
-<p><b>District:</b> <?php echo $office['district']; ?></p>
-<p><b>State:</b> <?php echo $office['statename']; ?></p>
-<p><b>Delivery:</b> <?php echo $office['delivery']; ?></p>
+<?php if ($type === "office"): ?>
+<div class="card">
+<p><b>Office Name:</b> <?= htmlspecialchars($office['officename']); ?></p>
+<p><b>Pincode:</b> <?= htmlspecialchars($office['pincode']); ?></p>
+<p><b>District:</b> <?= htmlspecialchars($office['district']); ?></p>
+<p><b>State:</b> <?= htmlspecialchars($office['statename']); ?></p>
+<p><b>Delivery:</b> <?= htmlspecialchars($office['delivery']); ?></p>
 
-<?php if($office['latitude']){ ?>
-<a target="_blank"
-href="https://www.google.com/maps?q=<?php echo $office['latitude']; ?>,<?php echo $office['longitude']; ?>"
-class="text-blue-600 underline mt-3 inline-block">
-View Location on Google Maps
-</a>
-<?php } ?>
-
+<?php if (!empty($office['latitude'])): ?>
+<a target="_blank" rel="noopener"
+href="https://www.google.com/maps?q=<?= urlencode($office['latitude']); ?>,<?= urlencode($office['longitude']); ?>"
+class="text-blue-600 underline mt-3 inline-block">View Location on Google Maps</a>
+<?php endif; ?>
 </div>
+<?php endif; ?>
 
-<?php } ?>
-
-
+<?php if ($type === "pincode"): ?>
 <?php
-/* -----------------------------
-   PINCODE OUTPUT
-------------------------------*/
-if($type=="pincode"){
-
-$result = $conn->query("SELECT * FROM post_offices WHERE pincode='$pincode'");
+$stmt = $conn->prepare("SELECT * FROM post_offices WHERE pincode=?");
+$stmt->bind_param('s', $pincode);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
-
 <div class="grid md:grid-cols-2 gap-4">
-
-<?php while($row=$result->fetch_assoc()){ ?>
-
-<div class="border rounded-lg p-4 shadow">
-<b><?php echo $row['officename']; ?></b><br>
-<?php echo $row['district']; ?>, <?php echo $row['statename']; ?><br>
-Delivery: <?php echo $row['delivery']; ?>
+<?php while ($row = $result->fetch_assoc()): ?>
+<div class="card">
+<b><?= htmlspecialchars($row['officename']); ?></b><br>
+<?= htmlspecialchars($row['district']); ?>, <?= htmlspecialchars($row['statename']); ?><br>
+Delivery: <?= htmlspecialchars($row['delivery']); ?>
 </div>
-
-<?php } ?>
-
+<?php endwhile; ?>
 </div>
+<?php endif; ?>
 
-<?php } ?>
-
-
+<?php if ($type === "district"): ?>
 <?php
-/* -----------------------------
-   DISTRICT OUTPUT
-------------------------------*/
-if($type=="district"){
+$stmt = $conn->prepare("SELECT * FROM post_offices WHERE district=? LIMIT 100");
+$stmt->bind_param('s', $district);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
-
 <div class="grid md:grid-cols-2 gap-4">
-
-<?php
-$result=$conn->query("SELECT * FROM post_offices WHERE district='$district' LIMIT 100");
-
-while($row=$result->fetch_assoc()){
-?>
-
-<div class="border p-4 rounded shadow">
-<?php echo $row['officename']; ?><br>
-Pincode: <?php echo $row['pincode']; ?>
+<?php while ($row = $result->fetch_assoc()): ?>
+<div class="card">
+<?= htmlspecialchars($row['officename']); ?><br>
+Pincode: <?= htmlspecialchars($row['pincode']); ?>
+</div>
+<?php endwhile; ?>
+</div>
+<?php endif; ?>
 </div>
 
-<?php } ?>
-
-</div>
-
-<?php } ?>
-
-</div>
-
-
-<!-- =============================
-STEP 8 — FAQ SCHEMA (SEO BOOST)
-============================= -->
-
-<?php if($type=="office"){ ?>
-
+<?php if ($type === "office"): ?>
 <script type="application/ld+json">
 {
  "@context":"https://schema.org",
@@ -200,25 +158,23 @@ STEP 8 — FAQ SCHEMA (SEO BOOST)
  "mainEntity":[
  {
    "@type":"Question",
-   "name":"What is the pincode of <?php echo $office['officename']; ?>?",
+   "name":"What is the pincode of <?= addslashes($office['officename']); ?>?",
    "acceptedAnswer":{
      "@type":"Answer",
-     "text":"The pincode of <?php echo $office['officename']; ?> is <?php echo $office['pincode']; ?>."
+     "text":"The pincode of <?= addslashes($office['officename']); ?> is <?= addslashes($office['pincode']); ?>."
    }
  },
  {
    "@type":"Question",
-   "name":"Where is <?php echo $office['officename']; ?> located?",
+   "name":"Where is <?= addslashes($office['officename']); ?> located?",
    "acceptedAnswer":{
      "@type":"Answer",
-     "text":"<?php echo $office['officename']; ?> Post Office is located in <?php echo $office['district']; ?> district of <?php echo $office['statename']; ?>, India."
+     "text":"<?= addslashes($office['officename']); ?> Post Office is located in <?= addslashes($office['district']); ?> district of <?= addslashes($office['statename']); ?>, India."
    }
  }
  ]
 }
 </script>
+<?php endif; ?>
 
-<?php } ?>
-
-</body>
-</html>
+<?php include 'includes/footer.php'; ?>
