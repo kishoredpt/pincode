@@ -54,7 +54,6 @@ STRUCTURED DATA
       <a href="/privacy-policy.php">Privacy</a>
       <a href="/terms.php">Terms</a>
       <a href="/disclaimer.php">Disclaimer</a>
-      <a href="/editorial-policy.php">Editorial</a>
     </nav>
   </div>
 </header>

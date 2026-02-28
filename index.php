@@ -152,12 +152,6 @@ if($pageType=="office"){
         ." in ".$pageData['district'].", ".$pageData['statename'].".";
     $canonical = "https://pincodelocator.co.in/".$route;
 }
-elseif($pageType=="district"){
-    $name = ucwords($pageData['district']);
-    $seoTitle = "$name District Pincode List | Post Offices";
-    $seoDescription = "Browse all post offices and pincodes for $name district with office-level details.";
-    $canonical = "https://pincodelocator.co.in/".$route;
-}
 elseif($route && str_contains($route,'-pincode')){
 
     $name = ucwords(str_replace('-pincode','',$route));
@@ -222,7 +216,6 @@ elseif($route && str_contains($route,'-pincode')){
 <a href="/privacy-policy.php">Privacy</a>
 <a href="/terms.php">Terms</a>
 <a href="/disclaimer.php">Disclaimer</a>
-<a href="/editorial-policy.php">Editorial</a>
 </nav>
 </div>
 
@@ -285,10 +278,6 @@ href="/<?= $officeSlug ?>-post-office-<?= $office['pincode'] ?>">
 </div>
 
 <?php }
-
-/* ===============================
-DISTRICT PAGE
-=============================== */
 elseif($pageType=="district"){
 ?>
 
@@ -646,6 +635,8 @@ Advertisement Space
 <li><a class="text-indigo-700 hover:underline" href="/blog.php">Postal Guides & Articles</a></li>
 <li><a class="text-indigo-700 hover:underline" href="/sitemap_index.php">XML Sitemap Index</a></li>
 </ul>
+</div>
+
 </div>
 
 </div>
