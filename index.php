@@ -64,6 +64,24 @@ elseif($route && str_contains($route,'-pincode')){
         $pageData=$res->fetch_assoc();
     }
 
+    /* DISTRICT CHECK */
+    if($pageType=="home"){
+        $stmt=$conn->prepare("
+            SELECT DISTINCT district
+            FROM post_offices
+            WHERE LOWER(district)=LOWER(?)
+            LIMIT 1
+        ");
+        $stmt->bind_param("s",$name);
+        $stmt->execute();
+        $res=$stmt->get_result();
+
+        if($res->num_rows>0){
+            $pageType="district";
+            $pageData=$res->fetch_assoc();
+        }
+    }
+
     /* PINCODE CHECK */
     if(preg_match('/^[0-9]{6}$/',$slug)){
 
@@ -257,6 +275,43 @@ href="/<?= $officeSlug ?>-post-office-<?= $office['pincode'] ?>">
 </details>
 <?php } ?>
 
+</div>
+
+<?php }
+elseif($pageType=="district"){
+?>
+
+<h2 class="text-3xl font-bold mb-8">
+<?= strtoupper($pageData['district']); ?> District Pincode List
+</h2>
+
+<?php
+$stmt=$conn->prepare("
+SELECT officename,pincode,statename,district
+FROM post_offices
+WHERE district=?
+ORDER BY statename,officename
+LIMIT 2000
+");
+$stmt->bind_param("s",$pageData['district']);
+$stmt->execute();
+$res=$stmt->get_result();
+?>
+
+<div class="grid md:grid-cols-2 gap-5">
+<?php while($row=$res->fetch_assoc()){
+    $officeSlug=toSlug($row['officename']);
+?>
+<div class="bg-white p-6 rounded-xl shadow">
+<h3 class="font-semibold">
+<a class="text-indigo-700 hover:underline" href="/<?= $officeSlug ?>-post-office-<?= $row['pincode'] ?>">
+<?= htmlspecialchars($row['officename']) ?>
+</a>
+</h3>
+<p><?= htmlspecialchars(strtoupper($row['district'])) ?>, <?= htmlspecialchars(strtoupper($row['statename'])) ?></p>
+<p>Pincode: <b><?= htmlspecialchars($row['pincode']) ?></b></p>
+</div>
+<?php } ?>
 </div>
 
 <?php }
