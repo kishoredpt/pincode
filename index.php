@@ -106,9 +106,13 @@ elseif($route && str_contains($route,'-pincode')){
 ?>
 
 <?php
+require_once "config/db.php";
+
 /* =========================
    SEO META ENGINE (SAFE)
 ========================= */
+
+$route = $_GET['route'] ?? '';
 
 
 /* =========================
@@ -167,26 +171,28 @@ elseif($route && str_contains($route,'-pincode')){
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#4f46e5">
 
-<title><?= htmlspecialchars($seoTitle, ENT_QUOTES, 'UTF-8') ?></title>
+<title><?= $seoTitle ?></title>
 
-<meta name="description" content="<?= htmlspecialchars($seoDescription, ENT_QUOTES, 'UTF-8') ?>">
+<meta name="description" content="<?= $seoDescription ?>">
 
-<link rel="canonical" href="<?= htmlspecialchars($canonical, ENT_QUOTES, 'UTF-8') ?>">
+<link rel="canonical" href="<?= $canonical ?>">
 
 <?php if($route): ?>
 <script type="application/ld+json">
-<?= json_encode([
-    '@context' => 'https://schema.org',
-    '@type' => 'BreadcrumbList',
-    'itemListElement' => array_map(function($bc, $index) {
-        return [
-            '@type' => 'ListItem',
-            'position' => $index + 1,
-            'name' => $bc['name'],
-            'item' => $bc['url'],
-        ];
-    }, $breadcrumb, array_keys($breadcrumb)),
-], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>
+{
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+<?php foreach($breadcrumb as $i=>$bc): ?>
+{
+ "@type": "ListItem",
+ "position": <?= $i+1 ?>,
+ "name": "<?= $bc['name'] ?>",
+ "item": "<?= $bc['url'] ?>"
+}<?= $i < count($breadcrumb)-1 ? ',' : '' ?>
+<?php endforeach; ?>
+ ]
+}
 </script>
 <?php endif; ?>
 
@@ -267,46 +273,8 @@ href="/<?= $officeSlug ?>-post-office-<?= $office['pincode'] ?>">
 <?php } ?>
 </ul>
 </details>
-elseif($pageType=="district"){
-?>
-
-<h2 class="text-3xl font-bold mb-8">
-<?= strtoupper($pageData['district']); ?> District Pincode List
-</h2>
-
-<?php
-$stmt=$conn->prepare("
-SELECT officename,pincode,statename,district
-FROM post_offices
-WHERE district=?
-ORDER BY statename,officename
-LIMIT 2000
-");
-$stmt->bind_param("s",$pageData['district']);
-$stmt->execute();
-$res=$stmt->get_result();
-?>
-
-<div class="grid md:grid-cols-2 gap-5">
-<?php while($row=$res->fetch_assoc()){
-    $officeSlug=toSlug($row['officename']);
-?>
-<div class="bg-white p-6 rounded-xl shadow">
-<h3 class="font-semibold">
-<a class="text-indigo-700 hover:underline" href="/<?= $officeSlug ?>-post-office-<?= $row['pincode'] ?>">
-<?= htmlspecialchars($row['officename']) ?>
-</a>
-</h3>
-<p><?= htmlspecialchars(strtoupper($row['district'])) ?>, <?= htmlspecialchars(strtoupper($row['statename'])) ?></p>
-<p>Pincode: <b><?= htmlspecialchars($row['pincode']) ?></b></p>
-</div>
 <?php } ?>
-</div>
 
-<div class="bg-white mt-8 p-6 rounded-xl shadow text-gray-700 leading-7">
-<h3 class="text-xl font-semibold mb-3">About <?= htmlspecialchars($pageData['district']); ?> District</h3>
-<p>This page lists post offices mapped to <?= htmlspecialchars($pageData['district']); ?> district. The listing helps residents, businesses, logistics teams, and e-commerce sellers identify the right office and pincode combination for deliveries.</p>
-<p class="mt-2">Selecting the exact office-level address improves last-mile success and reduces return-to-origin errors.</p>
 </div>
 
 <?php }
