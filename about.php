@@ -37,21 +37,6 @@ include 'includes/header.php';
     We focus on factual, utility-first content. When publishing explanatory articles,
     we prioritize clarity, neutrality, and practical usefulness.
   </p>
-
-
-  <h2>Author & Reviewer Credibility</h2>
-  <p>
-    Content is reviewed by the India Pincode Locator editorial desk with focus on address structure,
-    postal taxonomy (Head Office, Sub Office, Branch Office), and public-service readability standards.
-  </p>
-
-  <h2>Contact & Ownership Transparency</h2>
-  <p>
-    Publisher: India Pincode Locator Team<br>
-    Support: <a href="mailto:support@pincodelocator.co.in">support@pincodelocator.co.in</a><br>
-    Editorial: <a href="/editorial-policy.php">Editorial Policy</a> ·
-    <a href="/content-guidelines.php">Content Guidelines</a>
-  </p>
 </div>
 
 <?php include 'includes/footer.php'; ?>

@@ -198,7 +198,6 @@ elseif($route && str_contains($route,'-pincode')){
 <a href="/privacy-policy.php">Privacy</a>
 <a href="/terms.php">Terms</a>
 <a href="/disclaimer.php">Disclaimer</a>
-<a href="/editorial-policy.php">Editorial</a>
 </nav>
 </div>
 
@@ -581,6 +580,8 @@ Advertisement Space
 <li><a class="text-indigo-700 hover:underline" href="/blog.php">Postal Guides & Articles</a></li>
 <li><a class="text-indigo-700 hover:underline" href="/sitemap_index.php">XML Sitemap Index</a></li>
 </ul>
+</div>
+
 </div>
 
 </div>
