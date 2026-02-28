@@ -202,20 +202,24 @@ elseif($route && str_contains($route,'-pincode')){
 </head>
 
 <body class="bg-gray-100 text-gray-900">
+<style>
+  .nav-link { padding: 0.25rem 0.4rem; border-radius: 0.4rem; }
+  .nav-link:hover { background: #eef2ff; }
+</style>
 
-<div class="max-w-[1100px] mx-auto px-4 py-10">
+<div class="max-w-[1100px] mx-auto px-4 md:px-6 py-6 md:py-10">
 
 <!-- TOP BAR -->
-<div class="flex justify-between items-center mb-6">
-<h1 class="text-xl font-bold">📮 PincodeLocator.co.in</h1>
+<div class="flex flex-col gap-4 md:flex-row md:justify-between md:items-center mb-6">
+<h1 class="text-2xl md:text-xl font-bold text-center md:text-left">📮 PincodeLocator.co.in</h1>
 
-<nav class="space-x-5 text-sm font-medium">
-<a href="/">Home</a>
-<a href="/about.php">About</a>
-<a href="/contact.php">Contact</a>
-<a href="/privacy-policy.php">Privacy</a>
-<a href="/terms.php">Terms</a>
-<a href="/disclaimer.php">Disclaimer</a>
+<nav class="w-full md:w-auto grid grid-cols-3 gap-2 md:flex md:gap-5 text-sm font-medium text-center">
+<a class="nav-link" href="/">Home</a>
+<a class="nav-link" href="/about.php">About</a>
+<a class="nav-link" href="/contact.php">Contact</a>
+<a class="nav-link" href="/privacy-policy.php">Privacy</a>
+<a class="nav-link" href="/terms.php">Terms</a>
+<a class="nav-link" href="/disclaimer.php">Disclaimer</a>
 </nav>
 </div>
 
@@ -391,15 +395,15 @@ else { ?>
 </div>
 <?php endif; ?>
 
-<h1 class="text-4xl font-bold text-indigo-700">
+<h1 class="text-4xl md:text-5xl font-bold text-indigo-700 leading-tight">
 India Pincode Locator
 </h1>
 
-<p class="mt-2 text-lg font-medium text-gray-700">
+<p class="mt-3 text-xl md:text-2xl font-medium text-gray-700">
 Search 1.5+ Lakh Post Offices Across India
 </p>
 
-<p class="mt-3 text-gray-600">
+<p class="mt-3 text-base md:text-lg text-gray-600">
 Search Indian Post Office details using Pincode or Location.
 </p>
 </div>
@@ -415,7 +419,7 @@ Advertisement Space
 </div>
 
 <!-- SEARCH -->
-<div class="bg-white shadow-xl rounded-2xl p-8">
+<div class="bg-white shadow-xl rounded-2xl p-5 md:p-8">
 
 <h2 class="text-xl font-semibold mb-3 text-indigo-600">
 🔎 Search by Pincode
@@ -426,24 +430,24 @@ type="text"
 id="pincodeInput"
 maxlength="6"
 placeholder="Enter 6-digit Pincode"
-class="w-full border-2 border-indigo-400 p-4 rounded-lg mb-8 outline-none"
+class="w-full border-2 border-indigo-400 p-3 md:p-4 rounded-lg mb-8 outline-none text-base"
 />
 
 <h2 class="text-xl font-semibold mb-4 text-indigo-600">
 📍 Search by Location
 </h2>
 
-<div class="grid md:grid-cols-3 gap-4">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
-<select id="stateSelect" class="p-3 border rounded-lg">
+<select id="stateSelect" class="p-3 border rounded-lg w-full">
 <option value="">Select State</option>
 </select>
 
-<select id="districtSelect" class="p-3 border rounded-lg">
+<select id="districtSelect" class="p-3 border rounded-lg w-full">
 <option value="">Select District</option>
 </select>
 
-<select id="officeSelect" class="p-3 border rounded-lg">
+<select id="officeSelect" class="p-3 border rounded-lg w-full">
 <option value="">Select Post Office</option>
 </select>
 
@@ -461,7 +465,7 @@ Advertisement Space
 </span>
 </div>
 <!-- CONTENT -->
-<div class="bg-white mt-12 p-8 rounded-xl shadow">
+<div class="bg-white mt-12 p-5 md:p-8 rounded-xl shadow">
 <h2 class="text-2xl font-bold mb-4">About India Pincode System</h2>
 
 <p class="text-gray-700 leading-7">
@@ -471,7 +475,7 @@ Each 6-digit PIN represents a delivery post office, district and state.
 </div>
 
 <!-- STATE AUTHORITY -->
-<div class="bg-white mt-12 p-8 rounded-xl shadow">
+<div class="bg-white mt-12 p-5 md:p-8 rounded-xl shadow">
 
 <h2 class="text-2xl font-bold mb-6 text-indigo-600">
 📍 Browse Pincode by State
@@ -625,7 +629,7 @@ Advertisement Space
 </span>
 </div>
 
-<div class="bg-white mt-12 p-8 rounded-xl shadow">
+<div class="bg-white mt-12 p-5 md:p-8 rounded-xl shadow">
 <h2 class="text-2xl font-bold mb-4">Helpful Resources</h2>
 <ul class="list-disc pl-6 text-gray-700 leading-8">
 <li><a class="text-indigo-700 hover:underline" href="/about.php">About India Pincode Locator</a></li>
@@ -757,11 +761,13 @@ href="https://www.google.com/maps?q=${row.latitude},${row.longitude}">
 📍 View Map</a>`;
 }
 
+const pincodeValue = row.pincode ?? row.Pincode ?? "";
+
 html+=`
 <div class="bg-white p-6 rounded-xl shadow">
 <h3 class="font-semibold text-lg">${row.officename}</h3>
 <p>${row.district}, ${row.statename}</p>
-<p>Pincode: <b>${row.pincode}</b></p>
+<p>Pincode: <b>${pincodeValue}</b></p>
 ${map}
 </div>`;
 });
