@@ -1,49 +1,37 @@
 <?php
 require_once "config/db.php";
 include "includes/header.php";
-
-$pincode=$pageData[0]['pincode'] ?? '';
-$district=$pageData[0]['district'] ?? '';
-$state=$pageData[0]['statename'] ?? '';
 ?>
 
 <div class="container">
 
-<h1>Pincode <?php echo $pincode; ?></h1>
+<h1>Postal Knowledge Hub</h1>
 
-<?php foreach($pageData as $office){ ?>
-
-<div class="po-card">
-<h3><?php echo $office['officename']; ?></h3>
 <p>
-<?php echo $office['district']; ?>,
-<?php echo $office['statename']; ?>
+Learn about Indian PIN Codes, postal systems,
+delivery networks, and address standards used
+across India.
 </p>
+
+<?php
+$res=$conn->query("
+SELECT title,slug,created_at
+FROM blog_posts
+ORDER BY id DESC
+LIMIT 20
+");
+
+while($row=$res->fetch_assoc()){
+?>
+
+<div class="blog-card">
+<a href="/article/<?php echo $row['slug']; ?>">
+<h3><?php echo $row['title']; ?></h3>
+</a>
+<p><?php echo date("d M Y",strtotime($row['created_at'])); ?></p>
 </div>
 
 <?php } ?>
-
-<hr>
-
-<div class="seo-content">
-
-<h2>About Pincode <?php echo $pincode; ?></h2>
-
-<p>
-PIN Code <?php echo $pincode; ?> belongs to
-<?php echo $district; ?> district in
-<?php echo $state; ?> state of India.
-This postal region includes multiple delivery
-post offices managed under India Post services.
-</p>
-
-<p>
-PIN codes help streamline parcel delivery,
-government communication, banking verification,
-and logistics operations throughout India.
-</p>
-
-</div>
 
 </div>
 
