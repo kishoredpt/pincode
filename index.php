@@ -5,11 +5,45 @@ $route = $_GET['route'] ?? '';
 $pageType="home";
 $pageData=[];
 
+function toSlug($value){
+    $value=strtolower(trim($value));
+    $value=preg_replace('/[^a-z0-9]+/','-',$value);
+    return trim($value,'-');
+}
+
 /* =========================
 ROUTE ENGINE
 ========================= */
 
-if($route && str_contains($route,'-pincode')){
+if($route && preg_match('/^(.+)-post-office-(\d{6})$/',$route,$officeMatch)){
+
+    $officeSlug=$officeMatch[1];
+    $pincode=$officeMatch[2];
+
+    $stmt=$conn->prepare("\n        SELECT *\n        FROM post_offices\n        WHERE pincode=?\n        ORDER BY officename\n        LIMIT 100\n    ");
+    $stmt->bind_param("s",$pincode);
+    $stmt->execute();
+    $res=$stmt->get_result();
+
+    $officeMatchRow=null;
+    $fallbackRow=null;
+
+    while($row=$res->fetch_assoc()){
+        if(!$fallbackRow){
+            $fallbackRow=$row;
+        }
+        if(toSlug($row['officename'])===$officeSlug){
+            $officeMatchRow=$row;
+            break;
+        }
+    }
+
+    if($officeMatchRow || $fallbackRow){
+        $pageType="office";
+        $pageData=$officeMatchRow ?: $fallbackRow;
+    }
+}
+elseif($route && str_contains($route,'-pincode')){
 
     $slug=str_replace('-pincode','',$route);
     $name=str_replace('-',' ',$slug);
@@ -28,6 +62,24 @@ if($route && str_contains($route,'-pincode')){
     if($res->num_rows>0){
         $pageType="state";
         $pageData=$res->fetch_assoc();
+    }
+
+    /* DISTRICT CHECK */
+    if($pageType=="home"){
+        $stmt=$conn->prepare("
+            SELECT DISTINCT district
+            FROM post_offices
+            WHERE LOWER(district)=LOWER(?)
+            LIMIT 1
+        ");
+        $stmt->bind_param("s",$name);
+        $stmt->execute();
+        $res=$stmt->get_result();
+
+        if($res->num_rows>0){
+            $pageType="district";
+            $pageData=$res->fetch_assoc();
+        }
     }
 
     /* PINCODE CHECK */
@@ -54,13 +106,9 @@ if($route && str_contains($route,'-pincode')){
 ?>
 
 <?php
-require_once "config/db.php";
-
 /* =========================
    SEO META ENGINE (SAFE)
 ========================= */
-
-$route = $_GET['route'] ?? '';
 
 
 /* =========================
@@ -91,7 +139,22 @@ $seoDescription = "Search Indian PIN Codes, Post Offices, Districts and States a
 $canonical = "https://pincodelocator.co.in/";
 
 /* STATE PAGE */
-if($route && str_contains($route,'-pincode')){
+if($pageType=="office"){
+
+    $seoTitle = $pageData['officename']." Post Office (".$pageData['pincode'].") | "
+        .$pageData['district'].", ".$pageData['statename'];
+    $seoDescription = "Postal details for ".$pageData['officename']
+        ." Post Office, pincode ".$pageData['pincode']
+        ." in ".$pageData['district'].", ".$pageData['statename'].".";
+    $canonical = "https://pincodelocator.co.in/".$route;
+}
+elseif($pageType=="district"){
+    $name = ucwords($pageData['district']);
+    $seoTitle = "$name District Pincode List | Post Offices";
+    $seoDescription = "Browse all post offices and pincodes for $name district with office-level details.";
+    $canonical = "https://pincodelocator.co.in/".$route;
+}
+elseif($route && str_contains($route,'-pincode')){
 
     $name = ucwords(str_replace('-pincode','',$route));
     $name = str_replace('-',' ',$name);
@@ -110,28 +173,26 @@ if($route && str_contains($route,'-pincode')){
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#4f46e5">
 
-<title><?= $seoTitle ?></title>
+<title><?= htmlspecialchars($seoTitle, ENT_QUOTES, 'UTF-8') ?></title>
 
-<meta name="description" content="<?= $seoDescription ?>">
+<meta name="description" content="<?= htmlspecialchars($seoDescription, ENT_QUOTES, 'UTF-8') ?>">
 
-<link rel="canonical" href="<?= $canonical ?>">
+<link rel="canonical" href="<?= htmlspecialchars($canonical, ENT_QUOTES, 'UTF-8') ?>">
 
 <?php if($route): ?>
 <script type="application/ld+json">
-{
- "@context": "https://schema.org",
- "@type": "BreadcrumbList",
- "itemListElement": [
-<?php foreach($breadcrumb as $i=>$bc): ?>
-{
- "@type": "ListItem",
- "position": <?= $i+1 ?>,
- "name": "<?= $bc['name'] ?>",
- "item": "<?= $bc['url'] ?>"
-}<?= $i < count($breadcrumb)-1 ? ',' : '' ?>
-<?php endforeach; ?>
- ]
-}
+<?= json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => array_map(function($bc, $index) {
+        return [
+            '@type' => 'ListItem',
+            'position' => $index + 1,
+            'name' => $bc['name'],
+            'item' => $bc['url'],
+        ];
+    }, $breadcrumb, array_keys($breadcrumb)),
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>
 </script>
 <?php endif; ?>
 
@@ -153,6 +214,9 @@ if($route && str_contains($route,'-pincode')){
 <a href="/about.php">About</a>
 <a href="/contact.php">Contact</a>
 <a href="/privacy-policy.php">Privacy</a>
+<a href="/terms.php">Terms</a>
+<a href="/disclaimer.php">Disclaimer</a>
+<a href="/editorial-policy.php">Editorial</a>
 </nav>
 </div>
 
@@ -181,25 +245,98 @@ $stmt->execute();
 $res=$stmt->get_result();
 ?>
 
-<div class="grid md:grid-cols-2 gap-5">
+<div class="space-y-4">
 
 <?php while($row=$res->fetch_assoc()){ ?>
-<div class="bg-white p-6 rounded-xl shadow">
-<b><?= strtoupper($row['district']); ?></b><br>
-<?= $row['total']; ?> Post Offices
-</div>
+<details class="bg-white p-6 rounded-xl shadow">
+<summary class="cursor-pointer font-semibold text-lg">
+<?= strtoupper($row['district']); ?>
+<span class="text-sm text-gray-600">(<?= $row['total']; ?> Post Offices)</span>
+</summary>
+
+<?php
+$stmtOffice=$conn->prepare("\nSELECT officename,pincode\nFROM post_offices\nWHERE statename=? AND district=?\nORDER BY officename\nLIMIT 500\n");
+$stmtOffice->bind_param("ss",$pageData['statename'],$row['district']);
+$stmtOffice->execute();
+$officeRes=$stmtOffice->get_result();
+?>
+
+<ul class="mt-4 grid md:grid-cols-2 gap-2 text-sm">
+<?php while($office=$officeRes->fetch_assoc()){
+    $officeSlug=toSlug($office['officename']);
+?>
+<li>
+<a class="text-indigo-700 hover:underline"
+href="/<?= $officeSlug ?>-post-office-<?= $office['pincode'] ?>">
+<?= htmlspecialchars($office['officename']) ?> - <?= $office['pincode'] ?>
+</a>
+</li>
+<?php } ?>
+</ul>
+</details>
 <?php } ?>
 
 </div>
 
+<div class="bg-white mt-8 p-6 rounded-xl shadow text-gray-700 leading-7">
+<h3 class="text-xl font-semibold mb-3">About <?= htmlspecialchars($pageData['statename']); ?> Postal Network</h3>
+<p><?= htmlspecialchars($pageData['statename']); ?> has a wide postal coverage across urban and rural districts. Use the district sections above to open detailed office listings and find the correct delivery location before shipping or address verification.</p>
+<p class="mt-2">For official address-critical tasks, always cross-check with India Post sources and local post office updates.</p>
+</div>
+
+<?php }
+
+/* ===============================
+DISTRICT PAGE
+=============================== */
+elseif($pageType=="district"){
+?>
+
+<h2 class="text-3xl font-bold mb-8">
+<?= strtoupper($pageData['district']); ?> District Pincode List
+</h2>
+
 <?php
-exit;
-}
+$stmt=$conn->prepare("
+SELECT officename,pincode,statename,district
+FROM post_offices
+WHERE district=?
+ORDER BY statename,officename
+LIMIT 2000
+");
+$stmt->bind_param("s",$pageData['district']);
+$stmt->execute();
+$res=$stmt->get_result();
+?>
+
+<div class="grid md:grid-cols-2 gap-5">
+<?php while($row=$res->fetch_assoc()){
+    $officeSlug=toSlug($row['officename']);
+?>
+<div class="bg-white p-6 rounded-xl shadow">
+<h3 class="font-semibold">
+<a class="text-indigo-700 hover:underline" href="/<?= $officeSlug ?>-post-office-<?= $row['pincode'] ?>">
+<?= htmlspecialchars($row['officename']) ?>
+</a>
+</h3>
+<p><?= htmlspecialchars(strtoupper($row['district'])) ?>, <?= htmlspecialchars(strtoupper($row['statename'])) ?></p>
+<p>Pincode: <b><?= htmlspecialchars($row['pincode']) ?></b></p>
+</div>
+<?php } ?>
+</div>
+
+<div class="bg-white mt-8 p-6 rounded-xl shadow text-gray-700 leading-7">
+<h3 class="text-xl font-semibold mb-3">About <?= htmlspecialchars($pageData['district']); ?> District</h3>
+<p>This page lists post offices mapped to <?= htmlspecialchars($pageData['district']); ?> district. The listing helps residents, businesses, logistics teams, and e-commerce sellers identify the right office and pincode combination for deliveries.</p>
+<p class="mt-2">Selecting the exact office-level address improves last-mile success and reduces return-to-origin errors.</p>
+</div>
+
+<?php }
 
 /* ===============================
 PINCODE PAGE
 =============================== */
-if($pageType=="pincode"){
+elseif($pageType=="pincode"){
 ?>
 
 <h2 class="text-3xl font-bold mb-8">
@@ -227,10 +364,41 @@ Pincode <?= $pageData[0]['pincode']; ?>
 
 </div>
 
-<?php
-exit;
-}
+<div class="bg-white mt-8 p-6 rounded-xl shadow text-gray-700 leading-7">
+<h3 class="text-xl font-semibold mb-3">About Pincode <?= htmlspecialchars($pageData[0]['pincode']); ?></h3>
+<p>Pincode <?= htmlspecialchars($pageData[0]['pincode']); ?> serves multiple post offices under the same delivery geography. Use the office details above to choose the correct office name and district while preparing complete postal addresses.</p>
+<p class="mt-2">Correct pincode usage improves parcel routing, banking KYC verification, and government service form accuracy.</p>
+</div>
+
+<?php }
+
+/* ===============================
+POST OFFICE PAGE
+=============================== */
+elseif($pageType=="office"){
 ?>
+
+<h2 class="text-3xl font-bold mb-8">
+<?= htmlspecialchars($pageData['officename']) ?> Post Office - <?= $pageData['pincode'] ?>
+</h2>
+
+<div class="bg-white p-6 rounded-xl shadow space-y-2">
+<p><b>Office Name:</b> <?= htmlspecialchars($pageData['officename']) ?></p>
+<p><b>Pincode:</b> <?= htmlspecialchars($pageData['pincode']) ?></p>
+<p><b>District:</b> <?= htmlspecialchars($pageData['district']) ?></p>
+<p><b>State:</b> <?= htmlspecialchars($pageData['statename']) ?></p>
+<p><b>Office Type:</b> <?= htmlspecialchars($pageData['officetype']) ?></p>
+<p><b>Delivery Status:</b> <?= htmlspecialchars($pageData['delivery']) ?></p>
+</div>
+
+<div class="bg-white mt-8 p-6 rounded-xl shadow text-gray-700 leading-7">
+<h3 class="text-xl font-semibold mb-3">Office Information</h3>
+<p><?= htmlspecialchars($pageData['officename']); ?> is listed under pincode <?= htmlspecialchars($pageData['pincode']); ?> in <?= htmlspecialchars($pageData['district']); ?>, <?= htmlspecialchars($pageData['statename']); ?>. Confirm office type and delivery status before using this record for logistics or documentation.</p>
+<p class="mt-2">Data is maintained from public postal references and periodically refreshed for consistency.</p>
+</div>
+
+<?php }
+else { ?>
 <div class="text-center mb-10">
 
 <?php if($route): ?>
@@ -486,8 +654,23 @@ Advertisement Space
 </span>
 </div>
 
+<div class="bg-white mt-12 p-8 rounded-xl shadow">
+<h2 class="text-2xl font-bold mb-4">Helpful Resources</h2>
+<ul class="list-disc pl-6 text-gray-700 leading-8">
+<li><a class="text-indigo-700 hover:underline" href="/about.php">About India Pincode Locator</a></li>
+<li><a class="text-indigo-700 hover:underline" href="/editorial-policy.php">Editorial Policy</a></li>
+<li><a class="text-indigo-700 hover:underline" href="/content-guidelines.php">Content Guidelines</a></li>
+<li><a class="text-indigo-700 hover:underline" href="/privacy-policy.php">Privacy Policy</a></li>
+<li><a class="text-indigo-700 hover:underline" href="/blog.php">Postal Guides & Articles</a></li>
+<li><a class="text-indigo-700 hover:underline" href="/sitemap_index.php">XML Sitemap Index</a></li>
+</ul>
 </div>
 
+</div>
+
+<?php } ?>
+
+<?php if($pageType=="home"): ?>
 <script>
 
 const resultsDiv=document.getElementById("results");
@@ -737,6 +920,7 @@ setTimeout(()=>btn.click(),300);
 }
 
 </script>
+<?php endif; ?>
 
 </body>
 </html>
