@@ -160,13 +160,19 @@ elseif($route && str_contains($route,'-pincode')){
 }
 ?>
 
-<?php
-$pageTitle = $seoTitle;
-$metaDescription = $seoDescription;
-$metaRobots = $metaRobots ?? "index, follow";
-include "includes/header.php";
-?>
-<script src="https://cdn.tailwindcss.com"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#4f46e5">
+
+<title><?= htmlspecialchars($seoTitle, ENT_QUOTES, "UTF-8") ?></title>
+
+<meta name="description" content="<?= htmlspecialchars($seoDescription, ENT_QUOTES, "UTF-8") ?>">
+
+<link rel="canonical" href="<?= htmlspecialchars($canonical, ENT_QUOTES, "UTF-8") ?>">
+
 <?php if($route): ?>
 <script type="application/ld+json">
 {
@@ -186,6 +192,12 @@ include "includes/header.php";
 </script>
 <?php endif; ?>
 
+<meta name="robots" content="<?= htmlspecialchars($metaRobots, ENT_QUOTES, "UTF-8") ?>">
+
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 text-gray-900">
 <style>
   .nav-link { padding: 0.25rem 0.4rem; border-radius: 0.4rem; }
   .nav-link:hover { background: #eef2ff; }
