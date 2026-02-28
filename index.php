@@ -106,14 +106,9 @@ elseif($route && str_contains($route,'-pincode')){
 ?>
 
 <?php
-require_once "config/db.php";
-
 /* =========================
    SEO META ENGINE (SAFE)
 ========================= */
-
-$route = $_GET['route'] ?? '';
-
 
 /* =========================
    BREADCRUMB ENGINE
@@ -141,6 +136,7 @@ $seoTitle = "India Pincode Search – Find Post Office, District & State";
 $seoDescription = "Search Indian PIN Codes, Post Offices, Districts and States across India using official postal data.";
 
 $canonical = "https://pincodelocator.co.in/";
+$metaRobots = "index, follow";
 
 /* STATE PAGE */
 if($pageType=="office"){
@@ -164,19 +160,13 @@ elseif($route && str_contains($route,'-pincode')){
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#4f46e5">
-
-<title><?= $seoTitle ?></title>
-
-<meta name="description" content="<?= $seoDescription ?>">
-
-<link rel="canonical" href="<?= $canonical ?>">
-
+<?php
+$pageTitle = $seoTitle;
+$metaDescription = $seoDescription;
+$metaRobots = $metaRobots ?? "index, follow";
+include "includes/header.php";
+?>
+<script src="https://cdn.tailwindcss.com"></script>
 <?php if($route): ?>
 <script type="application/ld+json">
 {
@@ -196,32 +186,12 @@ elseif($route && str_contains($route,'-pincode')){
 </script>
 <?php endif; ?>
 
-<meta name="robots" content="index, follow">
-
-<script src="https://cdn.tailwindcss.com"></script>
-</head>
-
-<body class="bg-gray-100 text-gray-900">
 <style>
   .nav-link { padding: 0.25rem 0.4rem; border-radius: 0.4rem; }
   .nav-link:hover { background: #eef2ff; }
 </style>
 
 <div class="max-w-[1100px] mx-auto px-4 md:px-6 py-6 md:py-10">
-
-<!-- TOP BAR -->
-<div class="flex flex-col gap-4 md:flex-row md:justify-between md:items-center mb-6">
-<h1 class="text-2xl md:text-xl font-bold text-center md:text-left">📮 PincodeLocator.co.in</h1>
-
-<nav class="w-full md:w-auto grid grid-cols-3 gap-2 md:flex md:gap-5 text-sm font-medium text-center">
-<a class="nav-link" href="/">Home</a>
-<a class="nav-link" href="/about.php">About</a>
-<a class="nav-link" href="/contact.php">Contact</a>
-<a class="nav-link" href="/privacy-policy.php">Privacy</a>
-<a class="nav-link" href="/terms.php">Terms</a>
-<a class="nav-link" href="/disclaimer.php">Disclaimer</a>
-</nav>
-</div>
 
 <!-- HEADER -->
 <?php
@@ -901,5 +871,4 @@ setTimeout(()=>btn.click(),300);
 </script>
 <?php endif; ?>
 
-</body>
-</html>
+<?php include "includes/footer.php"; ?>
