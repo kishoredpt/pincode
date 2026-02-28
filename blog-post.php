@@ -17,8 +17,8 @@ exit;
 $article=$res->fetch_assoc();
 
 /* SEO */
-$page_title=$article['title'];
-$meta_description=substr(strip_tags($article['content']),0,155);
+$pageTitle=$article['title'];
+$metaDescription=substr(strip_tags($article['content']),0,155);
 
 include("includes/header.php");
 ?>

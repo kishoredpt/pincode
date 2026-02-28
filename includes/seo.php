@@ -1,7 +1,6 @@
 <?php
-
 /* ===============================
-   SEO ENGINE – PHASE 4 FINAL
+   SEO ENGINE – PHASE UPGRADE
 ================================ */
 
 $siteName = "India Pincode Locator";
@@ -11,28 +10,42 @@ $pageTitle = $pageTitle ?? $siteName;
 $metaDescription = $metaDescription ??
 "Search Indian Post Office details, PIN Codes, districts and states across India.";
 
-$currentURL =
-(isset($_SERVER['HTTPS']) ? "https://" : "http://") .
-$_SERVER['HTTP_HOST'] .
-$_SERVER['REQUEST_URI'];
+$metaRobots = $metaRobots ?? 'index,follow';
 
-/* CANONICAL */
-$canonical = strtok($currentURL,'?');
+$requestUri = $_SERVER['REQUEST_URI'] ?? '/';
+$host = $_SERVER['HTTP_HOST'] ?? 'pincodelocator.co.in';
+$https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+$scheme = $https ? 'https://' : 'http://';
 
-/* PAGINATION */
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$currentURL = $scheme . $host . $requestUri;
+$canonical = strtok($currentURL, '?');
 
-$prevURL = $page>1 ? $canonical.'?page='.($page-1) : '';
-$nextURL = $canonical.'?page='.($page+1);
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+if ($page < 1) {
+    $page = 1;
+}
 
+$totalPages = isset($totalPages) ? (int) $totalPages : null;
+$prevURL = $page > 1 ? $canonical . '?page=' . ($page - 1) : '';
+$nextURL = '';
+
+if ($totalPages !== null) {
+    if ($page < $totalPages) {
+        $nextURL = $canonical . '?page=' . ($page + 1);
+    }
+} elseif ($page >= 1) {
+    $nextURL = $canonical . '?page=' . ($page + 1);
+}
 ?>
-<title><?=htmlspecialchars($pageTitle)?></title>
+<title><?= htmlspecialchars($pageTitle) ?></title>
+<meta name="description" content="<?= htmlspecialchars($metaDescription) ?>">
+<meta name="robots" content="<?= htmlspecialchars($metaRobots) ?>">
+<link rel="canonical" href="<?= htmlspecialchars($canonical) ?>" />
 
-<meta name="description" content="<?=htmlspecialchars($metaDescription)?>">
-<link rel="canonical" href="<?=$canonical?>" />
-
-<?php if($prevURL): ?>
-<link rel="prev" href="<?=$prevURL?>">
+<?php if ($prevURL): ?>
+<link rel="prev" href="<?= htmlspecialchars($prevURL) ?>">
 <?php endif; ?>
 
-<link rel="next" href="<?=$nextURL?>">
+<?php if ($nextURL): ?>
+<link rel="next" href="<?= htmlspecialchars($nextURL) ?>">
+<?php endif; ?>

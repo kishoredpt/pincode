@@ -17,9 +17,9 @@ if($res->num_rows==0){
 $d=$res->fetch_assoc();
 
 /* SEO */
-$page_title=$d['officename']." Post Office - ".$d['district']." ".$d['statename']." Pincode ".$d['pincode'];
+$pageTitle=$d['officename']." Post Office - ".$d['district']." ".$d['statename']." Pincode ".$d['pincode'];
 
-$meta_description=
+$metaDescription=
 "Complete information about ".$d['officename']." Post Office in ".
 $d['district'].", ".$d['statename'].
 ". View pincode ".$d['pincode'].
