@@ -1,4 +1,22 @@
 <?php
+$resolvedTitle = isset($pageTitle) && trim((string)$pageTitle) !== ''
+    ? $pageTitle
+    : 'Pincode Locator India';
+
+$resolvedDescription = isset($metaDescription) && trim((string)$metaDescription) !== ''
+    ? $metaDescription
+    : 'Search Indian PIN Codes, Post Offices, States and District wise postal information across India. Updated postal database covering 1.5+ lakh post offices.';
+
+$resolvedRobots = isset($metaRobots) && trim((string)$metaRobots) !== ''
+    ? $metaRobots
+    : 'index, follow';
+
+$requestUri = $_SERVER['REQUEST_URI'] ?? '/';
+$canonicalPath = strtok($requestUri, '?');
+if ($canonicalPath === false || $canonicalPath === '') {
+    $canonicalPath = '/';
+}
+$resolvedCanonical = 'https://pincodelocator.co.in' . $canonicalPath;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,11 +25,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>Pincode Locator India</title>
+<title><?= htmlspecialchars($resolvedTitle, ENT_QUOTES, 'UTF-8'); ?></title>
 
-<meta name="description" content="Search Indian PIN Codes, Post Offices, States and District wise postal information across India. Updated postal database covering 1.5+ lakh post offices.">
+<meta name="description" content="<?= htmlspecialchars($resolvedDescription, ENT_QUOTES, 'UTF-8'); ?>">
+<meta name="robots" content="<?= htmlspecialchars($resolvedRobots, ENT_QUOTES, 'UTF-8'); ?>">
 
-<link rel="canonical" href="https://pincodelocator.co.in<?php echo $_SERVER['REQUEST_URI']; ?>">
+<link rel="canonical" href="<?= htmlspecialchars($resolvedCanonical, ENT_QUOTES, 'UTF-8'); ?>">
 
 <link rel="stylesheet" href="/assets/style.css">
 

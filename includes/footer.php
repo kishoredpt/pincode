@@ -9,7 +9,7 @@
 <a href="/blog.php">Articles</a> |
 <a href="/about.php">About</a> |
 <a href="/contact.php">Contact</a> |
-<a href="/privacy.php">Privacy</a> |
+<a href="/privacy-policy.php">Privacy</a> |
 <a href="/disclaimer.php">Disclaimer</a> |
 <a href="/editorial-policy.php">Editorial Policy</a> |
 <a href="/data-source.php">Data Source</a>
