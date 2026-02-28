@@ -1,59 +1,53 @@
+<?php
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<?php include __DIR__.'/seo.php'; ?>
+<title>Pincode Locator India</title>
 
-<!-- ===============================
-STRUCTURED DATA
-================================ -->
-<script type="application/ld+json">
-{
- "@context":"https://schema.org",
- "@type":"Organization",
- "name":"India Pincode Locator",
- "url":"https://pincodelocator.co.in",
- "logo":"https://pincodelocator.co.in/logo.png"
-}
-</script>
+<meta name="description" content="Search Indian PIN Codes, Post Offices, States and District wise postal information across India. Updated postal database covering 1.5+ lakh post offices.">
 
-<script type="application/ld+json">
-{
- "@context":"https://schema.org",
- "@type":"WebSite",
- "name":"India Pincode Locator",
- "url":"https://pincodelocator.co.in",
- "potentialAction":{
-   "@type":"SearchAction",
-   "target":"https://pincodelocator.co.in/search.php?q={search_term}",
-   "query-input":"required name=search_term"
- }
-}
-</script>
-
-<?php if(isset($articleSchema)): ?>
-<script type="application/ld+json"><?= json_encode($articleSchema,JSON_UNESCAPED_SLASHES) ?></script>
-<?php endif; ?>
-
-<?php if(isset($postalSchema)): ?>
-<script type="application/ld+json"><?= json_encode($postalSchema,JSON_UNESCAPED_SLASHES) ?></script>
-<?php endif; ?>
+<link rel="canonical" href="https://pincodelocator.co.in<?php echo $_SERVER['REQUEST_URI']; ?>">
 
 <link rel="stylesheet" href="/assets/style.css">
+
 </head>
+
 <body>
-<header>
-  <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
-    <div class="logo"><a href="/">India Pincode Locator</a></div>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/about.php">About</a>
-      <a href="/contact.php">Contact</a>
-      <a href="/privacy-policy.php">Privacy</a>
-      <a href="/terms.php">Terms</a>
-      <a href="/disclaimer.php">Disclaimer</a>
-    </nav>
-  </div>
+
+<header class="main-header">
+
+<div class="container">
+
+<div class="logo">
+<a href="/">📮 PincodeLocator.co.in</a>
+</div>
+
+<nav class="nav-menu">
+<a href="/">Home</a>
+<a href="/blog.php">Articles</a>
+<a href="/about.php">About</a>
+<a href="/contact.php">Contact</a>
+</nav>
+
+</div>
+
 </header>
+
+<div class="site-authority">
+
+<div class="container">
+
+<p>
+India's independent postal information platform helping users
+discover accurate PIN Code data, delivery offices,
+and district-wise postal coverage across all Indian states.
+</p>
+
+</div>
+
+</div>
