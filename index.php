@@ -148,12 +148,6 @@ if($pageType=="office"){
         ." in ".$pageData['district'].", ".$pageData['statename'].".";
     $canonical = "https://pincodelocator.co.in/".$route;
 }
-elseif($pageType=="district"){
-    $name = ucwords($pageData['district']);
-    $seoTitle = "$name District Pincode List | Post Offices";
-    $seoDescription = "Browse all post offices and pincodes for $name district with office-level details.";
-    $canonical = "https://pincodelocator.co.in/".$route;
-}
 elseif($route && str_contains($route,'-pincode')){
 
     $name = ucwords(str_replace('-pincode','',$route));
@@ -216,7 +210,6 @@ elseif($route && str_contains($route,'-pincode')){
 <a href="/privacy-policy.php">Privacy</a>
 <a href="/terms.php">Terms</a>
 <a href="/disclaimer.php">Disclaimer</a>
-<a href="/editorial-policy.php">Editorial</a>
 </nav>
 </div>
 
@@ -274,21 +267,6 @@ href="/<?= $officeSlug ?>-post-office-<?= $office['pincode'] ?>">
 <?php } ?>
 </ul>
 </details>
-<?php } ?>
-
-</div>
-
-<div class="bg-white mt-8 p-6 rounded-xl shadow text-gray-700 leading-7">
-<h3 class="text-xl font-semibold mb-3">About <?= htmlspecialchars($pageData['statename']); ?> Postal Network</h3>
-<p><?= htmlspecialchars($pageData['statename']); ?> has a wide postal coverage across urban and rural districts. Use the district sections above to open detailed office listings and find the correct delivery location before shipping or address verification.</p>
-<p class="mt-2">For official address-critical tasks, always cross-check with India Post sources and local post office updates.</p>
-</div>
-
-<?php }
-
-/* ===============================
-DISTRICT PAGE
-=============================== */
 elseif($pageType=="district"){
 ?>
 
@@ -332,6 +310,43 @@ $res=$stmt->get_result();
 </div>
 
 <?php }
+elseif($pageType=="district"){
+?>
+
+<h2 class="text-3xl font-bold mb-8">
+<?= strtoupper($pageData['district']); ?> District Pincode List
+</h2>
+
+<?php
+$stmt=$conn->prepare("
+SELECT officename,pincode,statename,district
+FROM post_offices
+WHERE district=?
+ORDER BY statename,officename
+LIMIT 2000
+");
+$stmt->bind_param("s",$pageData['district']);
+$stmt->execute();
+$res=$stmt->get_result();
+?>
+
+<div class="grid md:grid-cols-2 gap-5">
+<?php while($row=$res->fetch_assoc()){
+    $officeSlug=toSlug($row['officename']);
+?>
+<div class="bg-white p-6 rounded-xl shadow">
+<h3 class="font-semibold">
+<a class="text-indigo-700 hover:underline" href="/<?= $officeSlug ?>-post-office-<?= $row['pincode'] ?>">
+<?= htmlspecialchars($row['officename']) ?>
+</a>
+</h3>
+<p><?= htmlspecialchars(strtoupper($row['district'])) ?>, <?= htmlspecialchars(strtoupper($row['statename'])) ?></p>
+<p>Pincode: <b><?= htmlspecialchars($row['pincode']) ?></b></p>
+</div>
+<?php } ?>
+</div>
+
+<?php }
 
 /* ===============================
 PINCODE PAGE
@@ -364,12 +379,6 @@ Pincode <?= $pageData[0]['pincode']; ?>
 
 </div>
 
-<div class="bg-white mt-8 p-6 rounded-xl shadow text-gray-700 leading-7">
-<h3 class="text-xl font-semibold mb-3">About Pincode <?= htmlspecialchars($pageData[0]['pincode']); ?></h3>
-<p>Pincode <?= htmlspecialchars($pageData[0]['pincode']); ?> serves multiple post offices under the same delivery geography. Use the office details above to choose the correct office name and district while preparing complete postal addresses.</p>
-<p class="mt-2">Correct pincode usage improves parcel routing, banking KYC verification, and government service form accuracy.</p>
-</div>
-
 <?php }
 
 /* ===============================
@@ -389,12 +398,6 @@ elseif($pageType=="office"){
 <p><b>State:</b> <?= htmlspecialchars($pageData['statename']) ?></p>
 <p><b>Office Type:</b> <?= htmlspecialchars($pageData['officetype']) ?></p>
 <p><b>Delivery Status:</b> <?= htmlspecialchars($pageData['delivery']) ?></p>
-</div>
-
-<div class="bg-white mt-8 p-6 rounded-xl shadow text-gray-700 leading-7">
-<h3 class="text-xl font-semibold mb-3">Office Information</h3>
-<p><?= htmlspecialchars($pageData['officename']); ?> is listed under pincode <?= htmlspecialchars($pageData['pincode']); ?> in <?= htmlspecialchars($pageData['district']); ?>, <?= htmlspecialchars($pageData['statename']); ?>. Confirm office type and delivery status before using this record for logistics or documentation.</p>
-<p class="mt-2">Data is maintained from public postal references and periodically refreshed for consistency.</p>
 </div>
 
 <?php }
@@ -664,6 +667,8 @@ Advertisement Space
 <li><a class="text-indigo-700 hover:underline" href="/blog.php">Postal Guides & Articles</a></li>
 <li><a class="text-indigo-700 hover:underline" href="/sitemap_index.php">XML Sitemap Index</a></li>
 </ul>
+</div>
+
 </div>
 
 </div>
