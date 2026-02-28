@@ -761,11 +761,13 @@ href="https://www.google.com/maps?q=${row.latitude},${row.longitude}">
 📍 View Map</a>`;
 }
 
+const pincodeValue = row.pincode ?? row.Pincode ?? "";
+
 html+=`
 <div class="bg-white p-6 rounded-xl shadow">
 <h3 class="font-semibold text-lg">${row.officename}</h3>
 <p>${row.district}, ${row.statename}</p>
-<p>Pincode: <b>${row.pincode}</b></p>
+<p>Pincode: <b>${pincodeValue}</b></p>
 ${map}
 </div>`;
 });
