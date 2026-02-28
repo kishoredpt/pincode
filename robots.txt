@@ -1,8 +1,8 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pincodelocator.co.in/sitemap_index.php
-
 Disallow: /admin/
 Disallow: /config/
 Disallow: /includes/
+
+Sitemap: https://pincodelocator.co.in/sitemap_index.php

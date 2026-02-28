@@ -488,6 +488,18 @@ Advertisement Space
 </span>
 </div>
 
+<div class="bg-white mt-12 p-8 rounded-xl shadow">
+<h2 class="text-2xl font-bold mb-4">Helpful Resources</h2>
+<ul class="list-disc pl-6 text-gray-700 leading-8">
+<li><a class="text-indigo-700 hover:underline" href="/about.php">About India Pincode Locator</a></li>
+<li><a class="text-indigo-700 hover:underline" href="/editorial-policy.php">Editorial Policy</a></li>
+<li><a class="text-indigo-700 hover:underline" href="/content-guidelines.php">Content Guidelines</a></li>
+<li><a class="text-indigo-700 hover:underline" href="/privacy-policy.php">Privacy Policy</a></li>
+<li><a class="text-indigo-700 hover:underline" href="/blog.php">Postal Guides & Articles</a></li>
+<li><a class="text-indigo-700 hover:underline" href="/sitemap_index.php">XML Sitemap Index</a></li>
+</ul>
+</div>
+
 </div>
 
 <script>
