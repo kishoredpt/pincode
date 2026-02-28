@@ -205,20 +205,6 @@ elseif($route && str_contains($route,'-pincode')){
 
 <div class="max-w-[1100px] mx-auto px-4 md:px-6 py-6 md:py-10">
 
-<!-- TOP BAR -->
-<div class="flex flex-col gap-4 md:flex-row md:justify-between md:items-center mb-6">
-<h1 class="text-2xl md:text-xl font-bold text-center md:text-left">📮 PincodeLocator.co.in</h1>
-
-<nav class="w-full md:w-auto grid grid-cols-3 gap-2 md:flex md:gap-5 text-sm font-medium text-center">
-<a class="nav-link" href="/">Home</a>
-<a class="nav-link" href="/about.php">About</a>
-<a class="nav-link" href="/contact.php">Contact</a>
-<a class="nav-link" href="/privacy-policy.php">Privacy</a>
-<a class="nav-link" href="/terms.php">Terms</a>
-<a class="nav-link" href="/disclaimer.php">Disclaimer</a>
-</nav>
-</div>
-
 <!-- HEADER -->
 <?php
 /* ===============================
@@ -897,5 +883,4 @@ setTimeout(()=>btn.click(),300);
 </script>
 <?php endif; ?>
 
-</body>
-</html>
+<?php include "includes/footer.php"; ?>
