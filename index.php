@@ -9,7 +9,23 @@ $pageData=[];
 ROUTE ENGINE
 ========================= */
 
-if($route && str_contains($route,'-pincode')){
+if($route && preg_match('/^(.+)-post-office-(\d{6})$/',$route,$officeMatch)){
+
+    $officeSlug=$officeMatch[1];
+    $pincode=$officeMatch[2];
+    $officeName=str_replace('-',' ',$officeSlug);
+
+    $stmt=$conn->prepare("\n        SELECT *\n        FROM post_offices\n        WHERE pincode=? AND LOWER(officename)=LOWER(?)\n        LIMIT 1\n    ");
+    $stmt->bind_param("ss",$pincode,$officeName);
+    $stmt->execute();
+    $res=$stmt->get_result();
+
+    if($res->num_rows>0){
+        $pageType="office";
+        $pageData=$res->fetch_assoc();
+    }
+}
+elseif($route && str_contains($route,'-pincode')){
 
     $slug=str_replace('-pincode','',$route);
     $name=str_replace('-',' ',$slug);
@@ -91,7 +107,16 @@ $seoDescription = "Search Indian PIN Codes, Post Offices, Districts and States a
 $canonical = "https://pincodelocator.co.in/";
 
 /* STATE PAGE */
-if($route && str_contains($route,'-pincode')){
+if($pageType=="office"){
+
+    $seoTitle = $pageData['officename']." Post Office (".$pageData['pincode'].") | "
+        .$pageData['district'].", ".$pageData['statename'];
+    $seoDescription = "Postal details for ".$pageData['officename']
+        ." Post Office, pincode ".$pageData['pincode']
+        ." in ".$pageData['district'].", ".$pageData['statename'].".";
+    $canonical = "https://pincodelocator.co.in/".$route;
+}
+elseif($route && str_contains($route,'-pincode')){
 
     $name = ucwords(str_replace('-pincode','',$route));
     $name = str_replace('-',' ',$name);
@@ -184,25 +209,45 @@ $stmt->execute();
 $res=$stmt->get_result();
 ?>
 
-<div class="grid md:grid-cols-2 gap-5">
+<div class="space-y-4">
 
 <?php while($row=$res->fetch_assoc()){ ?>
-<div class="bg-white p-6 rounded-xl shadow">
-<b><?= strtoupper($row['district']); ?></b><br>
-<?= $row['total']; ?> Post Offices
-</div>
+<details class="bg-white p-6 rounded-xl shadow">
+<summary class="cursor-pointer font-semibold text-lg">
+<?= strtoupper($row['district']); ?>
+<span class="text-sm text-gray-600">(<?= $row['total']; ?> Post Offices)</span>
+</summary>
+
+<?php
+$stmtOffice=$conn->prepare("\nSELECT officename,pincode\nFROM post_offices\nWHERE statename=? AND district=?\nORDER BY officename\nLIMIT 500\n");
+$stmtOffice->bind_param("ss",$pageData['statename'],$row['district']);
+$stmtOffice->execute();
+$officeRes=$stmtOffice->get_result();
+?>
+
+<ul class="mt-4 grid md:grid-cols-2 gap-2 text-sm">
+<?php while($office=$officeRes->fetch_assoc()){
+    $officeSlug=strtolower(str_replace(' ','-',$office['officename']));
+?>
+<li>
+<a class="text-indigo-700 hover:underline"
+href="/<?= $officeSlug ?>-post-office-<?= $office['pincode'] ?>">
+<?= htmlspecialchars($office['officename']) ?> - <?= $office['pincode'] ?>
+</a>
+</li>
+<?php } ?>
+</ul>
+</details>
 <?php } ?>
 
 </div>
 
-<?php
-exit;
-}
+<?php }
 
 /* ===============================
 PINCODE PAGE
 =============================== */
-if($pageType=="pincode"){
+elseif($pageType=="pincode"){
 ?>
 
 <h2 class="text-3xl font-bold mb-8">
@@ -230,10 +275,29 @@ Pincode <?= $pageData[0]['pincode']; ?>
 
 </div>
 
-<?php
-exit;
-}
+<?php }
+
+/* ===============================
+POST OFFICE PAGE
+=============================== */
+elseif($pageType=="office"){
 ?>
+
+<h2 class="text-3xl font-bold mb-8">
+<?= htmlspecialchars($pageData['officename']) ?> Post Office - <?= $pageData['pincode'] ?>
+</h2>
+
+<div class="bg-white p-6 rounded-xl shadow space-y-2">
+<p><b>Office Name:</b> <?= htmlspecialchars($pageData['officename']) ?></p>
+<p><b>Pincode:</b> <?= htmlspecialchars($pageData['pincode']) ?></p>
+<p><b>District:</b> <?= htmlspecialchars($pageData['district']) ?></p>
+<p><b>State:</b> <?= htmlspecialchars($pageData['statename']) ?></p>
+<p><b>Office Type:</b> <?= htmlspecialchars($pageData['officetype']) ?></p>
+<p><b>Delivery Status:</b> <?= htmlspecialchars($pageData['delivery']) ?></p>
+</div>
+
+<?php }
+else { ?>
 <div class="text-center mb-10">
 
 <?php if($route): ?>
@@ -503,6 +567,9 @@ Advertisement Space
 
 </div>
 
+<?php } ?>
+
+<?php if($pageType=="home"): ?>
 <script>
 
 const resultsDiv=document.getElementById("results");
@@ -752,6 +819,7 @@ setTimeout(()=>btn.click(),300);
 }
 
 </script>
+<?php endif; ?>
 
 </body>
 </html>
