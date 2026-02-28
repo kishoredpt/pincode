@@ -1,75 +1,50 @@
 <?php
-require_once("config/db.php");
+require_once "config/db.php";
+include "includes/header.php";
 
-$slug=$_GET['slug']??'';
-
-$stmt=$conn->prepare("SELECT officename,pincode FROM post_offices WHERE slug=? LIMIT 1");
-$stmt->bind_param("s",$slug);
-$stmt->execute();
-$res=$stmt->get_result();
-
-if($res->num_rows==0){
-    header("Location:/404.php");
-    exit;
-}
-
-$d=$res->fetch_assoc();
-$officeSlug=strtolower(preg_replace('/[^a-z0-9]+/','-',trim($d['officename'])));
-$officeSlug=trim($officeSlug,'-');
-$canonicalPath="/{$officeSlug}-post-office-{$d['pincode']}";
-
-/* SEO */
-$pageTitle=$d['officename']." Post Office - ".$d['district']." ".$d['statename']." Pincode ".$d['pincode'];
-
-$metaDescription=
-"Complete information about ".$d['officename']." Post Office in ".
-$d['district'].", ".$d['statename'].
-". View pincode ".$d['pincode'].
-", delivery status and postal details.";
-
-include("includes/header.php");
+$pincode=$pageData[0]['pincode'] ?? '';
+$district=$pageData[0]['district'] ?? '';
+$state=$pageData[0]['statename'] ?? '';
 ?>
 
 <div class="container">
 
-<?php
-breadcrumb_schema([
-"Home"=>"https://".$_SERVER['HTTP_HOST']."/",
-$d['statename']=>"",
-$d['district']=>"",
-$d['officename']=>""
-]);
-?>
+<h1>Pincode <?php echo $pincode; ?></h1>
 
-<h1><?= htmlspecialchars($d['officename']); ?></h1>
+<?php foreach($pageData as $office){ ?>
 
-<div class="card">
+<div class="po-card">
+<h3><?php echo $office['officename']; ?></h3>
+<p>
+<?php echo $office['district']; ?>,
+<?php echo $office['statename']; ?>
+</p>
+</div>
 
-<p><strong>Pincode:</strong> <?= $d['pincode']; ?></p>
-<p><strong>District:</strong> <?= $d['district']; ?></p>
-<p><strong>State:</strong> <?= $d['statename']; ?></p>
-<p><strong>Office Type:</strong> <?= $d['officetype']; ?></p>
-<p><strong>Delivery Status:</strong> <?= $d['delivery']; ?></p>
+<?php } ?>
+
+<hr>
+
+<div class="seo-content">
+
+<h2>About Pincode <?php echo $pincode; ?></h2>
+
+<p>
+PIN Code <?php echo $pincode; ?> belongs to
+<?php echo $district; ?> district in
+<?php echo $state; ?> state of India.
+This postal region includes multiple delivery
+post offices managed under India Post services.
+</p>
+
+<p>
+PIN codes help streamline parcel delivery,
+government communication, banking verification,
+and logistics operations throughout India.
+</p>
 
 </div>
 
 </div>
 
-<!-- POST OFFICE STRUCTURED DATA -->
-<script type="application/ld+json">
-{
-"@context":"https://schema.org",
-"@type":"PostOffice",
-"name":"<?= addslashes($d['officename']); ?>",
-"address":{
- "@type":"PostalAddress",
- "addressLocality":"<?= $d['district']; ?>",
- "addressRegion":"<?= $d['statename']; ?>",
- "postalCode":"<?= $d['pincode']; ?>",
- "addressCountry":"IN"
-},
-"areaServed":"<?= $d['district']; ?>"
-}
-</script>
-
-<?php include("includes/footer.php"); ?>
+<?php include "includes/footer.php"; ?>
