@@ -5,6 +5,12 @@ $route = $_GET['route'] ?? '';
 $pageType="home";
 $pageData=[];
 
+function toSlug($value){
+    $value=strtolower(trim($value));
+    $value=preg_replace('/[^a-z0-9]+/','-',$value);
+    return trim($value,'-');
+}
+
 /* =========================
 ROUTE ENGINE
 ========================= */
@@ -13,16 +19,28 @@ if($route && preg_match('/^(.+)-post-office-(\d{6})$/',$route,$officeMatch)){
 
     $officeSlug=$officeMatch[1];
     $pincode=$officeMatch[2];
-    $officeName=str_replace('-',' ',$officeSlug);
 
-    $stmt=$conn->prepare("\n        SELECT *\n        FROM post_offices\n        WHERE pincode=? AND LOWER(officename)=LOWER(?)\n        LIMIT 1\n    ");
-    $stmt->bind_param("ss",$pincode,$officeName);
+    $stmt=$conn->prepare("\n        SELECT *\n        FROM post_offices\n        WHERE pincode=?\n        ORDER BY officename\n        LIMIT 100\n    ");
+    $stmt->bind_param("s",$pincode);
     $stmt->execute();
     $res=$stmt->get_result();
 
-    if($res->num_rows>0){
+    $officeMatchRow=null;
+    $fallbackRow=null;
+
+    while($row=$res->fetch_assoc()){
+        if(!$fallbackRow){
+            $fallbackRow=$row;
+        }
+        if(toSlug($row['officename'])===$officeSlug){
+            $officeMatchRow=$row;
+            break;
+        }
+    }
+
+    if($officeMatchRow || $fallbackRow){
         $pageType="office";
-        $pageData=$res->fetch_assoc();
+        $pageData=$officeMatchRow ?: $fallbackRow;
     }
 }
 elseif($route && str_contains($route,'-pincode')){
@@ -227,7 +245,7 @@ $officeRes=$stmtOffice->get_result();
 
 <ul class="mt-4 grid md:grid-cols-2 gap-2 text-sm">
 <?php while($office=$officeRes->fetch_assoc()){
-    $officeSlug=strtolower(str_replace(' ','-',$office['officename']));
+    $officeSlug=toSlug($office['officename']);
 ?>
 <li>
 <a class="text-indigo-700 hover:underline"
