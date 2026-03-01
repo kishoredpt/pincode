@@ -25,19 +25,6 @@ include 'includes/header.php';
     <h2>Response Time</h2>
     <p>We usually respond within 2-3 business days.</p>
   </div>
-
-  <div class="card">
-    <h2>Publisher Information</h2>
-    <p>India Pincode Locator Editorial Desk</p>
-    <p>Bengaluru, Karnataka, India</p>
-  </div>
-
-  <div class="card">
-    <h2>Legal & Compliance</h2>
-    <p><a href="mailto:legal@pincodelocator.co.in">legal@pincodelocator.co.in</a></p>
-    <p>For policy notices, takedown requests, or compliance communication.</p>
-  </div>
-
 </div>
 
 <?php include 'includes/footer.php'; ?>

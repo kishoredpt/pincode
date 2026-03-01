@@ -37,22 +37,6 @@ include 'includes/header.php';
     We focus on factual, utility-first content. When publishing explanatory articles,
     we prioritize clarity, neutrality, and practical usefulness.
   </p>
-
-  <h2>Who Operates This Website</h2>
-  <p>
-    Publisher: PincodeLocator Digital Publishing (independent information service).
-    Primary operations desk: Bengaluru, Karnataka, India.
-    Editorial oversight: India Pincode Locator Editorial Team.
-  </p>
-
-  <h2>Editorial Accountability</h2>
-  <p>
-    Responsible editor: Editorial Desk, India Pincode Locator.
-    For factual corrections, users can write to
-    <a href="mailto:support@pincodelocator.co.in">support@pincodelocator.co.in</a>
-    with source details.
-  </p>
-
 </div>
 
 <?php include 'includes/footer.php'; ?>
