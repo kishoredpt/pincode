@@ -11,6 +11,10 @@ function toSlug($value){
     return trim($value,'-');
 }
 
+function escapeText($value){
+    return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+}
+
 /* =========================
 ROUTE ENGINE
 ========================= */
@@ -102,6 +106,45 @@ elseif($route && str_contains($route,'-pincode')){
             }
         }
     }
+}
+
+function renderHelpfulStateGuide(string $stateName){
+    $state = escapeText(strtoupper($stateName));
+    echo "\n<div class=\"bg-white mt-8 p-6 md:p-8 rounded-xl shadow\">";
+    echo "\n<h2 class=\"text-2xl font-bold mb-4\">How to Use This {$state} PIN Code List</h2>";
+    echo "\n<p class=\"text-gray-700 leading-7\">This page groups post offices district-wise so you can identify the right delivery location before writing an address. PIN codes are used by India Post for sorting and routing, so matching district and office name with the correct PIN code reduces delivery delays.</p>";
+    echo "\n<ul class=\"list-disc pl-6 mt-4 text-gray-700 leading-7\">";
+    echo "\n<li>First open your district and shortlist the likely post office name.</li>";
+    echo "\n<li>Confirm the office-level page to verify office type and delivery status.</li>";
+    echo "\n<li>For important shipments, cross-check with local postal authorities before dispatch.</li>";
+    echo "\n</ul>";
+    echo "\n</div>";
+}
+
+function renderHelpfulDistrictGuide(string $districtName){
+    $district = escapeText(strtoupper($districtName));
+    echo "\n<div class=\"bg-white mt-8 p-6 md:p-8 rounded-xl shadow\">";
+    echo "\n<h2 class=\"text-2xl font-bold mb-4\">District-Level PIN Code Guide: {$district}</h2>";
+    echo "\n<p class=\"text-gray-700 leading-7\">District pages help you compare post offices that share nearby service areas. Use this list when you know the district but need to confirm the exact office/PIN combination for courier forms, KYC addresses, or e-commerce shipping labels.</p>";
+    echo "\n<div class=\"grid md:grid-cols-2 gap-4 mt-4 text-sm\">";
+    echo "\n<div class=\"border rounded-lg p-4\"><b>When to use this page</b><br>Address validation, delivery planning, and serviceability checks before shipping.</div>";
+    echo "\n<div class=\"border rounded-lg p-4\"><b>Best practice</b><br>Always match the office name and PIN code together instead of using district name alone.</div>";
+    echo "\n</div>";
+    echo "\n</div>";
+}
+
+function renderHelpfulPincodeGuide(string $pincode){
+    $safePin = escapeText($pincode);
+    echo "\n<div class=\"bg-white mt-8 p-6 md:p-8 rounded-xl shadow\">";
+    echo "\n<h2 class=\"text-2xl font-bold mb-4\">About PIN Code {$safePin}</h2>";
+    echo "\n<p class=\"text-gray-700 leading-7\">A single PIN code may cover multiple post offices or localities. Use the records above to choose the most accurate office entry for your full address. This improves last-mile delivery accuracy for parcels, official documents, and address verification workflows.</p>";
+    echo "\n<h3 class=\"text-lg font-semibold mt-5 mb-2\">Quick Address Checklist</h3>";
+    echo "\n<ul class=\"list-disc pl-6 text-gray-700 leading-7\">";
+    echo "\n<li>Write recipient name, house/building, street/locality, post office, district, state, and PIN code.</li>";
+    echo "\n<li>Ensure the PIN code belongs to the same district/state shown in the office listing.</li>";
+    echo "\n<li>When in doubt, validate with the nearest post office before dispatch.</li>";
+    echo "\n</ul>";
+    echo "\n</div>";
 }
 ?>
 
@@ -277,6 +320,8 @@ href="/<?= $officeSlug ?>-post-office-<?= $office['pincode'] ?>">
 
 </div>
 
+<?php renderHelpfulStateGuide($pageData['statename']); ?>
+
 <?php }
 elseif($pageType=="district"){
 ?>
@@ -314,6 +359,8 @@ $res=$stmt->get_result();
 <?php } ?>
 </div>
 
+<?php renderHelpfulDistrictGuide($pageData['district']); ?>
+
 <?php }
 
 /* ===============================
@@ -346,6 +393,8 @@ Pincode <?= $pageData[0]['pincode']; ?>
 <?php } ?>
 
 </div>
+
+<?php renderHelpfulPincodeGuide($pageData[0]['pincode']); ?>
 
 <?php }
 
