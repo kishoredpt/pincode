@@ -1,58 +1,31 @@
 <?php
-require_once "config/db.php";
+include("config/db.php");
 
-$slug = trim($_GET['slug'] ?? '');
+$slug=$_GET['slug']??'';
 
-if ($slug === '') {
-    header("Location:/404.php");
-    exit;
+$stmt=$conn->prepare("SELECT * FROM articles WHERE slug=? LIMIT 1");
+$stmt->bind_param("s",$slug);
+$stmt->execute();
+
+$res=$stmt->get_result();
+
+if($res->num_rows==0){
+header("Location:/404.php");
+exit;
 }
 
-$article = null;
+$article=$res->fetch_assoc();
 
-$stmt = $conn->prepare("SELECT * FROM articles WHERE slug=? LIMIT 1");
-if ($stmt) {
-    $stmt->bind_param("s", $slug);
-    $stmt->execute();
-    $res = $stmt->get_result();
+/* SEO */
+$pageTitle=$article['title'];
+$metaDescription=substr(strip_tags($article['content']),0,155);
 
-    if ($res && $res->num_rows > 0) {
-        $article = $res->fetch_assoc();
-    }
-}
-
-if (!$article) {
-    $staticArticles = require "includes/static-articles.php";
-    foreach ($staticArticles as $static) {
-        if ($static['slug'] === $slug) {
-            $article = [
-                'title' => $static['title'],
-                'slug' => $static['slug'],
-                'content' => $static['content'],
-                'created_at' => $static['created_at'],
-                'author_name' => 'Editorial Team',
-                'source' => 'static',
-            ];
-            break;
-        }
-    }
-}
-
-if (!$article) {
-    header("Location:/404.php");
-    exit;
-}
-
-$pageTitle = $article['title'];
-$metaDescription = substr(strip_tags($article['content']), 0, 155);
-
-include "includes/header.php";
+include("includes/header.php");
 ?>
 
 <div class="container">
 
 <h1><?= htmlspecialchars($article['title']); ?></h1>
-<p style="color:#475569;">Published: <?= htmlspecialchars(date('F j, Y', strtotime($article['created_at']))); ?> | Author: India Pincode Locator Editorial Team</p>
 
 <div class="article">
 <?= $article['content']; ?>
@@ -60,13 +33,13 @@ include "includes/header.php";
 
 </div>
 
+<!-- ARTICLE STRUCTURED DATA -->
 <script type="application/ld+json">
 {
 "@context":"https://schema.org",
 "@type":"Article",
 "headline":"<?= addslashes($article['title']); ?>",
 "datePublished":"<?= $article['created_at']; ?>",
-"dateModified":"<?= $article['created_at']; ?>",
 "author":{
  "@type":"Organization",
  "name":"India Pincode Locator"
@@ -82,4 +55,4 @@ include "includes/header.php";
 }
 </script>
 
-<?php include "includes/footer.php"; ?>
+<?php include("includes/footer.php"); ?>
