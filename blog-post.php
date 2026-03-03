@@ -2,7 +2,6 @@
 $slug = trim($_GET['slug'] ?? '');
 
 $legacySlugMap = [
-    'what-is-pin-code-india' => 'what-is-pin-code',
     'what-is-pin-code-system-in-india' => 'what-is-pin-code',
 ];
 if (isset($legacySlugMap[$slug])) {

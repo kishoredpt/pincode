@@ -22,6 +22,17 @@ if(preg_match('/^blog\/([a-zA-Z0-9-]+)$/',$requestPath,$blogMatch)){
 
 require_once "config/db.php";
 
+$route = $_GET['route'] ?? '';
+
+if($route===''){
+    $requestPath=parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH);
+    $requestPath=trim((string)$requestPath,'/');
+
+    if($requestPath!=='' && !str_contains($requestPath,'/') && !str_contains($requestPath,'.php')){
+        $route=$requestPath;
+    }
+}
+
 $pageType="home";
 $pageData=[];
 

@@ -1,7 +1,7 @@
 <?php
 return [
     [
-        'slug' => 'what-is-pin-code',
+        'slug' => 'what-is-pin-code-system-in-india',
         'title' => 'What Is PIN Code System In India',
         'created_at' => '2026-03-03 10:00:00',
         'excerpt' => 'Understand the 6-digit Postal Index Number structure, why it was introduced, and how it supports delivery, e-commerce, and government services in India.',
