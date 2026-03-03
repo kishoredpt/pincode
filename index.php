@@ -1,4 +1,25 @@
 <?php
+$route = $_GET['route'] ?? '';
+$requestPath=parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH);
+$requestPath=trim((string)$requestPath,'/');
+
+if($route===''){
+    if($requestPath!=='' && !str_contains($requestPath,'/') && !str_contains($requestPath,'.php')){
+        $route=$requestPath;
+    }
+}
+
+if($route==='blog' || $requestPath==='blog'){
+    require __DIR__."/blog.php";
+    exit;
+}
+
+if(preg_match('/^blog\/([a-zA-Z0-9-]+)$/',$requestPath,$blogMatch)){
+    $_GET['slug']=$blogMatch[1];
+    require __DIR__."/blog-post.php";
+    exit;
+}
+
 require_once "config/db.php";
 
 $route = $_GET['route'] ?? '';

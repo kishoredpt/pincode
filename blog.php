@@ -1,6 +1,4 @@
 <?php
-require_once "config/db.php";
-
 $pageTitle = "Blog | India Pincode Locator";
 $metaDescription = "Guides and practical articles on Indian pincodes, post offices, and addressing best practices.";
 
@@ -18,7 +16,7 @@ echo "<p class='mb-8'>Read practical postal guides written for Indian users, e-c
 foreach ($articles as $article) {
     $desc = substr(strip_tags($article['content']), 0, 180);
     echo "<div class='card'>";
-    echo "<h3><a href='/blog-post.php?slug=" . urlencode($article['slug']) . "'>" . htmlspecialchars($article['title']) . "</a></h3>";
+    echo "<h3><a href='/blog/" . urlencode($article['slug']) . "'>" . htmlspecialchars($article['title']) . "</a></h3>";
     echo "<p>" . htmlspecialchars($desc) . "...</p>";
     echo "</div>";
 }
