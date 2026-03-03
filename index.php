@@ -20,17 +20,18 @@ if(preg_match('/^blog\/([a-zA-Z0-9-]+)$/',$requestPath,$blogMatch)){
     exit;
 }
 
-if($requestPath==='blog.php'){
-    require __DIR__."/blog.php";
-    exit;
-}
-
-if($requestPath==='blog-post.php' && isset($_GET['slug'])){
-    require __DIR__."/blog-post.php";
-    exit;
-}
-
 require_once "config/db.php";
+
+$route = $_GET['route'] ?? '';
+
+if($route===''){
+    $requestPath=parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH);
+    $requestPath=trim((string)$requestPath,'/');
+
+    if($requestPath!=='' && !str_contains($requestPath,'/') && !str_contains($requestPath,'.php')){
+        $route=$requestPath;
+    }
+}
 
 $pageType="home";
 $pageData=[];

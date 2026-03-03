@@ -1,15 +1,7 @@
 <?php
-$host = strtolower($_SERVER['HTTP_HOST'] ?? '');
-if ($host === 'www.pincodelocator.co.in') {
-    $requestUri = $_SERVER['REQUEST_URI'] ?? '/blog';
-    header('Location: https://pincodelocator.co.in' . $requestUri, true, 301);
-    exit;
-}
-
 $slug = trim($_GET['slug'] ?? '');
 
 $legacySlugMap = [
-    'what-is-pin-code-india' => 'what-is-pin-code',
     'what-is-pin-code-system-in-india' => 'what-is-pin-code',
 ];
 if (isset($legacySlugMap[$slug])) {
