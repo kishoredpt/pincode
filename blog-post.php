@@ -1,40 +1,34 @@
 <?php
-require_once "config/db.php";
-
 $slug = trim($_GET['slug'] ?? '');
 
+$legacySlugMap = [
+    'what-is-pin-code-india' => 'what-is-pin-code',
+    'what-is-pin-code-system-in-india' => 'what-is-pin-code',
+];
+if (isset($legacySlugMap[$slug])) {
+    header('Location: /blog/' . $legacySlugMap[$slug], true, 301);
+    exit;
+}
+
 if ($slug === '') {
-    header("Location:/404.php");
+    header("Location:/blog", true, 302);
     exit;
 }
 
 $article = null;
+$staticArticles = require "includes/static-articles.php";
 
-$stmt = $conn->prepare("SELECT * FROM articles WHERE slug=? LIMIT 1");
-if ($stmt) {
-    $stmt->bind_param("s", $slug);
-    $stmt->execute();
-    $res = $stmt->get_result();
-
-    if ($res && $res->num_rows > 0) {
-        $article = $res->fetch_assoc();
-    }
-}
-
-if (!$article) {
-    $staticArticles = require "includes/static-articles.php";
-    foreach ($staticArticles as $static) {
-        if ($static['slug'] === $slug) {
-            $article = [
-                'title' => $static['title'],
-                'slug' => $static['slug'],
-                'content' => $static['content'],
-                'created_at' => $static['created_at'],
-                'author_name' => 'Editorial Team',
-                'source' => 'static',
-            ];
-            break;
-        }
+foreach ($staticArticles as $static) {
+    if ($static['slug'] === $slug) {
+        $article = [
+            'title' => $static['title'],
+            'slug' => $static['slug'],
+            'content' => $static['content'],
+            'created_at' => $static['created_at'],
+            'author_name' => 'Editorial Team',
+            'source' => 'static',
+        ];
+        break;
     }
 }
 

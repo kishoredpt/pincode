@@ -1,7 +1,27 @@
 <?php
+$route = $_GET['route'] ?? '';
+$requestPath=parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH);
+$requestPath=trim((string)$requestPath,'/');
+
+if($route===''){
+    if($requestPath!=='' && !str_contains($requestPath,'/') && !str_contains($requestPath,'.php')){
+        $route=$requestPath;
+    }
+}
+
+if($route==='blog' || $requestPath==='blog'){
+    require __DIR__."/blog.php";
+    exit;
+}
+
+if(preg_match('/^blog\/([a-zA-Z0-9-]+)$/',$requestPath,$blogMatch)){
+    $_GET['slug']=$blogMatch[1];
+    require __DIR__."/blog-post.php";
+    exit;
+}
+
 require_once "config/db.php";
 
-$route = $_GET['route'] ?? '';
 $pageType="home";
 $pageData=[];
 
@@ -43,9 +63,11 @@ if($route && preg_match('/^(.+)-post-office-(\d{6})$/',$route,$officeMatch)){
         $pageData=$officeMatchRow ?: $fallbackRow;
     }
 }
-elseif($route && str_contains($route,'-pincode')){
+elseif($route){
 
-    $slug=str_replace('-pincode','',$route);
+    $slug=str_ends_with($route,'-pincode')
+        ? substr($route,0,-8)
+        : $route;
     $name=str_replace('-',' ',$slug);
 
     /* STATE CHECK */
@@ -148,7 +170,7 @@ if($pageType=="office"){
         ." in ".$pageData['district'].", ".$pageData['statename'].".";
     $canonical = "https://pincodelocator.co.in/".$route;
 }
-elseif($route && str_contains($route,'-pincode')){
+elseif($route && in_array($pageType,["state","district","pincode"],true)){
 
     $name = ucwords(str_replace('-pincode','',$route));
     $name = str_replace('-',' ',$name);
@@ -244,35 +266,15 @@ $stmt->execute();
 $res=$stmt->get_result();
 ?>
 
-<div class="space-y-4">
+<div class="grid md:grid-cols-2 gap-5">
 
 <?php while($row=$res->fetch_assoc()){ ?>
-<details class="bg-white p-6 rounded-xl shadow">
-<summary class="cursor-pointer font-semibold text-lg">
-<?= strtoupper($row['district']); ?>
-<span class="text-sm text-gray-600">(<?= $row['total']; ?> Post Offices)</span>
-</summary>
-
-<?php
-$stmtOffice=$conn->prepare("\nSELECT officename,pincode\nFROM post_offices\nWHERE statename=? AND district=?\nORDER BY officename\nLIMIT 500\n");
-$stmtOffice->bind_param("ss",$pageData['statename'],$row['district']);
-$stmtOffice->execute();
-$officeRes=$stmtOffice->get_result();
-?>
-
-<ul class="mt-4 grid md:grid-cols-2 gap-2 text-sm">
-<?php while($office=$officeRes->fetch_assoc()){
-    $officeSlug=toSlug($office['officename']);
-?>
-<li>
-<a class="text-indigo-700 hover:underline"
-href="/<?= $officeSlug ?>-post-office-<?= $office['pincode'] ?>">
-<?= htmlspecialchars($office['officename']) ?> - <?= $office['pincode'] ?>
+<?php $districtSlug=toSlug($row['district']); ?>
+<a class="bg-white p-6 rounded-xl shadow block hover:shadow-md transition"
+href="/<?= $districtSlug ?>-pincode">
+<h3 class="font-semibold text-2xl mb-2"><?= strtoupper($row['district']); ?></h3>
+<p class="text-gray-700 text-lg"><?= $row['total']; ?> Post Offices</p>
 </a>
-</li>
-<?php } ?>
-</ul>
-</details>
 <?php } ?>
 
 </div>
