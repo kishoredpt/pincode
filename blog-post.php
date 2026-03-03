@@ -1,7 +1,13 @@
 <?php
-require_once "config/db.php";
-
 $slug = trim($_GET['slug'] ?? '');
+
+$legacySlugMap = [
+    'what-is-pin-code-system-in-india' => 'what-is-pin-code',
+];
+if (isset($legacySlugMap[$slug])) {
+    header('Location: /blog/' . $legacySlugMap[$slug], true, 301);
+    exit;
+}
 
 if ($slug === '') {
     header("Location:/404.php");
