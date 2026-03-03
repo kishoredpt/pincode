@@ -6,7 +6,7 @@ include 'includes/header.php';
 
 <div class="container" style="padding:40px 0;">
   <h1>Privacy Policy</h1>
-  <p>Last updated: January 15, 2026</p>
+  <p>Last updated: <?= date('F j, Y'); ?></p>
 
   <h2>Information We Collect</h2>
   <p>

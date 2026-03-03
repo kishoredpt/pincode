@@ -17,7 +17,7 @@ if (!preg_match('/^[0-9]{6}$/', $q)) {
 }
 
 $stmt = $conn->prepare(
-    "SELECT officename, pincode, officetype, delivery, district, statename, latitude, longitude
+    "SELECT officename, officetype, delivery, district, statename, latitude, longitude
      FROM post_offices
      WHERE pincode = ?
      ORDER BY officename
