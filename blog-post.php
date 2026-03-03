@@ -29,9 +29,7 @@ foreach ($staticArticles as $static) {
         ];
         break;
     }
-}
 
-if (!$article) {
     header("Location:/404.php");
     exit;
 }
