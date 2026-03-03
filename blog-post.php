@@ -1,44 +1,57 @@
 <?php
-require_once "config/db.php";
+$host = strtolower($_SERVER['HTTP_HOST'] ?? '');
+if ($host === 'www.pincodelocator.co.in') {
+    $requestUri = $_SERVER['REQUEST_URI'] ?? '/blog';
+    header('Location: https://pincodelocator.co.in' . $requestUri, true, 301);
+    exit;
+}
 
 $slug = trim($_GET['slug'] ?? '');
 
 if ($slug === '') {
-    header("Location:/404.php");
+    $requestPath = trim((string) parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH), '/');
+    if (preg_match('#^blog/([a-zA-Z0-9-]+)$#', $requestPath, $matches)) {
+        $slug = $matches[1];
+    }
+}
+
+$legacySlugMap = [
+    'what-is-pin-code-india' => 'what-is-pin-code',
+    'what-is-pin-code-system-in-india' => 'what-is-pin-code',
+];
+if (isset($legacySlugMap[$slug])) {
+    header('Location: /blog/' . $legacySlugMap[$slug], true, 301);
+    exit;
+}
+
+if ($slug === '') {
+    header("Location:/blog", true, 302);
     exit;
 }
 
 $article = null;
+$staticArticles = require "includes/static-articles.php";
 
-$stmt = $conn->prepare("SELECT * FROM articles WHERE slug=? LIMIT 1");
-if ($stmt) {
-    $stmt->bind_param("s", $slug);
-    $stmt->execute();
-    $res = $stmt->get_result();
-
-    if ($res && $res->num_rows > 0) {
-        $article = $res->fetch_assoc();
+foreach ($staticArticles as $static) {
+    if ($static['slug'] === $slug) {
+        $article = [
+            'title' => $static['title'],
+            'slug' => $static['slug'],
+            'content' => $static['content'],
+            'created_at' => $static['created_at'],
+            'author_name' => 'Editorial Team',
+            'source' => 'static',
+        ];
+        break;
     }
 }
 
 if (!$article) {
-    $staticArticles = require "includes/static-articles.php";
-    foreach ($staticArticles as $static) {
-        if ($static['slug'] === $slug) {
-            $article = [
-                'title' => $static['title'],
-                'slug' => $static['slug'],
-                'content' => $static['content'],
-                'created_at' => $static['created_at'],
-                'author_name' => 'Editorial Team',
-                'source' => 'static',
-            ];
-            break;
-        }
+    if (str_starts_with($slug, 'what-is-pin-code')) {
+        header('Location: /blog/what-is-pin-code', true, 301);
+        exit;
     }
-}
 
-if (!$article) {
     header("Location:/404.php");
     exit;
 }
