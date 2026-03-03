@@ -5,12 +5,12 @@ $legacySlugMap = [
     'what-is-pin-code-system-in-india' => 'what-is-pin-code',
 ];
 if (isset($legacySlugMap[$slug])) {
-    header('Location: /blog/' . $legacySlugMap[$slug], true, 301);
+    header('Location: /blog-post.php?slug=' . $legacySlugMap[$slug], true, 301);
     exit;
 }
 
 if ($slug === '') {
-    header("Location:/blog", true, 302);
+    header("Location:/blog.php", true, 302);
     exit;
 }
 
