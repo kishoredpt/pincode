@@ -1,17 +1,27 @@
 <?php
-header("Content-Type: application/xml; charset=utf-8");
+require_once "../config/db.php";
 
-$base = "https://pincodelocator.co.in";
-$articles = require __DIR__ . "/../includes/static-articles.php";
+header("Content-Type: application/xml; charset=utf-8");
 
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 ?>
+
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<?php foreach ($articles as $article): ?>
+
+<?php
+$q = $conn->query("SELECT slug FROM articles");
+
+while ($row = $q->fetch_assoc()) {
+    $slug = urlencode($row['slug']);
+    $url = "https://pincodelocator.co.in/blog-post.php?slug={$slug}";
+?>
 <url>
-<loc><?= htmlspecialchars($base . '/blog-post.php?slug=' . urlencode($article['slug']), ENT_QUOTES, 'UTF-8') ?></loc>
+<loc><?= htmlspecialchars($url, ENT_QUOTES, 'UTF-8') ?></loc>
 <changefreq>monthly</changefreq>
 <priority>0.6</priority>
 </url>
 <?php endforeach; ?>
+
+<?php } ?>
+
 </urlset>
