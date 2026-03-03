@@ -1,17 +1,24 @@
 RewriteEngine On
 
-# Allow existing files
-RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^ - [L]
+# Ensure clean URLs are not treated as content-negotiated files.
+Options -MultiViews
 
-# Allow directories
+# Blog routes
+RewriteRule ^blog/?$ blog.php [L,QSA]
+RewriteRule ^blog/([a-zA-Z0-9-]+)/?$ blog-post.php?slug=$1 [L,QSA]
+
+# Sitemap
+RewriteRule ^sitemap\.xml$ sitemap_index.php [L]
+
+# Route all non-file/non-directory requests through index.php.
+# This works for URLs like /telangana and /507165.
+RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# ROUTING SYSTEM
-RewriteRule ^([a-zA-Z0-9-]+)/?$ index.php?route=$1 [L,QSA]
+RewriteRule ^ index.php [L,QSA]
 
-# Sitemap
-RewriteRule ^sitemap.xml$ sitemap-index.php [L]
+# Apache fallback for hosts where RewriteRule processing is constrained.
+FallbackResource /index.php
 
 ErrorDocument 404 /404.php

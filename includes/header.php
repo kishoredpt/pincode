@@ -48,7 +48,7 @@ $resolvedCanonical = 'https://pincodelocator.co.in' . $canonicalPath;
 
 <nav class="nav-menu">
 <a href="/">Home</a>
-<a href="/blog.php">Articles</a>
+<a href="/blog">Articles</a>
 <a href="/about.php">About</a>
 <a href="/contact.php">Contact</a>
 </nav>
