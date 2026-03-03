@@ -10,7 +10,7 @@ if (isset($legacySlugMap[$slug])) {
 }
 
 if ($slug === '') {
-    header("Location:/404.php");
+    header("Location:/blog", true, 302);
     exit;
 }
 
