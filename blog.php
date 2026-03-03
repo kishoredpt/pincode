@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/config/db.php';
 $pageTitle = "Blog | India Pincode Locator";
 $metaDescription = "Guides and practical articles on Indian pincodes, post offices, and addressing best practices.";
 
