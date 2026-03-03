@@ -5,16 +5,29 @@ $metaDescription = "Guides and practical articles on Indian pincodes, post offic
 $staticArticles = require "includes/static-articles.php";
 $articles = [];
 
-$res = $conn->query("SELECT title,slug,content,created_at FROM articles ORDER BY created_at DESC LIMIT 200");
-if ($res) {
-    while ($row = $res->fetch_assoc()) {
-        $articles[$row['slug']] = [
-            'title' => $row['title'],
-            'slug' => $row['slug'],
-            'content' => $row['content'],
-            'created_at' => $row['created_at'],
-            'source' => 'db',
-        ];
+$dbConn = null;
+if (isset($conn) && $conn instanceof mysqli && !$conn->connect_error) {
+    $dbConn = $conn;
+} else {
+    mysqli_report(MYSQLI_REPORT_OFF);
+    $tmpConn = @new mysqli("localhost", "u854527538_kishore", "0044Ki05@123", "u854527538_pincode");
+    if (!$tmpConn->connect_error) {
+        $dbConn = $tmpConn;
+    }
+}
+
+if ($dbConn) {
+    $res = $dbConn->query("SELECT title,slug,content,created_at FROM articles ORDER BY created_at DESC LIMIT 200");
+    if ($res) {
+        while ($row = $res->fetch_assoc()) {
+            $articles[$row['slug']] = [
+                'title' => $row['title'],
+                'slug' => $row['slug'],
+                'content' => $row['content'],
+                'created_at' => $row['created_at'],
+                'source' => 'db',
+            ];
+        }
     }
 }
 

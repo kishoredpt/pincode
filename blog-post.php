@@ -15,15 +15,27 @@ if ($slug === '') {
 }
 
 $article = null;
+$dbConn = null;
+if (isset($conn) && $conn instanceof mysqli && !$conn->connect_error) {
+    $dbConn = $conn;
+} else {
+    mysqli_report(MYSQLI_REPORT_OFF);
+    $tmpConn = @new mysqli("localhost", "u854527538_kishore", "0044Ki05@123", "u854527538_pincode");
+    if (!$tmpConn->connect_error) {
+        $dbConn = $tmpConn;
+    }
+}
 
-$stmt = $conn->prepare("SELECT * FROM articles WHERE slug=? LIMIT 1");
-if ($stmt) {
-    $stmt->bind_param("s", $slug);
-    $stmt->execute();
-    $res = $stmt->get_result();
+if ($dbConn) {
+    $stmt = $dbConn->prepare("SELECT * FROM articles WHERE slug=? LIMIT 1");
+    if ($stmt) {
+        $stmt->bind_param("s", $slug);
+        $stmt->execute();
+        $res = $stmt->get_result();
 
-    if ($res && $res->num_rows > 0) {
-        $article = $res->fetch_assoc();
+        if ($res && $res->num_rows > 0) {
+            $article = $res->fetch_assoc();
+        }
     }
 }
 
@@ -42,7 +54,9 @@ if (!$article) {
             break;
         }
     }
+}
 
+if (!$article) {
     header("Location:/404.php");
     exit;
 }
