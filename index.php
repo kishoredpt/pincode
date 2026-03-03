@@ -2,12 +2,6 @@
 require_once "config/db.php";
 
 $route = $_GET['route'] ?? '';
-if ($route === '') {
-    $requestPath = trim((string) parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH), '/');
-    if ($requestPath !== '' && $requestPath !== 'index.php' && !str_contains($requestPath, '.php')) {
-        $route = $requestPath;
-    }
-}
 $pageType="home";
 $pageData=[];
 
@@ -49,13 +43,9 @@ if($route && preg_match('/^(.+)-post-office-(\d{6})$/',$route,$officeMatch)){
         $pageData=$officeMatchRow ?: $fallbackRow;
     }
 }
-elseif($route){
+elseif($route && str_contains($route,'-pincode')){
 
-    $slug = $route;
-    if (str_ends_with($slug, '-pincode')) {
-        $slug = str_replace('-pincode', '', $slug);
-    }
-
+    $slug=str_replace('-pincode','',$route);
     $name=str_replace('-',' ',$slug);
 
     /* STATE CHECK */
@@ -158,14 +148,10 @@ if($pageType=="office"){
         ." in ".$pageData['district'].", ".$pageData['statename'].".";
     $canonical = "https://pincodelocator.co.in/".$route;
 }
-elseif($route){
+elseif($route && str_contains($route,'-pincode')){
 
-    $seoRouteName = $route;
-    if (str_ends_with($seoRouteName, '-pincode')) {
-        $seoRouteName = str_replace('-pincode', '', $seoRouteName);
-    }
-
-    $name = ucwords(str_replace('-',' ',$seoRouteName));
+    $name = ucwords(str_replace('-pincode','',$route));
+    $name = str_replace('-',' ',$name);
 
     $seoTitle = "$name Pincode List | Post Offices & District Details";
     $seoDescription = "Complete list of post offices and pincodes in $name state or district. Search locations, delivery offices and postal information.";
