@@ -3,10 +3,6 @@ RewriteEngine On
 # Ensure clean URLs are not treated as content-negotiated files.
 Options -MultiViews
 
-# Blog routes
-RewriteRule ^blog/?$ blog.php [L,QSA]
-RewriteRule ^blog/([a-zA-Z0-9-]+)/?$ blog-post.php?slug=$1 [L,QSA]
-
 # Sitemap
 RewriteRule ^sitemap\.xml$ sitemap_index.php [L]
 
