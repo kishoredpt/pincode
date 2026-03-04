@@ -230,7 +230,7 @@ elseif($route && in_array($pageType,["state","district","pincode"],true)){
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 text-gray-900">
+<body class="bg-white-100 text-gray-900">
 <style>
   .nav-link { padding: 0.25rem 0.4rem; border-radius: 0.4rem; }
   .nav-link:hover { background: #eef2ff; }
@@ -404,36 +404,19 @@ else { ?>
 </div>
 <?php endif; ?>
 
-<h1 class="text-4xl md:text-5xl font-bold text-indigo-700 leading-tight">
+<h3 class="text-4xl md:text-3xl font-bold text-indigo-700 leading-tight">
 India Pincode Locator
-</h1>
+</h3>
 
-<p class="mt-3 text-xl md:text-2xl font-medium text-gray-700">
-Search 1.5+ Lakh Post Offices Across India
+<p class="mt-3 text-xl md:text-1xl font-medium text-gray-700">
+Search 1.6+ Lakh Post Offices Across India
 </p>
-
-<p class="mt-3 text-base md:text-lg text-gray-600">
-Search Indian Post Office details using Pincode or Location.
-</p>
-</div>
-
-<!-- =========================
-ADSENSE GAP 1 (Header Ad)
-========================= -->
-<div class="bg-white rounded-xl shadow p-6 text-center mb-10">
-<!-- Adsense Auto Ad / Banner -->
-<span class="text-gray-400 text-sm">
-Advertisement Space
-</span>
 </div>
 
 <!-- ===============================
 HOMEPAGE AUTHORITY CONTENT
 ================================== -->
 <section class="homepage-content bg-white shadow-xl rounded-2xl p-6 md:p-10 mb-10 leading-7">
-
-<h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-5">India PIN Code Directory &amp; Postal Information Portal</h2>
-
 <p class="text-gray-700 mb-4">
 Welcome to <strong>PincodeLocator.co.in</strong>, your trusted resource for finding accurate Postal Index Numbers (PIN Codes), post office details, and district-level postal information across India. Whether you are verifying an address, preparing official documents, shipping products, or researching postal zones, our platform helps you access structured and easy-to-understand postal data in seconds.
 </p>
@@ -455,52 +438,6 @@ The Postal Index Number (PIN) system in India uses a six-digit code to identify 
 <li><strong>Last three digits</strong> – Identify the specific delivery post office</li>
 </ul>
 
-<p class="text-gray-700 mb-8">
-This structured coding system allows mail to be sorted efficiently and reduces delivery errors across urban and rural regions.
-</p>
-
-<hr class="my-8 border-gray-200">
-
-<h3 class="text-2xl font-semibold text-indigo-700 mb-3">Explore PIN Codes by State</h3>
-
-<p class="text-gray-700 mb-5">Select your state below to browse district-wise and office-wise PIN code listings:</p>
-
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-2 gap-x-6 text-[15px] mb-8">
-<a class="text-indigo-700 hover:underline" href="/andhra-pradesh-pincode">Andhra Pradesh</a>
-<a class="text-indigo-700 hover:underline" href="/assam-pincode">Assam</a>
-<a class="text-indigo-700 hover:underline" href="/bihar-pincode">Bihar</a>
-<a class="text-indigo-700 hover:underline" href="/chhattisgarh-pincode">Chhattisgarh</a>
-<a class="text-indigo-700 hover:underline" href="/goa-pincode">Goa</a>
-<a class="text-indigo-700 hover:underline" href="/gujarat-pincode">Gujarat</a>
-<a class="text-indigo-700 hover:underline" href="/haryana-pincode">Haryana</a>
-<a class="text-indigo-700 hover:underline" href="/himachal-pradesh-pincode">Himachal Pradesh</a>
-<a class="text-indigo-700 hover:underline" href="/jharkhand-pincode">Jharkhand</a>
-<a class="text-indigo-700 hover:underline" href="/karnataka-pincode">Karnataka</a>
-<a class="text-indigo-700 hover:underline" href="/kerala-pincode">Kerala</a>
-<a class="text-indigo-700 hover:underline" href="/madhya-pradesh-pincode">Madhya Pradesh</a>
-<a class="text-indigo-700 hover:underline" href="/maharashtra-pincode">Maharashtra</a>
-<a class="text-indigo-700 hover:underline" href="/odisha-pincode">Odisha</a>
-<a class="text-indigo-700 hover:underline" href="/punjab-pincode">Punjab</a>
-<a class="text-indigo-700 hover:underline" href="/rajasthan-pincode">Rajasthan</a>
-<a class="text-indigo-700 hover:underline" href="/tamil-nadu-pincode">Tamil Nadu</a>
-<a class="text-indigo-700 hover:underline" href="/telangana-pincode">Telangana</a>
-<a class="text-indigo-700 hover:underline" href="/uttar-pradesh-pincode">Uttar Pradesh</a>
-<a class="text-indigo-700 hover:underline" href="/west-bengal-pincode">West Bengal</a>
-</div>
-
-<hr class="my-8 border-gray-200">
-
-<h3 class="text-2xl font-semibold text-indigo-700 mb-4">Latest Postal Articles</h3>
-
-<ul class="list-disc pl-6 text-gray-700 space-y-2">
-<li><a class="text-indigo-700 hover:underline" href="/blog-post.php?slug=what-is-pin-code-system-in-india">What Is PIN Code System In India</a></li>
-<li><a class="text-indigo-700 hover:underline" href="/blog-post.php?slug=history-of-india-post-office">History Of India Post Office</a></li>
-<li><a class="text-indigo-700 hover:underline" href="/blog-post.php?slug=india-postal-zones-explained">India Postal Zones Explained</a></li>
-<li><a class="text-indigo-700 hover:underline" href="/blog-post.php?slug=how-speed-post-delivery-works">How Speed Post Delivery Works</a></li>
-<li><a class="text-indigo-700 hover:underline" href="/blog-post.php?slug=registered-post-vs-speed-post">Registered Post vs Speed Post</a></li>
-</ul>
-
-</section>
 <!-- ===============================
 END HOMEPAGE AUTHORITY CONTENT
 ================================== -->
@@ -543,26 +480,53 @@ class="w-full border-2 border-indigo-400 p-3 md:p-4 rounded-lg mb-8 outline-none
 
 <!-- RESULTS -->
 <div id="results" class="mt-10"></div>
+<p class="text-gray-700 mb-8">
+This structured coding system allows mail to be sorted efficiently and reduces delivery errors across urban and rural regions.
+</p>
+</section>
+
 <!-- =========================
 ADSENSE GAP 2 (Content Ad)
 ========================= -->
 <div class="bg-white rounded-xl shadow p-6 text-center mt-10">
 <span class="text-gray-400 text-sm">
-Advertisement Space
 </span>
 </div>
 <!-- CONTENT -->
-<div class="bg-white mt-12 p-5 md:p-8 rounded-xl shadow">
-<h2 class="text-2xl font-bold mb-4">About India Pincode System</h2>
-
-<p class="text-gray-700 leading-7">
-India Post introduced the Postal Index Number system to simplify mail delivery.
-Each 6-digit PIN represents a delivery post office, district and state.
-</p>
-</div>
 
 <!-- STATE AUTHORITY -->
 <div class="bg-white mt-12 p-5 md:p-8 rounded-xl shadow">
+
+
+<h3 class="text-2xl font-semibold text-indigo-700 mb-3">Explore PIN Codes by State</h3>
+
+<p class="text-gray-700 mb-5">India Post introduced the Postal Index Number system to simplify mail delivery.
+Each 6-digit PIN represents a delivery post office, district and state.Select your state below to browse district-wise and office-wise PIN code listings:</p>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-2 gap-x-6 text-[15px] mb-8">
+<a class="text-indigo-700 hover:underline" href="/andhra-pradesh-pincode">Andhra Pradesh</a>
+<a class="text-indigo-700 hover:underline" href="/assam-pincode">Assam</a>
+<a class="text-indigo-700 hover:underline" href="/bihar-pincode">Bihar</a>
+<a class="text-indigo-700 hover:underline" href="/chhattisgarh-pincode">Chhattisgarh</a>
+<a class="text-indigo-700 hover:underline" href="/goa-pincode">Goa</a>
+<a class="text-indigo-700 hover:underline" href="/gujarat-pincode">Gujarat</a>
+<a class="text-indigo-700 hover:underline" href="/haryana-pincode">Haryana</a>
+<a class="text-indigo-700 hover:underline" href="/himachal-pradesh-pincode">Himachal Pradesh</a>
+<a class="text-indigo-700 hover:underline" href="/jharkhand-pincode">Jharkhand</a>
+<a class="text-indigo-700 hover:underline" href="/karnataka-pincode">Karnataka</a>
+<a class="text-indigo-700 hover:underline" href="/kerala-pincode">Kerala</a>
+<a class="text-indigo-700 hover:underline" href="/madhya-pradesh-pincode">Madhya Pradesh</a>
+<a class="text-indigo-700 hover:underline" href="/maharashtra-pincode">Maharashtra</a>
+<a class="text-indigo-700 hover:underline" href="/odisha-pincode">Odisha</a>
+<a class="text-indigo-700 hover:underline" href="/punjab-pincode">Punjab</a>
+<a class="text-indigo-700 hover:underline" href="/rajasthan-pincode">Rajasthan</a>
+<a class="text-indigo-700 hover:underline" href="/tamil-nadu-pincode">Tamil Nadu</a>
+<a class="text-indigo-700 hover:underline" href="/telangana-pincode">Telangana</a>
+<a class="text-indigo-700 hover:underline" href="/uttar-pradesh-pincode">Uttar Pradesh</a>
+<a class="text-indigo-700 hover:underline" href="/west-bengal-pincode">West Bengal</a>
+</div>
+
+
 
 <h2 class="text-2xl font-bold mb-6 text-indigo-600">
 📍 Browse Pincode by State
@@ -712,7 +676,6 @@ ADSENSE GAP 3 (Bottom Ad)
 ========================= -->
 <div class="bg-white rounded-xl shadow p-6 text-center mt-12">
 <span class="text-gray-400 text-sm">
-Advertisement Space
 </span>
 </div>
 
@@ -725,6 +688,12 @@ Advertisement Space
 <li><a class="text-indigo-700 hover:underline" href="/privacy-policy.php">Privacy Policy</a></li>
 <li><a class="text-indigo-700 hover:underline" href="/blog.php">Postal Guides & Articles</a></li>
 <li><a class="text-indigo-700 hover:underline" href="/sitemap_index.php">XML Sitemap Index</a></li>
+<li><a class="text-indigo-700 hover:underline" href="/blog-post.php?slug=what-is-pin-code-system-in-india">What Is PIN Code System In India</a></li>
+<li><a class="text-indigo-700 hover:underline" href="/blog-post.php?slug=history-of-india-post-office">History Of India Post Office</a></li>
+<li><a class="text-indigo-700 hover:underline" href="/blog-post.php?slug=india-postal-zones-explained">India Postal Zones Explained</a></li>
+<li><a class="text-indigo-700 hover:underline" href="/blog-post.php?slug=how-speed-post-delivery-works">How Speed Post Delivery Works</a></li>
+<li><a class="text-indigo-700 hover:underline" href="/blog-post.php?slug=registered-post-vs-speed-post">Registered Post vs Speed Post</a></li>
+<ul class="list-disc pl-6 text-gray-700 space-y-2">
 </ul>
 </div>
 
@@ -882,7 +851,7 @@ const block=document.createElement("div");
 block.innerHTML=`
 <div class="border rounded-lg">
 <button
-class="w-full text-left p-4 font-semibold bg-gray-50"
+class="w-full text-left p-4 font-semibold bg-white-50"
 onclick="loadDistricts(this,'${state}')">
 ▶ ${state}
 </button>
@@ -920,7 +889,7 @@ let html="";
 districts.forEach(d=>{
 html+=`
 <div class="border rounded mb-2">
-<button class="w-full text-left p-3 bg-gray-100"
+<button class="w-full text-left p-3 bg-white-100"
 onclick="loadDistrictPincodes(this,'${state}','${d}')">
 📍 ${d}
 </button>
@@ -949,7 +918,7 @@ const res=await fetch(
 const offices=await res.json();
 
 let html=`<table class="w-full border">
-<tr class="bg-gray-200">
+<tr class="bg-white-200">
 <th class="p-2">Location</th>
 <th class="p-2">Pincode</th>
 <th class="p-2">State</th>
