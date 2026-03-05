@@ -540,13 +540,8 @@ This structured coding system allows mail to be sorted efficiently and reduces d
 </p>
 </section>
 
-<!-- =========================
-ADSENSE GAP 2 (Content Ad)
-========================= -->
-<div class="rounded-xl border border-gray-200 p-6 text-center mt-10">
-<span class="text-gray-400 text-sm">
-</span>
-</div>
+<!-- Reserved spacing for in-content advertisement placement -->
+<div class="rounded-xl border border-gray-200 p-6 text-center mt-10" aria-hidden="true"></div>
 <!-- CONTENT -->
 
 <!-- STATE AUTHORITY -->
