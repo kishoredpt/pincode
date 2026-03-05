@@ -496,7 +496,8 @@ The Postal Index Number (PIN) system in India uses a six-digit code to identify 
 <!-- SEARCH -->
 <div class="rounded-2xl p-5 md:p-8 border border-gray-200">
 
-<h2 class="text-xl font-semibold mb-3 text-indigo-600">
+<div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4 md:p-5 mb-8">
+<h2 class="text-xl font-semibold mb-3 text-indigo-700">
 🔎 Search by Pincode
 </h2>
 
@@ -505,8 +506,9 @@ type="text"
 id="pincodeInput"
 maxlength="6"
 placeholder="Enter 6-digit Pincode"
-class="w-full border-2 border-indigo-400 p-3 md:p-4 rounded-lg mb-8 outline-none text-base"
+class="w-full border-2 border-indigo-400 p-3 md:p-4 rounded-lg outline-none text-base"
 />
+</div>
 
 <h2 class="text-xl font-semibold mb-4 text-indigo-600">
 📍 Search by Location
