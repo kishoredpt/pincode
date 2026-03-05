@@ -440,6 +440,10 @@ else { ?>
 <div class="bg-white rounded-2xl p-6 md:p-10">
 <div class="text-center mb-10">
 
+<!-- ===============================
+HOMEPAGE AUTHORITY CONTENT
+================================== -->
+<section class="homepage-content leading-7">
 <?php if($route): ?>
 <!-- BREADCRUMB -->
 <div class="text-sm text-gray-600 mb-6">
@@ -468,10 +472,6 @@ Search 1.6+ Lakh Post Offices Across India
 </p>
 </div>
 
-<!-- ===============================
-HOMEPAGE AUTHORITY CONTENT
-================================== -->
-<section class="homepage-content leading-7">
 <p class="text-gray-700 mb-4">
 Welcome to <strong>PincodeLocator.co.in</strong>, your trusted resource for finding accurate Postal Index Numbers (PIN Codes), post office details, and district-level postal information across India. Whether you are verifying an address, preparing official documents, shipping products, or researching postal zones, our platform helps you access structured and easy-to-understand postal data in seconds.
 </p>
@@ -492,10 +492,6 @@ The Postal Index Number (PIN) system in India uses a six-digit code to identify 
 <li><strong>Third digit</strong> – Identifies the sorting district</li>
 <li><strong>Last three digits</strong> – Identify the specific delivery post office</li>
 </ul>
-
-<!-- ===============================
-END HOMEPAGE AUTHORITY CONTENT
-================================== -->
 
 <!-- SEARCH -->
 <div class="rounded-2xl p-5 md:p-8 border border-gray-200">
@@ -533,26 +529,14 @@ class="w-full border-2 border-indigo-400 p-3 md:p-4 rounded-lg mb-8 outline-none
 </div>
 </div>
 
-<!-- RESULTS -->
-<div id="results" class="mt-10"></div>
-<p class="text-gray-700 mb-8">
-This structured coding system allows mail to be sorted efficiently and reduces delivery errors across urban and rural regions.
-</p>
-</section>
 
-<!-- =========================
-ADSENSE GAP 2 (Content Ad)
-========================= -->
-<div class="rounded-xl border border-gray-200 p-6 text-center mt-10">
-<span class="text-gray-400 text-sm">
-</span>
-</div>
-<!-- CONTENT -->
 
 <!-- STATE AUTHORITY -->
-<div class="mt-12 p-5 md:p-8 rounded-xl border border-gray-200">
 
-
+<?php
+echo '<div style="margin-bottom: 30px;"></div>';
+echo '<div style="margin-top: 30px;"></div>';
+?>
 <h3 class="text-2xl font-semibold text-indigo-700 mb-3">Explore PIN Codes by State</h3>
 
 <p class="text-gray-700 mb-5">India Post introduced the Postal Index Number system to simplify mail delivery.
@@ -726,14 +710,6 @@ onclick="scrollToState('JHARKHAND')">
 </div>
 </div>
 
-<!-- =========================
-ADSENSE GAP 3 (Bottom Ad)
-========================= -->
-<div class="rounded-xl border border-gray-200 p-6 text-center mt-12">
-<span class="text-gray-400 text-sm">
-</span>
-</div>
-
 <div class="mt-12 p-5 md:p-8 rounded-xl border border-gray-200">
 <h2 class="text-2xl font-bold mb-4">Helpful Resources</h2>
 <ul class="list-disc pl-6 text-gray-700 leading-8">
@@ -751,6 +727,13 @@ ADSENSE GAP 3 (Bottom Ad)
 <ul class="list-disc pl-6 text-gray-700 space-y-2">
 </ul>
 </div>
+
+<!-- RESULTS -->
+<div id="results" class="mt-10"></div>
+</section>
+<!-- ===============================
+END HOMEPAGE AUTHORITY CONTENT
+================================== -->
 
 </div>
 
