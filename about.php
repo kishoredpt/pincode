@@ -37,6 +37,14 @@ include 'includes/header.php';
     We focus on factual, utility-first content. When publishing explanatory articles,
     we prioritize clarity, neutrality, and practical usefulness.
   </p>
-</div>
 
+  <h2>Editorial Transparency</h2>
+  <p>
+   All postal information published on this website is curated from publicly accessible sources and organized for educational and reference purposes. 
+   We aim to maintain accuracy and regularly review data; however, users are encouraged to verify critical postal information with official authorities when required.
+  </p>
+  <p>
+   India Pincode Locator operates independently and is not officially associated with India Post or any government body.
+  </p>
+</div>
 <?php include 'includes/footer.php'; ?>
