@@ -264,6 +264,35 @@ if($pageType=="state"){
 <?= strtoupper($pageData['statename']); ?> Pincode List
 </h2>
 
+<?php $stateName=trim($pageData['statename']); ?>
+<section class="state-intro bg-white rounded-xl shadow p-6 mb-8 leading-7">
+
+<h2 class="text-2xl font-semibold text-indigo-700 mb-4"><?= htmlspecialchars($stateName) ?> PIN Code Directory – Find All Post Offices Easily</h2>
+
+<p class="text-gray-700 mb-4">
+<?= htmlspecialchars($stateName) ?> is one of India’s rapidly developing states, known for its growing cities, strong rural networks, and expanding business ecosystem. Whether you are sending official documents, parcels, government applications, or verifying an address for banking or online services, using the correct PIN code is essential for accurate and timely delivery.
+</p>
+
+<p class="text-gray-700 mb-4">
+The Postal Index Number (PIN) system plays a crucial role in ensuring efficient mail routing across the state. <?= htmlspecialchars($stateName) ?> falls under designated postal zones that help India Post sort and deliver mail systematically. Every district, town, and village in <?= htmlspecialchars($stateName) ?> is assigned a unique 6-digit PIN code that identifies the specific delivery post office responsible for that area.
+</p>
+
+<p class="text-gray-700 mb-4">
+This page provides a comprehensive directory of all <?= htmlspecialchars($stateName) ?> districts along with access to detailed post office information. Users can explore Head Post Offices, Sub Offices, and Branch Offices across the state. The directory is structured to help residents, businesses, logistics providers, and government users quickly locate reliable postal information without confusion.
+</p>
+
+<h3 class="text-xl font-semibold text-indigo-700 mb-3">About <?= htmlspecialchars($stateName) ?> Postal Network</h3>
+
+<p class="text-gray-700 mb-4">
+The postal network in <?= htmlspecialchars($stateName) ?> connects major urban centers with semi-urban towns and remote rural regions. From large Head Post Offices managing regional operations to small Branch Offices serving villages, the system supports services such as Speed Post, Registered Post, parcel delivery, and financial services.
+</p>
+
+<p class="text-gray-700">
+Use the district list below to browse <?= htmlspecialchars($stateName) ?> PIN codes and identify the correct post office for your delivery, documentation, or address verification needs.
+</p>
+
+</section>
+
 <?php
 $stmt=$conn->prepare("
 SELECT district,COUNT(*) total
