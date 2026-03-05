@@ -579,7 +579,7 @@ echo '<div style="margin-top: 30px;"></div>';
 
 <div>
 <p class="text-gray-600 mb-5">
-Expand a state → district → view all post offices.
+Navigate India’s postal directory in a structured and easy-to-use format. Start by selecting a state, then expand to view its districts, and finally explore the complete list of post offices within each district. This organized browsing method helps you quickly locate accurate PIN code information without searching manually. Whether you are verifying an address, checking delivery availability, or researching postal coverage, this state → district → post office structure ensures fast and reliable access to official postal details.
 </p>
 
 <div id="stateAuthorityList" class="space-y-3"></div>
