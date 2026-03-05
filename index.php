@@ -759,18 +759,37 @@ const officeSelect=document.getElementById("officeSelect");
 /* PINCODE SEARCH */
 
 document.getElementById("pincodeInput")
-.addEventListener("keyup",function(){
-if(this.value.length===6){
-searchPincode(this.value);
+.addEventListener("input",function(){
+const pin=this.value.trim();
+
+if(pin.length===0){
+resultsDiv.innerHTML="";
+return;
 }
+
+if(pin.length<6){
+return;
+}
+
+if(!/^\d{6}$/.test(pin)){
+resultsDiv.innerHTML="Please enter a valid 6-digit pincode.";
+return;
+}
+
+searchPincode(pin);
 });
 
 async function searchPincode(pin){
 
 resultsDiv.innerHTML="Loading...";
 
-const res=await fetch("api.php?q="+pin);
+const res=await fetch(`api.php?q=${encodeURIComponent(pin)}`);
 const data=await res.json();
+
+if(!res.ok){
+resultsDiv.innerHTML=data?.error || "Unable to fetch pincode details right now.";
+return;
+}
 
 renderResults(data);
 }
@@ -844,7 +863,7 @@ renderResults(data);
 
 function renderResults(data){
 
-if(!data || data.length===0){
+if(!Array.isArray(data) || data.length===0){
 resultsDiv.innerHTML="No results found";
 return;
 }
