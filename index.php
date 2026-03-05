@@ -264,31 +264,31 @@ if($pageType=="state"){
 <?= strtoupper($pageData['statename']); ?> Pincode List
 </h2>
 
-<?php if(strtolower($pageData['statename'])==='telangana'){ ?>
+<?php if(strtolower(trim($pageData['statename']))==='telangana'){ ?>
 <section class="state-intro bg-white rounded-xl shadow p-6 mb-8 leading-7">
 
 <h2 class="text-2xl font-semibold text-indigo-700 mb-4">Telangana PIN Code Directory – Find All Post Offices Easily</h2>
 
 <p class="text-gray-700 mb-4">
-Telangana is one of India’s fastest growing states, known for its expanding urban infrastructure, thriving IT hubs, and strong rural connectivity. Whether you are sending a letter, courier, official document, or verifying an address for business purposes, having the correct PIN code is essential for accurate and timely delivery.
+Telangana is one of India’s rapidly developing states, known for its growing cities, strong rural networks, and expanding business ecosystem. Whether you are sending official documents, parcels, government applications, or verifying an address for banking or online services, using the correct PIN code is essential for accurate and timely delivery.
 </p>
 
 <p class="text-gray-700 mb-4">
-The Postal Index Number (PIN) system helps India Post efficiently route mail across cities, towns, and villages. Telangana falls under specific postal zones that ensure systematic sorting and faster distribution. Each district, mandal, and locality in Telangana is assigned a unique 6-digit PIN code that identifies the exact delivery post office.
+The Postal Index Number (PIN) system plays a crucial role in ensuring efficient mail routing across the state. Telangana falls under designated postal zones that help India Post sort and deliver mail systematically. Every district, town, and village in Telangana is assigned a unique 6-digit PIN code that identifies the specific delivery post office responsible for that area.
 </p>
 
 <p class="text-gray-700 mb-4">
-On this page, you can explore all districts of Telangana and access detailed information about individual post offices, including branch offices, sub offices, and head offices. This directory is designed to help residents, businesses, and government users quickly find accurate postal information without confusion.
+This page provides a comprehensive directory of all Telangana districts along with access to detailed post office information. Users can explore Head Post Offices, Sub Offices, and Branch Offices across the state. The directory is structured to help residents, businesses, logistics providers, and government users quickly locate reliable postal information without confusion.
 </p>
 
 <h3 class="text-xl font-semibold text-indigo-700 mb-3">About Telangana Postal Network</h3>
 
 <p class="text-gray-700 mb-4">
-The Telangana postal network connects metropolitan areas like Hyderabad with semi-urban and rural regions across the state. From major Head Post Offices to smaller Branch Offices in villages, the system ensures reliable delivery services including Speed Post, Registered Post, parcel services, and financial services.
+The postal network in Telangana connects major urban centers like Hyderabad with semi-urban towns and remote rural regions. From large Head Post Offices managing regional operations to small Branch Offices serving villages, the system supports services such as Speed Post, Registered Post, parcel delivery, and financial services.
 </p>
 
 <p class="text-gray-700">
-Use the district list below to browse Telangana PIN codes and locate the correct post office for your address verification, documentation, or shipping requirements.
+Use the district list below to browse Telangana PIN codes and identify the correct post office for your delivery, documentation, or address verification needs.
 </p>
 
 </section>
