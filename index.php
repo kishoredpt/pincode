@@ -230,7 +230,7 @@ elseif($route && in_array($pageType,["state","district","pincode"],true)){
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-white-100 text-gray-900">
+<body class="bg-white text-gray-900">
 <style>
   .nav-link { padding: 0.25rem 0.4rem; border-radius: 0.4rem; }
   .nav-link:hover { background: #eef2ff; }
@@ -437,6 +437,7 @@ elseif($pageType=="office"){
 
 <?php }
 else { ?>
+<div class="bg-white rounded-2xl p-6 md:p-10">
 <div class="text-center mb-10">
 
 <?php if($route): ?>
@@ -470,7 +471,7 @@ Search 1.6+ Lakh Post Offices Across India
 <!-- ===============================
 HOMEPAGE AUTHORITY CONTENT
 ================================== -->
-<section class="homepage-content bg-white shadow-xl rounded-2xl p-6 md:p-10 mb-10 leading-7">
+<section class="homepage-content leading-7">
 <p class="text-gray-700 mb-4">
 Welcome to <strong>PincodeLocator.co.in</strong>, your trusted resource for finding accurate Postal Index Numbers (PIN Codes), post office details, and district-level postal information across India. Whether you are verifying an address, preparing official documents, shipping products, or researching postal zones, our platform helps you access structured and easy-to-understand postal data in seconds.
 </p>
@@ -497,7 +498,7 @@ END HOMEPAGE AUTHORITY CONTENT
 ================================== -->
 
 <!-- SEARCH -->
-<div class="bg-white shadow-xl rounded-2xl p-5 md:p-8">
+<div class="rounded-2xl p-5 md:p-8 border border-gray-200">
 
 <h2 class="text-xl font-semibold mb-3 text-indigo-600">
 🔎 Search by Pincode
@@ -542,14 +543,14 @@ This structured coding system allows mail to be sorted efficiently and reduces d
 <!-- =========================
 ADSENSE GAP 2 (Content Ad)
 ========================= -->
-<div class="bg-white rounded-xl shadow p-6 text-center mt-10">
+<div class="rounded-xl border border-gray-200 p-6 text-center mt-10">
 <span class="text-gray-400 text-sm">
 </span>
 </div>
 <!-- CONTENT -->
 
 <!-- STATE AUTHORITY -->
-<div class="bg-white mt-12 p-5 md:p-8 rounded-xl shadow">
+<div class="mt-12 p-5 md:p-8 rounded-xl border border-gray-200">
 
 
 <h3 class="text-2xl font-semibold text-indigo-700 mb-3">Explore PIN Codes by State</h3>
@@ -728,12 +729,12 @@ onclick="scrollToState('JHARKHAND')">
 <!-- =========================
 ADSENSE GAP 3 (Bottom Ad)
 ========================= -->
-<div class="bg-white rounded-xl shadow p-6 text-center mt-12">
+<div class="rounded-xl border border-gray-200 p-6 text-center mt-12">
 <span class="text-gray-400 text-sm">
 </span>
 </div>
 
-<div class="bg-white mt-12 p-5 md:p-8 rounded-xl shadow">
+<div class="mt-12 p-5 md:p-8 rounded-xl border border-gray-200">
 <h2 class="text-2xl font-bold mb-4">Helpful Resources</h2>
 <ul class="list-disc pl-6 text-gray-700 leading-8">
 <li><a class="text-indigo-700 hover:underline" href="/about.php">About India Pincode Locator</a></li>
@@ -749,6 +750,8 @@ ADSENSE GAP 3 (Bottom Ad)
 <li><a class="text-indigo-700 hover:underline" href="/blog-post.php?slug=registered-post-vs-speed-post">Registered Post vs Speed Post</a></li>
 <ul class="list-disc pl-6 text-gray-700 space-y-2">
 </ul>
+</div>
+
 </div>
 
 </div>
