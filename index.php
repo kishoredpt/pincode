@@ -364,9 +364,32 @@ PINCODE PAGE
 elseif($pageType=="pincode"){
 ?>
 
+<?php
+$pinCode=trim((string)$pageData[0]['pincode']);
+$stateName=trim((string)$pageData[0]['statename']);
+?>
+
 <h2 class="text-3xl font-bold mb-8">
-Pincode <?= $pageData[0]['pincode']; ?>
+Pincode <?= htmlspecialchars($pinCode) ?>
 </h2>
+
+<section class="pincode-intro bg-white rounded-xl shadow p-6 mb-8 leading-7">
+<p class="text-gray-700 mb-4">
+<?= htmlspecialchars($pinCode) ?> is a postal area located in the state of <?= htmlspecialchars($stateName) ?>, India. PIN codes like <?= htmlspecialchars($pinCode) ?> play a critical role in the Indian postal network by uniquely identifying the delivery post office responsible for handling mail and parcels in this region.
+</p>
+
+<p class="text-gray-700 mb-4">
+This page provides complete information about the post offices associated with PIN code <?= htmlspecialchars($pinCode) ?>, helping residents, businesses, and logistics users find accurate postal details quickly. Whether you need to verify an address, prepare official documents, send parcels through Speed Post or Registered Post, or check serviceability for e-commerce deliveries, this directory gives you clear and structured results.
+</p>
+
+<p class="text-gray-700 mb-4">
+The Indian Postal Index Number (PIN) system ensures that mail is routed efficiently from national sorting hubs to local delivery offices, reducing errors and speeding up delivery even in rural and semi-urban areas.
+</p>
+
+<p class="text-gray-700">
+Use the information below to explore the post offices serving the <?= htmlspecialchars($pinCode) ?> region, including key details like district, office type, and locality coverage. Accurate postal data saves time, avoids delivery delays, and ensures your communication and shipments reach their intended destination.
+</p>
+</section>
 
 <div class="grid md:grid-cols-2 gap-5">
 
@@ -375,13 +398,15 @@ Pincode <?= $pageData[0]['pincode']; ?>
 <div class="bg-white p-6 rounded-xl shadow">
 
 <h3 class="font-semibold">
-<?= $row['officename']; ?>
+<?= htmlspecialchars($row['officename']) ?>
 </h3>
 
 <p>
-<?= strtoupper($row['district']); ?>,
-<?= strtoupper($row['statename']); ?>
+<?= htmlspecialchars(strtoupper($row['district'])) ?>,
+<?= htmlspecialchars(strtoupper($row['statename'])) ?>
 </p>
+<p><b>Office Type:</b> <?= htmlspecialchars($row['officetype'] ?? 'N/A') ?></p>
+<p><b>Locality:</b> <?= htmlspecialchars($row['taluk'] ?? ($row['divisionname'] ?? 'N/A')) ?></p>
 
 </div>
 
