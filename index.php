@@ -264,6 +264,36 @@ if($pageType=="state"){
 <?= strtoupper($pageData['statename']); ?> Pincode List
 </h2>
 
+<?php if(strtolower($pageData['statename'])==='telangana'){ ?>
+<section class="state-intro bg-white rounded-xl shadow p-6 mb-8 leading-7">
+
+<h2 class="text-2xl font-semibold text-indigo-700 mb-4">Telangana PIN Code Directory – Find All Post Offices Easily</h2>
+
+<p class="text-gray-700 mb-4">
+Telangana is one of India’s fastest growing states, known for its expanding urban infrastructure, thriving IT hubs, and strong rural connectivity. Whether you are sending a letter, courier, official document, or verifying an address for business purposes, having the correct PIN code is essential for accurate and timely delivery.
+</p>
+
+<p class="text-gray-700 mb-4">
+The Postal Index Number (PIN) system helps India Post efficiently route mail across cities, towns, and villages. Telangana falls under specific postal zones that ensure systematic sorting and faster distribution. Each district, mandal, and locality in Telangana is assigned a unique 6-digit PIN code that identifies the exact delivery post office.
+</p>
+
+<p class="text-gray-700 mb-4">
+On this page, you can explore all districts of Telangana and access detailed information about individual post offices, including branch offices, sub offices, and head offices. This directory is designed to help residents, businesses, and government users quickly find accurate postal information without confusion.
+</p>
+
+<h3 class="text-xl font-semibold text-indigo-700 mb-3">About Telangana Postal Network</h3>
+
+<p class="text-gray-700 mb-4">
+The Telangana postal network connects metropolitan areas like Hyderabad with semi-urban and rural regions across the state. From major Head Post Offices to smaller Branch Offices in villages, the system ensures reliable delivery services including Speed Post, Registered Post, parcel services, and financial services.
+</p>
+
+<p class="text-gray-700">
+Use the district list below to browse Telangana PIN codes and locate the correct post office for your address verification, documentation, or shipping requirements.
+</p>
+
+</section>
+<?php } ?>
+
 <?php
 $stmt=$conn->prepare("
 SELECT district,COUNT(*) total
