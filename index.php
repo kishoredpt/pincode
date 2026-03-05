@@ -533,7 +533,8 @@ class="w-full border-2 border-indigo-400 p-3 md:p-4 rounded-lg outline-none text
 </div>
 </div>
 
-
+<!-- RESULTS -->
+<div id="results" class="mb-10"></div>
 
 <!-- STATE AUTHORITY -->
 
@@ -732,8 +733,6 @@ onclick="scrollToState('JHARKHAND')">
 <ul class="list-disc pl-6 text-gray-700 space-y-2">
 </ul>
 
-<!-- RESULTS -->
-<div id="results" class="mt-10"></div>
 </section>
 <!-- ===============================
 END HOMEPAGE AUTHORITY CONTENT
