@@ -16,7 +16,8 @@ $conn = @new mysqli($host, $user, $pass, $db, $port);
 
 if ($conn->connect_error) {
     http_response_code(503);
-    echo "<h1>Service temporarily unavailable</h1><p>Please try again shortly.</p>";
+    echo '<h1>Service temporarily unavailable</h1>';
+    echo '<p>Please verify DB credentials and database availability.</p>';
     exit;
 }
 ?>

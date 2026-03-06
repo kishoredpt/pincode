@@ -1,0 +1,3 @@
+config/db.credentials.php
+.env
+.env.*
