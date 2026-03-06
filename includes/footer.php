@@ -8,6 +8,7 @@
 <a href="/">Home</a> |
 <a href="/blog.php">Articles</a> |
 <a href="/about.php">About</a> |
+<a href="/author.php">Author</a> |
 <a href="/contact.php">Contact</a> |
 <a href="/privacy-policy.php">Privacy</a> |
 <a href="/disclaimer.php">Disclaimer</a> |
