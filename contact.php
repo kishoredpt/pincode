@@ -1,6 +1,7 @@
 <?php
 $pageTitle = "Contact Us | India Pincode Locator";
 $metaDescription = "Contact India Pincode Locator for data corrections, feedback, partnerships, and support inquiries.";
+$lastReviewed = 'January 20, 2026';
 include 'includes/header.php';
 ?>
 

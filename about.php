@@ -1,6 +1,7 @@
 <?php
 $pageTitle = "About Us | India Pincode Locator";
 $metaDescription = "Learn about India Pincode Locator, our mission, data source approach, and commitment to accurate PIN code and post office information.";
+$lastReviewed = 'January 20, 2026';
 include 'includes/header.php';
 ?>
 
