@@ -1,6 +1,7 @@
 <?php
 $pageTitle = "Terms & Conditions | India Pincode Locator";
 $metaDescription = "Read the Terms and Conditions governing the use of India Pincode Locator, including usage policies, disclaimers, and content guidelines.";
+$lastReviewed = 'January 20, 2026';
 include 'includes/header.php';
 ?>
 

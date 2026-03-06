@@ -1,6 +1,7 @@
 <?php
 $pageTitle = "Disclaimer | India Pincode Locator";
 $metaDescription = "Read the official disclaimer for India Pincode Locator regarding data accuracy, non-affiliation with India Post, and third-party services.";
+$lastReviewed = 'January 20, 2026';
 include 'includes/header.php';
 ?>
 

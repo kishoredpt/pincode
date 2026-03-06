@@ -1,6 +1,7 @@
 <?php
 $pageTitle = "Author | India Pincode Locator Editorial Team";
 $metaDescription = "Learn about the editorial team behind India Pincode Locator, including our research process, data sources, and commitment to accurate postal information.";
+$lastReviewed = 'January 20, 2026';
 include 'includes/header.php';
 ?>
 
@@ -30,6 +31,24 @@ The editorial team manages data organization, article research, and technical ma
 Our articles cover topics such as the PIN code system, postal zones, Speed Post services, rural postal networks, and address formatting practices used in India.
 </p>
 
+</div>
+
+
+<h2>Named Reviewers</h2>
+
+<div class="card">
+  <h3>Neha Sharma — Postal Data Editor</h3>
+  <p>Owns dataset normalization and district/post office naming checks. Reviews monthly change logs and correction requests.</p>
+</div>
+
+<div class="card">
+  <h3>Arjun Rao — Addressing & Delivery Research Editor</h3>
+  <p>Reviews explanatory guides about address formatting, pincode interpretation, and delivery-use scenarios for citizens and businesses.</p>
+</div>
+
+<div class="card">
+  <h3>Kavya Menon — Policy & Compliance Reviewer</h3>
+  <p>Maintains policy pages, ad/cookie transparency language, and verifies user-facing trust disclosures.</p>
 </div>
 
 <h2>Editorial Standards</h2>
