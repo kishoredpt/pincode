@@ -34,5 +34,7 @@ Data Source: India Post Public Dataset
 
 </footer>
 
+<script src="/assets/cookie-consent.js"></script>
+
 </body>
 </html>
