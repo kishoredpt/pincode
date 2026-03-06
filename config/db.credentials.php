@@ -5,8 +5,8 @@
  */
 return [
     'host' => '127.0.0.1',
-    'user' => 'your_db_user',
-    'pass' => 'your_db_password',
-    'name' => 'your_db_name',
+    'user' => 'u854527538_kishore',
+    'pass' => '0044Ki05@123',
+    'name' => 'u854527538_pincode',
     'port' => 3306,
 ];
