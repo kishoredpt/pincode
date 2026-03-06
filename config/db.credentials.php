@@ -4,7 +4,7 @@
  * Do not commit db.credentials.php.
  */
 return [
-    'host' => '127.0.0.1',
+    'host' => 'localhost',
     'user' => 'u854527538_kishore',
     'pass' => '0044Ki05@123',
     'name' => 'u854527538_pincode',
