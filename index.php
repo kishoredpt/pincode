@@ -242,14 +242,17 @@ elseif($route && in_array($pageType,["state","district","pincode"],true)){
 <div class="flex flex-col gap-4 md:flex-row md:justify-between md:items-center mb-6">
 <h1 class="text-2xl md:text-xl font-bold text-center md:text-left">📮 PincodeLocator.co.in</h1>
 
-<nav class="w-full md:w-auto grid grid-cols-3 gap-2 md:flex md:gap-5 text-sm font-medium text-center">
+<nav class="w-full md:w-auto grid grid-cols-3 gap-2 md:flex md:flex-wrap md:gap-4 text-sm font-medium text-center">
 <a class="nav-link" href="/">Home</a>
+<a class="nav-link" href="/blog.php">Articles</a>
 <a class="nav-link" href="/about.php">About</a>
-<a class="nav-link" href="/author.php">Author</a>    
+<a class="nav-link" href="/author.php">Author</a>
 <a class="nav-link" href="/contact.php">Contact</a>
 <a class="nav-link" href="/privacy-policy.php">Privacy</a>
 <a class="nav-link" href="/terms.php">Terms</a>
 <a class="nav-link" href="/disclaimer.php">Disclaimer</a>
+<a class="nav-link" href="/editorial-policy.php">Editorial</a>
+<a class="nav-link" href="/data-source.php">Data Source</a>
 </nav>
 </div>
 
@@ -1018,7 +1021,25 @@ setTimeout(()=>btn.click(),300);
 }
 
 </script>
+
+<div class="mt-12 border-t pt-6 text-sm text-slate-600">
+  <div class="flex flex-wrap gap-3">
+    <a href="/blog.php">Articles</a>
+    <a href="/about.php">About</a>
+    <a href="/author.php">Author</a>
+    <a href="/contact.php">Contact</a>
+    <a href="/privacy-policy.php">Privacy</a>
+    <a href="/terms.php">Terms</a>
+    <a href="/disclaimer.php">Disclaimer</a>
+    <a href="/editorial-policy.php">Editorial Policy</a>
+    <a href="/content-guidelines.php">Content Guidelines</a>
+    <a href="/data-source.php">Data Source</a>
+  </div>
+  <p class="mt-3">Last reviewed: January 20, 2026</p>
+</div>
+
 <?php endif; ?>
 
+<script src="/assets/cookie-consent.js"></script>
 </body>
 </html>

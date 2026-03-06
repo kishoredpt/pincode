@@ -1,6 +1,7 @@
 <?php
 $pageTitle = "Privacy Policy | India Pincode Locator";
 $metaDescription = "Read the Privacy Policy of India Pincode Locator, including information about cookies, analytics, Google AdSense, and user data protection.";
+$lastReviewed = 'January 20, 2026';
 include 'includes/header.php';
 ?>
 
