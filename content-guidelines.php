@@ -1,6 +1,7 @@
 <?php
 $pageTitle = "Content Guidelines | India Pincode Locator";
 $metaDescription = "Quality and publishing guidelines for postal pages and educational content on India Pincode Locator.";
+$lastReviewed = 'January 20, 2026';
 include 'includes/header.php';
 ?>
 
