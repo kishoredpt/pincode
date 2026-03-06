@@ -1,6 +1,7 @@
 <?php
 $pageTitle = "Editorial Policy | India Pincode Locator";
 $metaDescription = "Editorial standards followed by India Pincode Locator for postal information and educational content.";
+$lastReviewed = 'January 20, 2026';
 include 'includes/header.php';
 ?>
 

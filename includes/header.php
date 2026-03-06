@@ -70,4 +70,10 @@ and district-wise postal coverage across all Indian states.
 
 </div>
 
+<?php if (isset($lastReviewed) && trim((string) $lastReviewed) !== ''): ?>
+<div class="container" style="padding-top:12px;">
+<p style="font-size:14px;color:#475569;">Last reviewed: <?= htmlspecialchars($lastReviewed, ENT_QUOTES, 'UTF-8'); ?></p>
+</div>
+<?php endif; ?>
+
 </div>
