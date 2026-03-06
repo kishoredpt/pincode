@@ -245,6 +245,7 @@ elseif($route && in_array($pageType,["state","district","pincode"],true)){
 <nav class="w-full md:w-auto grid grid-cols-3 gap-2 md:flex md:gap-5 text-sm font-medium text-center">
 <a class="nav-link" href="/">Home</a>
 <a class="nav-link" href="/about.php">About</a>
+<a class="nav-link" href="/author.php">Author</a>    
 <a class="nav-link" href="/contact.php">Contact</a>
 <a class="nav-link" href="/privacy-policy.php">Privacy</a>
 <a class="nav-link" href="/terms.php">Terms</a>
