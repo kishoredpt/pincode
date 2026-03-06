@@ -103,4 +103,5 @@ include "includes/header.php";
 <p class="author-line">
 Written by <a href="/author.php">India Pincode Locator Editorial Team</a>
 </p>
+
 <?php include "includes/footer.php"; ?>
