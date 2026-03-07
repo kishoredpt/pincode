@@ -7,6 +7,7 @@ require_once __DIR__ . '/../config/database.php';
 $files = [
     __DIR__ . '/../database/001_normalize_schema.sql',
     __DIR__ . '/../database/002_add_indexes.sql',
+    __DIR__ . '/../database/003_seo_engine.sql',
 ];
 
 try {

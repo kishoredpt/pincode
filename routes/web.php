@@ -15,3 +15,5 @@ $router->add('GET', '/sitemap/{type}.xml', fn ($params) => (new SitemapControlle
 foreach (['about', 'contact', 'privacy-policy', 'disclaimer', 'terms'] as $trustPage) {
     $router->add('GET', '/' . $trustPage, fn () => (new PageController())->trust($trustPage));
 }
+
+$router->add('GET', '/admin/seo-engine', fn () => (new AdminSeoEngineController())->index());
