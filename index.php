@@ -546,338 +546,224 @@ elseif($pageType=="menu_page"){
     echo renderMenuPageContent($pageData);
 }
 else { ?>
-<div class="bg-white rounded-2xl p-6 md:p-10">
-<div class="text-center mb-10">
-
-<!-- ===============================
-HOMEPAGE AUTHORITY CONTENT
-================================== -->
-<section class="homepage-content leading-7">
-<?php if($route): ?>
-<!-- BREADCRUMB -->
-<div class="text-sm text-gray-600 mb-6">
-
-<?php foreach($breadcrumb as $index=>$bc): ?>
-
-<a href="<?= $bc['url'] ?>" class="hover:text-indigo-600">
-<?= $bc['name'] ?>
-</a>
-
-<?php if($index < count($breadcrumb)-1): ?>
-<span class="mx-2">›</span>
-<?php endif; ?>
-
-<?php endforeach; ?>
-
-</div>
-<?php endif; ?>
-
-<h3 class="text-4xl md:text-3xl font-bold text-indigo-700 leading-tight">
-India Pincode Locator
-</h3>
-
-<p class="mt-3 text-xl md:text-1xl font-medium text-gray-700">
-Search 1.6+ Lakh Post Offices Across India
-</p>
-</div>
-
-<div class="rounded-2xl p-5 md:p-8 border border-gray-200">
-<p class="text-gray-700 mb-4">
-Welcome to <strong>PincodeLocator.co.in</strong>, your trusted resource for finding accurate Postal Index Numbers (PIN Codes), post office details, and district-level postal information across India. Whether you are verifying an address, preparing official documents, shipping products, or researching postal zones, our platform helps you access structured and easy-to-understand postal data in seconds.
-</p>
-
-<p class="text-gray-700 mb-6">
-India handles millions of mail transactions every day. Having the correct PIN code ensures that letters, parcels, and important documents reach the right destination without delay. Our directory is designed to simplify postal searches by allowing users to browse state-wise listings, district-level breakdowns, and post office information in a clear and organized format.
-</p>
-
-<h3 class="text-2xl font-semibold text-indigo-700 mb-3">How the Indian PIN Code System Works</h3>
-
-<p class="text-gray-700 mb-3">
-The Postal Index Number (PIN) system in India uses a six-digit code to identify specific delivery regions. Each digit has meaning:
-</p>
-
-<ul class="list-disc pl-6 text-gray-700 space-y-2 mb-6">
-<li><strong>First digit</strong> – Identifies the postal zone</li>
-<li><strong>Second digit</strong> – Identifies the sub-zone</li>
-<li><strong>Third digit</strong> – Identifies the sorting district</li>
-<li><strong>Last three digits</strong> – Identify the specific delivery post office</li>
-</ul>
-
-<!-- SEARCH -->
-
-
-<div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4 md:p-5 mb-8">
-<h2 class="text-xl font-semibold mb-3 text-indigo-700">
-🔎 Search by Pincode
-</h2>
-
-<input
-type="text"
-id="pincodeInput"
-maxlength="6"
-placeholder="Enter 6-digit Pincode"
-class="w-full border-2 border-indigo-400 p-3 md:p-4 rounded-lg outline-none text-base"
-/>
-</div>
-
-<div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4 md:p-5 mb-8">
-<h2 class="text-xl font-semibold mb-3 text-indigo-700">
-📍 Search by Location
-</h2>
-
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-<select id="stateSelect" class="p-3 border rounded-lg w-full">
-<option value="">Select State</option>
-</select>
-
-<select id="districtSelect" class="p-3 border rounded-lg w-full">
-<option value="">Select District</option>
-</select>
-
-<select id="officeSelect" class="p-3 border rounded-lg w-full">
-<option value="">Select Post Office</option>
-</select>
-
-</div>
-</div>
-
-<!-- RESULTS -->
-<div id="results" class="mb-10"></div>
-
-<!-- STATE AUTHORITY -->
-
-<?php
-echo '<div style="margin-bottom: 30px;"></div>';
-echo '<div style="margin-top: 30px;"></div>';
-?>
-<h3 class="text-2xl font-semibold text-indigo-700 mb-3">Explore PIN Codes by State</h3>
-
-<p class="text-gray-700 mb-5">Looking for the correct PIN code for your address? India’s 6-digit Postal Index Number (PIN) system helps identify the exact delivery post office, district, and state for accurate mail routing. Using the right PIN code ensures faster delivery of letters, parcels, banking documents, and online orders. Browse state-wise to quickly access district and post office listings across India. Select your state below to find verified, structured, and easy-to-navigate PIN code information for both urban and rural areas:</p>
-
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-2 gap-x-6 text-[15px] mb-8">
-<a class="text-indigo-700 hover:underline" href="/andhra-pradesh-pincode">Andhra Pradesh</a>
-<a class="text-indigo-700 hover:underline" href="/assam-pincode">Assam</a>
-<a class="text-indigo-700 hover:underline" href="/bihar-pincode">Bihar</a>
-<a class="text-indigo-700 hover:underline" href="/chhattisgarh-pincode">Chhattisgarh</a>
-<a class="text-indigo-700 hover:underline" href="/goa-pincode">Goa</a>
-<a class="text-indigo-700 hover:underline" href="/gujarat-pincode">Gujarat</a>
-<a class="text-indigo-700 hover:underline" href="/haryana-pincode">Haryana</a>
-<a class="text-indigo-700 hover:underline" href="/himachal-pradesh-pincode">Himachal Pradesh</a>
-<a class="text-indigo-700 hover:underline" href="/jharkhand-pincode">Jharkhand</a>
-<a class="text-indigo-700 hover:underline" href="/karnataka-pincode">Karnataka</a>
-<a class="text-indigo-700 hover:underline" href="/kerala-pincode">Kerala</a>
-<a class="text-indigo-700 hover:underline" href="/madhya-pradesh-pincode">Madhya Pradesh</a>
-<a class="text-indigo-700 hover:underline" href="/maharashtra-pincode">Maharashtra</a>
-<a class="text-indigo-700 hover:underline" href="/odisha-pincode">Odisha</a>
-<a class="text-indigo-700 hover:underline" href="/punjab-pincode">Punjab</a>
-<a class="text-indigo-700 hover:underline" href="/rajasthan-pincode">Rajasthan</a>
-<a class="text-indigo-700 hover:underline" href="/tamil-nadu-pincode">Tamil Nadu</a>
-<a class="text-indigo-700 hover:underline" href="/telangana-pincode">Telangana</a>
-<a class="text-indigo-700 hover:underline" href="/uttar-pradesh-pincode">Uttar Pradesh</a>
-<a class="text-indigo-700 hover:underline" href="/west-bengal-pincode">West Bengal</a>
-</div>
-
-
-
-<h2 class="text-2xl font-bold mb-6 text-indigo-600">
-📍 Browse Pincode by State
-</h2>
-
-<div class="grid md:grid-cols-2 gap-10">
-
-<div>
-<p class="text-gray-600 mb-5">
-Navigate India’s postal directory in a structured and easy-to-use format. Start by selecting a state, then expand to view its districts, and finally explore the complete list of post offices within each district. This organized browsing method helps you quickly locate accurate PIN code information without searching manually. Whether you are verifying an address, checking delivery availability, or researching postal coverage, this state → district → post office structure ensures fast and reliable access to official postal details.
-</p>
-
-<div id="stateAuthorityList" class="space-y-3"></div>
-</div>
-
-<div>
-<h3 class="text-xl font-semibold text-indigo-600 mb-4">
-India PIN Code Zones
-</h3>
-
-<p class="text-gray-700 mb-5">
-India’s Postal Index Number (PIN) system is structured to make mail sorting and delivery faster and more efficient across the country. The first digit of a PIN code represents one of India’s major postal zones, while the second digit identifies a specific sub-region within that zone. Together, these first two digits help route mail to the correct regional sorting hub before it is dispatched to district and local delivery post offices. India is divided into multiple postal zones covering different states and union territories. Each zone is managed by designated India Post sorting centers that handle large volumes of mail daily. This structured zoning system minimizes delays, reduces misrouting, and ensures that letters, parcels, and official documents move systematically from national hubs to local post offices. By understanding PIN code zones, users can quickly identify which region a particular PIN belongs to and explore the states covered under that postal circle. Click on a zone below to discover the related states and browse their district-wise PIN code listings.
-</p>
-
-<div class="space-y-2 text-sm">
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('DELHI')">
-<b>11</b> — Delhi Postal Circle
-</div>
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('HARYANA')">
-<b>12 – 13</b> — Haryana
-</div>
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('PUNJAB')">
-<b>14 – 16</b> — Punjab
-</div>
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('HIMACHAL')">
-<b>17</b> — Himachal Pradesh
-</div>
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('JAMMU')">
-<b>18 – 19</b> — Jammu & Kashmir / Ladakh
-</div>
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('UTTAR PRADESH')">
-<b>20 – 28</b> — Uttar Pradesh & Uttarakhand
-</div>
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('RAJASTHAN')">
-<b>30 – 34</b> — Rajasthan
-</div>
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('GUJARAT')">
-<b>36 – 39</b> — Gujarat
-</div>
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('MAHARASHTRA')">
-<b>40 – 44</b> — Maharashtra & Goa
-</div>
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('MADHYA PRADESH')">
-<b>45 – 48</b> — Madhya Pradesh
-</div>
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('CHHATTISGARH')">
-<b>49</b> — Chhattisgarh
-</div>
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('ANDHRA')">
-<b>50 – 53</b> — Andhra Pradesh & Telangana
-</div>
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('KARNATAKA')">
-<b>56 – 59</b> — Karnataka
-</div>
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('TAMIL')">
-<b>60 – 64</b> — Tamil Nadu & Puducherry
-</div>
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('KERALA')">
-<b>67 – 69</b> — Kerala & Lakshadweep (682)
-</div>
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('WEST BENGAL')">
-<b>70 – 74</b> — West Bengal
-</div>
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('ANDAMAN')">
-<b>744</b> — Andaman & Nicobar Islands
-</div>
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('ODISHA')">
-<b>75 – 77</b> — Odisha
-</div>
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('ASSAM')">
-<b>78</b> — Assam
-</div>
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('ARUNACHAL')">
-<b>79</b> — North-East States
-(Arunachal Pradesh, Manipur, Meghalaya, Mizoram, Nagaland, Tripura)
-</div>
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('BIHAR')">
-<b>80 – 85</b> — Bihar
-</div>
-
-<div class="border p-3 rounded hover:bg-indigo-50 cursor-pointer"
-onclick="scrollToState('JHARKHAND')">
-<b>80 – 83, 92</b> — Jharkhand
-
-</div>
-</div>
-
-</div>
-</div>
-
-<p class="text-gray-700 mb-6">
-</p>
-
-<section class="mb-8">
-<h2 class="text-2xl font-semibold text-indigo-700 mb-3">What Is PIN (Postal Index Number)?</h2>
-<p class="text-gray-700 mb-4">A Postal Index Number (PIN) is a six-digit code used by India Post to identify the destination post office and streamline mail delivery. The system was introduced on 15 August 1972 to reduce address confusion, speed up sorting, and improve delivery accuracy across India&rsquo;s cities, towns, and villages.</p>
-<p class="text-gray-700 mb-4">India has a vast postal network, and PIN codes help route letters, parcels, and official communication through the correct regional and local sorting points. Even when two places share similar names, the PIN code uniquely identifies the intended delivery region.</p>
-
-<h3 class="text-xl font-semibold text-indigo-700 mb-2">Structure of a 6-Digit PIN Code</h3>
-<p class="text-gray-700 mb-3">Each of the six digits in a PIN code has a specific meaning:</p>
-<ul class="list-disc pl-6 text-gray-700 leading-7 mb-4">
-<li><b>1st digit:</b> Postal zone (broad region of India).</li>
-<li><b>2nd digit:</b> Sub-zone or postal circle.</li>
-<li><b>3rd digit:</b> Sorting district within that zone.</li>
-<li><b>Last 3 digits:</b> Individual post office for final delivery.</li>
-</ul>
-
-<div class="grid md:grid-cols-2 gap-4 mb-4">
-<img src="/assets/images/pincode-system.svg" alt="Diagram explaining the six-digit India PIN code structure" class="w-full rounded border border-gray-200 p-2 bg-white">
-<img src="/assets/images/postal-zones.svg" alt="India postal zones map for the first two PIN digits" class="w-full rounded border border-gray-200 p-2 bg-white">
-</div>
-
-<h3 class="text-xl font-semibold text-indigo-700 mb-2">How to Read a PIN Code (Example)</h3>
-<p class="text-gray-700 mb-4">For example, in PIN code <b>110001</b>: <b>1</b> indicates the northern zone, <b>11</b> represents the Delhi postal region, and <b>0001</b> identifies a specific post office for delivery routing. This decoding helps users understand where a location belongs in India&rsquo;s postal hierarchy.</p>
-
-<h3 class="text-xl font-semibold text-indigo-700 mb-2">Why PIN Code Mapping Matters</h3>
-<p class="text-gray-700 mb-0">Understanding PIN code maps and zone distribution helps citizens, businesses, and logistics teams reduce delivery errors, estimate serviceability, and plan shipments more accurately. This page provides reliable, structured PIN code data to support faster searches and informed decisions.</p>
+<section class="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 border border-blue-100 rounded-2xl overflow-hidden shadow-sm">
+  <div class="bg-gradient-to-r from-sky-700 via-blue-600 to-indigo-700 text-white px-4 py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-2 text-sm font-semibold">
+    <div class="tracking-wide">PIN Navigator • India Search Desk</div>
+    <a href="/contact.php" class="underline decoration-dotted underline-offset-4">Business / Data Partnership Enquiry</a>
+  </div>
+
+  <div class="grid lg:grid-cols-[320px_1fr_290px] gap-6 p-4 md:p-6">
+    <aside>
+      <h2 class="text-4xl leading-tight font-extrabold mb-4 text-slate-800">Pincode Finder</h2>
+      <div class="bg-gradient-to-r from-rose-600 to-orange-500 text-white font-semibold text-center py-3 rounded-lg shadow">SMART PINCODE SEARCH</div>
+
+      <div class="space-y-3 mt-4">
+        <input type="text" id="pincodeInput" maxlength="6" placeholder="Enter 6-digit Pincode" class="w-full border border-gray-300 bg-white p-3 rounded" />
+        <select id="stateSelect" class="w-full border border-gray-300 bg-white p-3 rounded"><option value="">-- Select State --</option></select>
+        <select id="districtSelect" class="w-full border border-gray-300 bg-white p-3 rounded"><option value="">Select District</option></select>
+        <select id="officeSelect" class="w-full border border-gray-300 bg-white p-3 rounded"><option value="">Select Post Office</option></select>
+      </div>
+
+      <div id="results" class="mt-5"></div>
+
+      <div class="mt-6 bg-white border border-emerald-200 rounded-xl p-3">
+        <div class="flex items-center justify-between gap-2 mb-2">
+          <h3 class="text-base font-semibold text-emerald-800">Near by pincodes (Auto Detection)</h3>
+          <button id="detectNearbyBtn" type="button" class="text-xs bg-emerald-600 text-white px-3 py-1.5 rounded hover:bg-emerald-700">Detect</button>
+        </div>
+        <p id="nearbyStatus" class="text-xs text-gray-600">Allow location access to find nearby post offices and pincodes.</p>
+        <div id="nearbyPincodes" class="mt-2 space-y-1 text-sm"></div>
+      </div>
+
+      <div class="mt-6 border-t border-dashed border-slate-400 pt-4">
+        <h3 class="text-xl font-semibold mb-2">Explore PIN Codes by State</h3>
+        <div id="stateAuthorityList" class="space-y-3 max-h-[460px] overflow-auto pr-1"></div>
+      </div>
+    </aside>
+
+    <main>
+      <?php if($route): ?>
+      <div class="text-sm text-gray-700 mb-3">
+      <?php foreach($breadcrumb as $index=>$bc): ?>
+      <a href="<?= $bc['url'] ?>" class="hover:underline"><?= $bc['name'] ?></a><?= $index < count($breadcrumb)-1 ? ' <span class="mx-1">›</span> ' : '' ?>
+      <?php endforeach; ?>
+      </div>
+      <?php endif; ?>
+
+      <div class="inline-flex items-center gap-2 mb-3 bg-white border border-blue-200 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">
+        <span>●</span><span>Trusted Postal Lookup</span>
+      </div>
+      <h3 class="text-3xl font-bold mb-3 text-slate-800">Postal Index Number Directory</h3>
+      <h4 class="text-2xl font-semibold mb-3 text-indigo-900">How Pincode Search Works in India</h4>
+      <div class="space-y-4 text-[28px] leading-relaxed md:text-[31px]" style="font-size:clamp(18px,1.45vw,31px)">
+        <p>India has millions of delivery points, so remembering every locality PIN is not practical. This interface combines lookup tools and guidance in one workspace for faster discovery.</p>
+        <p>You can search by 6-digit PIN directly or browse by state, district, and post office. The backend APIs and result rendering logic are retained exactly as before.</p>
+        <p>The right-side knowledge rail connects users to existing internal pages, helping visitors continue to verified policy, informational, and regional postal resources.</p>
+      </div>
+
+      <div class="mt-8 grid md:grid-cols-2 gap-3 text-sm">
+        <a href="/about.php" class="bg-white border border-gray-300 rounded px-3 py-2 hover:bg-gray-50">About</a>
+        <a href="/blog.php" class="bg-white border border-gray-300 rounded px-3 py-2 hover:bg-gray-50">Postal Guides & Articles</a>
+        <a href="/editorial-policy.php" class="bg-white border border-gray-300 rounded px-3 py-2 hover:bg-gray-50">Editorial Policy</a>
+        <a href="/privacy-policy.php" class="bg-white border border-gray-300 rounded px-3 py-2 hover:bg-gray-50">Privacy Policy</a>
+      </div>
+
+      <div class="mt-5 bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm text-amber-900">
+        <strong>Advertising Disclosure:</strong> This website may display third-party ads. Sponsored content is labeled, and ad placement does not influence postal search results.
+      </div>
+    </main>
+
+    <aside class="space-y-4">
+      <div>
+        <h3 class="text-3xl font-bold mb-2 inline-block bg-indigo-100 text-indigo-900 px-3 py-1 rounded-lg">Knowledge Hub</h3>
+        <ul class="space-y-1 text-[#3f56d9] text-base">
+          <?php foreach ($menuPageGroups as $categoryName => $groupItems): ?>
+            <?php foreach ($groupItems as $groupItem): ?>
+            <li><a class="hover:underline" href="/menu-<?= htmlspecialchars($groupItem['slug']) ?>">▸ <?= htmlspecialchars($groupItem['subsection']) ?></a></li>
+            <?php endforeach; ?>
+          <?php endforeach; ?>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-2xl font-bold mb-2 inline-block bg-indigo-100 text-indigo-900 px-3 py-1 rounded-lg">Top Tourist States</h4>
+        <ul class="space-y-1 text-indigo-700 text-base">
+          <li><a class="hover:underline" href="/rajasthan-pincode">▸ Rajasthan</a></li>
+          <li><a class="hover:underline" href="/kerala-pincode">▸ Kerala</a></li>
+          <li><a class="hover:underline" href="/goa-pincode">▸ Goa</a></li>
+          <li><a class="hover:underline" href="/himachal-pradesh-pincode">▸ Himachal Pradesh</a></li>
+          <li><a class="hover:underline" href="/uttarakhand-pincode">▸ Uttarakhand</a></li>
+          <li><a class="hover:underline" href="/tamil-nadu-pincode">▸ Tamil Nadu</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-3xl font-bold mb-2 inline-block bg-slate-100 text-slate-800 px-3 py-1 rounded-lg">Essential Pages</h4>
+        <ul class="space-y-1 text-[#3f56d9] text-base">
+          <li><a class="hover:underline" href="/contact.php">▸ Contact</a></li>
+          <li><a class="hover:underline" href="/terms.php">▸ Terms</a></li>
+          <li><a class="hover:underline" href="/disclaimer.php">▸ Disclaimer</a></li>
+          <li><a class="hover:underline" href="/content-guidelines.php">▸ Content Guidelines</a></li>
+          <li><a class="hover:underline" href="/sitemap_index.php">▸ Sitemap</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <div class="border-t border-blue-100 bg-white/80 p-4 md:p-6">
+    <div class="grid lg:grid-cols-2 gap-6 items-start">
+      <article class="bg-white border border-slate-200 rounded-xl p-4 md:p-5 shadow-sm">
+        <h3 class="text-2xl font-bold text-slate-800 mb-3">India Postal Map & Zone Visual Guide</h3>
+        <p class="text-gray-700 mb-4">Explore how India Post routing works with visual references. These graphics help users understand zone digits, sorting districts, and last-mile office mapping before they search by pincode.</p>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <figure class="border border-slate-200 rounded-lg p-2 bg-slate-50">
+            <img src="/assets/images/postal-zones.svg" alt="India postal zones visual map" class="w-full h-auto">
+            <figcaption class="text-xs text-gray-600 mt-2">India postal zones overview</figcaption>
+          </figure>
+          <figure class="border border-slate-200 rounded-lg p-2 bg-slate-50">
+            <img src="/assets/images/pincode-system.svg" alt="Six digit pincode system explanation" class="w-full h-auto">
+            <figcaption class="text-xs text-gray-600 mt-2">6-digit PIN code breakdown</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <article class="bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 rounded-xl p-4 md:p-5">
+        <h3 class="text-2xl font-bold text-indigo-900 mb-3">High-Intent Pages People Search Daily</h3>
+        <p class="text-gray-700 mb-4">To serve millions of monthly users, this section focuses on practical postal needs: delivery checks, city-level pincode discovery, and India Post knowledge pages.</p>
+        <div class="grid sm:grid-cols-2 gap-2 text-sm">
+          <a href="/delhi-pincode" class="bg-white border rounded px-3 py-2 hover:bg-indigo-50">Delhi Pincode List</a>
+          <a href="/maharashtra-pincode" class="bg-white border rounded px-3 py-2 hover:bg-indigo-50">Maharashtra Pincode Lookup</a>
+          <a href="/karnataka-pincode" class="bg-white border rounded px-3 py-2 hover:bg-indigo-50">Karnataka Postal Areas</a>
+          <a href="/telangana-pincode" class="bg-white border rounded px-3 py-2 hover:bg-indigo-50">Telangana Office Finder</a>
+          <a href="/blog-post.php?slug=india-postal-zones-explained" class="bg-white border rounded px-3 py-2 hover:bg-indigo-50">Understand Postal Zones</a>
+          <a href="/blog-post.php?slug=how-speed-post-delivery-works" class="bg-white border rounded px-3 py-2 hover:bg-indigo-50">Speed Post Delivery Guide</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="mt-6 grid md:grid-cols-2 gap-4">
+      <section class="bg-white border border-dashed border-slate-300 rounded-xl p-4 text-center">
+        <p class="text-xs uppercase tracking-widest text-slate-500 mb-2">Ad Space</p>
+        <div class="min-h-[120px] grid place-items-center bg-slate-50 rounded border border-slate-200 text-slate-500">
+          Google AdSense Unit (Responsive)
+        </div>
+      </section>
+      <section class="bg-white border border-dashed border-slate-300 rounded-xl p-4 text-center">
+        <p class="text-xs uppercase tracking-widest text-slate-500 mb-2">Ad Space</p>
+        <div class="min-h-[120px] grid place-items-center bg-slate-50 rounded border border-slate-200 text-slate-500">
+          Google AdSense Unit (In-content)
+        </div>
+      </section>
+    </div>
+
+    <div class="mt-6 grid lg:grid-cols-3 gap-4 text-sm">
+      <section class="bg-white border border-slate-200 rounded-xl p-4">
+        <h4 class="font-bold text-slate-800 mb-2">Why users trust this platform</h4>
+        <ul class="list-disc pl-5 text-gray-700 space-y-1">
+          <li>State → district → office browsing with instant results.</li>
+          <li>One-click pincode validation for shipping and forms.</li>
+          <li>Guides and policies linked transparently for reliability.</li>
+        </ul>
+      </section>
+      <section class="bg-white border border-slate-200 rounded-xl p-4">
+        <h4 class="font-bold text-slate-800 mb-2">Popular use-cases</h4>
+        <ul class="list-disc pl-5 text-gray-700 space-y-1">
+          <li>E-commerce delivery address verification.</li>
+          <li>Banking, KYC, and government form completion.</li>
+          <li>Courier network planning and serviceability checks.</li>
+        </ul>
+      </section>
+      <section class="bg-white border border-slate-200 rounded-xl p-4">
+        <h4 class="font-bold text-slate-800 mb-2">Grow with us</h4>
+        <p class="text-gray-700 mb-3">Have bulk postal data, a logistics partnership idea, or want city-specific landing pages? We actively collaborate on utility-first postal products.</p>
+        <a href="/contact.php" class="inline-block bg-indigo-600 text-white px-3 py-2 rounded hover:bg-indigo-700">Contact Team</a>
+      </section>
+    </div>
+
+    <div class="mt-6 bg-gradient-to-r from-slate-900 via-indigo-900 to-blue-900 text-white rounded-xl p-4 md:p-5">
+      <h3 class="text-xl md:text-2xl font-bold mb-2">India Pincode Intelligence Desk</h3>
+      <p class="text-blue-100 text-sm md:text-base">Built for scale: discover postal data for metro cities, fast-growing districts, and high-commerce corridors through one search experience.</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4 text-sm">
+        <div class="bg-white/10 rounded-lg p-3"><b class="block text-lg">1.5L+</b><span>Post offices indexed</span></div>
+        <div class="bg-white/10 rounded-lg p-3"><b class="block text-lg">28+</b><span>States covered</span></div>
+        <div class="bg-white/10 rounded-lg p-3"><b class="block text-lg">700+</b><span>District clusters</span></div>
+        <div class="bg-white/10 rounded-lg p-3"><b class="block text-lg">24×7</b><span>Search availability</span></div>
+      </div>
+    </div>
+
+    <div class="mt-6 grid md:grid-cols-3 gap-4 text-sm">
+      <a href="/about.php" class="bg-white border border-slate-200 rounded-xl p-4 hover:bg-slate-50"><b>About Us</b><p class="text-gray-600 mt-1">Know our mission and data coverage.</p></a>
+      <a href="/data-source.php" class="bg-white border border-slate-200 rounded-xl p-4 hover:bg-slate-50"><b>Data Source</b><p class="text-gray-600 mt-1">How postal data is sourced and updated.</p></a>
+      <a href="/contact.php" class="bg-white border border-slate-200 rounded-xl p-4 hover:bg-slate-50"><b>Contact & Corrections</b><p class="text-gray-600 mt-1">Report updates or postal data issues.</p></a>
+    </div>
+
+    <div class="mt-6 grid lg:grid-cols-3 gap-4">
+      <section class="bg-white border border-slate-200 rounded-xl p-4">
+        <h4 class="text-lg font-bold text-slate-800 mb-3">Top City Searches</h4>
+        <ul class="grid grid-cols-2 gap-2 text-sm text-indigo-700">
+          <li><a class="hover:underline" href="/delhi-pincode">Delhi</a></li>
+          <li><a class="hover:underline" href="/maharashtra-pincode">Maharashtra</a></li>
+          <li><a class="hover:underline" href="/karnataka-pincode">Karnataka</a></li>
+          <li><a class="hover:underline" href="/tamil-nadu-pincode">Tamil Nadu</a></li>
+          <li><a class="hover:underline" href="/west-bengal-pincode">West Bengal</a></li>
+          <li><a class="hover:underline" href="/telangana-pincode">Telangana</a></li>
+          <li><a class="hover:underline" href="/gujarat-pincode">Gujarat</a></li>
+          <li><a class="hover:underline" href="/uttar-pradesh-pincode">Uttar Pradesh</a></li>
+        </ul>
+      </section>
+
+      <section class="bg-white border border-slate-200 rounded-xl p-4 lg:col-span-2">
+        <h4 class="text-lg font-bold text-slate-800 mb-3">Frequently Asked Pincode Questions</h4>
+        <div class="grid md:grid-cols-2 gap-3 text-sm text-gray-700">
+          <details class="border rounded-lg p-3 bg-slate-50"><summary class="font-semibold cursor-pointer">How do I verify a correct pincode quickly?</summary><p class="mt-2">Use the PIN search box for direct checks, or choose State → District → Post Office to confirm the final delivery office.</p></details>
+          <details class="border rounded-lg p-3 bg-slate-50"><summary class="font-semibold cursor-pointer">Can one area have multiple post offices?</summary><p class="mt-2">Yes. A single pincode may include multiple branch/sub offices depending on delivery routes and administrative structure.</p></details>
+          <details class="border rounded-lg p-3 bg-slate-50"><summary class="font-semibold cursor-pointer">Why does pincode matter for e-commerce?</summary><p class="mt-2">Logistics partners use pincodes for serviceability, ETA calculation, warehouse mapping, and preventing failed deliveries.</p></details>
+          <details class="border rounded-lg p-3 bg-slate-50"><summary class="font-semibold cursor-pointer">Is this useful for KYC and bank forms?</summary><p class="mt-2">Absolutely. Accurate pincode-office mapping helps avoid rejection in KYC, insurance, and government documentation.</p></details>
+        </div>
+      </section>
+    </div>
+  </div>
 </section>
-
-<h2 class="text-2xl font-semibold text-indigo-700 mb-3">Helpful Resources</h2>
-<p> We are committed to providing accurate, structured, and user-focused postal information. Learn more about how PincodeLocator.co.in works, our editorial standards, and the guidelines we follow to maintain content quality and reliability. You can also review our privacy policy and explore in-depth postal guides designed to help you better understand India’s PIN code system and postal services.</p>
-<ul class="list-disc pl-6 text-gray-700 leading-8">
-<li><a class="text-indigo-700 hover:underline" href="/about.php">About India Pincode Locator</a></li>
-<li><a class="text-indigo-700 hover:underline" href="/editorial-policy.php">Editorial Policy</a></li>
-<li><a class="text-indigo-700 hover:underline" href="/content-guidelines.php">Content Guidelines</a></li>
-<li><a class="text-indigo-700 hover:underline" href="/privacy-policy.php">Privacy Policy</a></li>
-<li><a class="text-indigo-700 hover:underline" href="/blog.php">Postal Guides & Articles</a></li>
-<li><a class="text-indigo-700 hover:underline" href="/sitemap_index.php">XML Sitemap Index</a></li>
-<li><a class="text-indigo-700 hover:underline" href="/blog-post.php?slug=what-is-pin-code-system-in-india">What Is PIN Code System In India</a></li>
-<li><a class="text-indigo-700 hover:underline" href="/blog-post.php?slug=history-of-india-post-office">History Of India Post Office</a></li>
-<li><a class="text-indigo-700 hover:underline" href="/blog-post.php?slug=india-postal-zones-explained">India Postal Zones Explained</a></li>
-<li><a class="text-indigo-700 hover:underline" href="/blog-post.php?slug=how-speed-post-delivery-works">How Speed Post Delivery Works</a></li>
-<li><a class="text-indigo-700 hover:underline" href="/blog-post.php?slug=registered-post-vs-speed-post">Registered Post vs Speed Post</a></li>
-<ul class="list-disc pl-6 text-gray-700 space-y-2">
-</ul>
-
-</section>
-<!-- ===============================
-END HOMEPAGE AUTHORITY CONTENT
-================================== -->
-
-</div>
-
-</div>
-
-</div>
-
 
 <?php } ?>
 
@@ -888,6 +774,9 @@ const resultsDiv=document.getElementById("results");
 const stateSelect=document.getElementById("stateSelect");
 const districtSelect=document.getElementById("districtSelect");
 const officeSelect=document.getElementById("officeSelect");
+const detectNearbyBtn=document.getElementById("detectNearbyBtn");
+const nearbyStatus=document.getElementById("nearbyStatus");
+const nearbyPincodes=document.getElementById("nearbyPincodes");
 
 /* PINCODE SEARCH */
 
@@ -1062,6 +951,78 @@ container.appendChild(block);
 }
 
 loadStateAuthority();
+
+function slugify(value){
+return String(value||"")
+.toLowerCase()
+.trim()
+.replace(/[^a-z0-9]+/g,"-")
+.replace(/^-+|-+$/g,"");
+}
+
+async function detectNearbyPincodes(){
+if(!nearbyStatus || !nearbyPincodes) return;
+
+if(!navigator.geolocation){
+nearbyStatus.textContent="Geolocation is not supported in this browser.";
+return;
+}
+
+nearbyStatus.textContent="Detecting your location...";
+nearbyPincodes.innerHTML="";
+
+let position;
+try{
+position=await new Promise((resolve,reject)=>{
+navigator.geolocation.getCurrentPosition(resolve,reject,{timeout:12000,enableHighAccuracy:true});
+});
+}catch(_err){
+nearbyStatus.textContent="Location permission denied or unavailable. You can still search manually.";
+return;
+}
+
+const lat=position.coords.latitude;
+const lon=position.coords.longitude;
+
+try{
+const geoRes=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);
+const geoData=await geoRes.json();
+const addr=geoData?.address || {};
+
+const rawState=addr.state || addr.region || "";
+const rawDistrict=addr.state_district || addr.county || addr.city_district || addr.city || "";
+
+if(!rawState || !rawDistrict){
+nearbyStatus.textContent="Could not map your location to a district/state. Try search by state and district.";
+return;
+}
+
+const cleanDistrict=rawDistrict.replace(/\s+district$/i,"").trim();
+const res=await fetch(`api-location.php?type=district-postoffices&state=${encodeURIComponent(rawState)}&district=${encodeURIComponent(cleanDistrict)}`);
+const offices=await res.json();
+
+if(!Array.isArray(offices) || offices.length===0){
+nearbyStatus.textContent=`No nearby office list found for ${cleanDistrict}, ${rawState}.`;
+return;
+}
+
+nearbyStatus.textContent=`Showing nearby entries for ${cleanDistrict}, ${rawState}`;
+
+const top=offices.slice(0,8);
+nearbyPincodes.innerHTML=top.map((office)=>{
+const pincode=office.pincode || "";
+const officeName=office.officename || "Post Office";
+const route=`/${slugify(officeName)}-post-office-${pincode}`;
+return `<a class="block bg-emerald-50 border border-emerald-100 rounded px-2 py-1 hover:bg-emerald-100" href="${route}">${officeName} - ${pincode}</a>`;
+}).join("");
+}catch(_err){
+nearbyStatus.textContent="Unable to auto-detect nearby pincodes right now.";
+}
+}
+
+if(detectNearbyBtn){
+detectNearbyBtn.addEventListener("click",detectNearbyPincodes);
+}
 
 /* LOAD DISTRICTS */
 
