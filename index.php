@@ -598,6 +598,10 @@ else { ?>
         <a href="/editorial-policy.php" class="bg-white border border-gray-300 rounded px-3 py-2 hover:bg-gray-50">Editorial Policy</a>
         <a href="/privacy-policy.php" class="bg-white border border-gray-300 rounded px-3 py-2 hover:bg-gray-50">Privacy Policy</a>
       </div>
+
+      <div class="mt-5 bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm text-amber-900">
+        <strong>Advertising Disclosure:</strong> This website may display third-party ads. Sponsored content is labeled, and ad placement does not influence postal search results.
+      </div>
     </main>
 
     <aside class="space-y-4">
@@ -656,6 +660,21 @@ else { ?>
       </article>
     </div>
 
+    <div class="mt-6 grid md:grid-cols-2 gap-4">
+      <section class="bg-white border border-dashed border-slate-300 rounded-xl p-4 text-center">
+        <p class="text-xs uppercase tracking-widest text-slate-500 mb-2">Ad Space</p>
+        <div class="min-h-[120px] grid place-items-center bg-slate-50 rounded border border-slate-200 text-slate-500">
+          Google AdSense Unit (Responsive)
+        </div>
+      </section>
+      <section class="bg-white border border-dashed border-slate-300 rounded-xl p-4 text-center">
+        <p class="text-xs uppercase tracking-widest text-slate-500 mb-2">Ad Space</p>
+        <div class="min-h-[120px] grid place-items-center bg-slate-50 rounded border border-slate-200 text-slate-500">
+          Google AdSense Unit (In-content)
+        </div>
+      </section>
+    </div>
+
     <div class="mt-6 grid lg:grid-cols-3 gap-4 text-sm">
       <section class="bg-white border border-slate-200 rounded-xl p-4">
         <h4 class="font-bold text-slate-800 mb-2">Why users trust this platform</h4>
@@ -689,6 +708,12 @@ else { ?>
         <div class="bg-white/10 rounded-lg p-3"><b class="block text-lg">700+</b><span>District clusters</span></div>
         <div class="bg-white/10 rounded-lg p-3"><b class="block text-lg">24×7</b><span>Search availability</span></div>
       </div>
+    </div>
+
+    <div class="mt-6 grid md:grid-cols-3 gap-4 text-sm">
+      <a href="/about.php" class="bg-white border border-slate-200 rounded-xl p-4 hover:bg-slate-50"><b>About Us</b><p class="text-gray-600 mt-1">Know our mission and data coverage.</p></a>
+      <a href="/data-source.php" class="bg-white border border-slate-200 rounded-xl p-4 hover:bg-slate-50"><b>Data Source</b><p class="text-gray-600 mt-1">How postal data is sourced and updated.</p></a>
+      <a href="/contact.php" class="bg-white border border-slate-200 rounded-xl p-4 hover:bg-slate-50"><b>Contact & Corrections</b><p class="text-gray-600 mt-1">Report updates or postal data issues.</p></a>
     </div>
 
     <div class="mt-6 grid lg:grid-cols-3 gap-4">
