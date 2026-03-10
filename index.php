@@ -753,6 +753,9 @@ const resultsDiv=document.getElementById("results");
 const stateSelect=document.getElementById("stateSelect");
 const districtSelect=document.getElementById("districtSelect");
 const officeSelect=document.getElementById("officeSelect");
+const detectNearbyBtn=document.getElementById("detectNearbyBtn");
+const nearbyStatus=document.getElementById("nearbyStatus");
+const nearbyPincodes=document.getElementById("nearbyPincodes");
 
 /* PINCODE SEARCH */
 
@@ -927,6 +930,78 @@ container.appendChild(block);
 }
 
 loadStateAuthority();
+
+function slugify(value){
+return String(value||"")
+.toLowerCase()
+.trim()
+.replace(/[^a-z0-9]+/g,"-")
+.replace(/^-+|-+$/g,"");
+}
+
+async function detectNearbyPincodes(){
+if(!nearbyStatus || !nearbyPincodes) return;
+
+if(!navigator.geolocation){
+nearbyStatus.textContent="Geolocation is not supported in this browser.";
+return;
+}
+
+nearbyStatus.textContent="Detecting your location...";
+nearbyPincodes.innerHTML="";
+
+let position;
+try{
+position=await new Promise((resolve,reject)=>{
+navigator.geolocation.getCurrentPosition(resolve,reject,{timeout:12000,enableHighAccuracy:true});
+});
+}catch(_err){
+nearbyStatus.textContent="Location permission denied or unavailable. You can still search manually.";
+return;
+}
+
+const lat=position.coords.latitude;
+const lon=position.coords.longitude;
+
+try{
+const geoRes=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);
+const geoData=await geoRes.json();
+const addr=geoData?.address || {};
+
+const rawState=addr.state || addr.region || "";
+const rawDistrict=addr.state_district || addr.county || addr.city_district || addr.city || "";
+
+if(!rawState || !rawDistrict){
+nearbyStatus.textContent="Could not map your location to a district/state. Try search by state and district.";
+return;
+}
+
+const cleanDistrict=rawDistrict.replace(/\s+district$/i,"").trim();
+const res=await fetch(`api-location.php?type=district-postoffices&state=${encodeURIComponent(rawState)}&district=${encodeURIComponent(cleanDistrict)}`);
+const offices=await res.json();
+
+if(!Array.isArray(offices) || offices.length===0){
+nearbyStatus.textContent=`No nearby office list found for ${cleanDistrict}, ${rawState}.`;
+return;
+}
+
+nearbyStatus.textContent=`Showing nearby entries for ${cleanDistrict}, ${rawState}`;
+
+const top=offices.slice(0,8);
+nearbyPincodes.innerHTML=top.map((office)=>{
+const pincode=office.pincode || "";
+const officeName=office.officename || "Post Office";
+const route=`/${slugify(officeName)}-post-office-${pincode}`;
+return `<a class="block bg-emerald-50 border border-emerald-100 rounded px-2 py-1 hover:bg-emerald-100" href="${route}">${officeName} - ${pincode}</a>`;
+}).join("");
+}catch(_err){
+nearbyStatus.textContent="Unable to auto-detect nearby pincodes right now.";
+}
+}
+
+if(detectNearbyBtn){
+detectNearbyBtn.addEventListener("click",detectNearbyPincodes);
+}
 
 /* LOAD DISTRICTS */
 
