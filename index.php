@@ -823,6 +823,33 @@ onclick="scrollToState('JHARKHAND')">
 
 <p class="text-gray-700 mb-6">
 </p>
+
+<section class="mb-8">
+<h2 class="text-2xl font-semibold text-indigo-700 mb-3">What Is PIN (Postal Index Number)?</h2>
+<p class="text-gray-700 mb-4">A Postal Index Number (PIN) is a six-digit code used by India Post to identify the destination post office and streamline mail delivery. The system was introduced on 15 August 1972 to reduce address confusion, speed up sorting, and improve delivery accuracy across India&rsquo;s cities, towns, and villages.</p>
+<p class="text-gray-700 mb-4">India has a vast postal network, and PIN codes help route letters, parcels, and official communication through the correct regional and local sorting points. Even when two places share similar names, the PIN code uniquely identifies the intended delivery region.</p>
+
+<h3 class="text-xl font-semibold text-indigo-700 mb-2">Structure of a 6-Digit PIN Code</h3>
+<p class="text-gray-700 mb-3">Each of the six digits in a PIN code has a specific meaning:</p>
+<ul class="list-disc pl-6 text-gray-700 leading-7 mb-4">
+<li><b>1st digit:</b> Postal zone (broad region of India).</li>
+<li><b>2nd digit:</b> Sub-zone or postal circle.</li>
+<li><b>3rd digit:</b> Sorting district within that zone.</li>
+<li><b>Last 3 digits:</b> Individual post office for final delivery.</li>
+</ul>
+
+<div class="grid md:grid-cols-2 gap-4 mb-4">
+<img src="/assets/images/pincode-system.svg" alt="Diagram explaining the six-digit India PIN code structure" class="w-full rounded border border-gray-200 p-2 bg-white">
+<img src="/assets/images/postal-zones.svg" alt="India postal zones map for the first two PIN digits" class="w-full rounded border border-gray-200 p-2 bg-white">
+</div>
+
+<h3 class="text-xl font-semibold text-indigo-700 mb-2">How to Read a PIN Code (Example)</h3>
+<p class="text-gray-700 mb-4">For example, in PIN code <b>110001</b>: <b>1</b> indicates the northern zone, <b>11</b> represents the Delhi postal region, and <b>0001</b> identifies a specific post office for delivery routing. This decoding helps users understand where a location belongs in India&rsquo;s postal hierarchy.</p>
+
+<h3 class="text-xl font-semibold text-indigo-700 mb-2">Why PIN Code Mapping Matters</h3>
+<p class="text-gray-700 mb-0">Understanding PIN code maps and zone distribution helps citizens, businesses, and logistics teams reduce delivery errors, estimate serviceability, and plan shipments more accurately. This page provides reliable, structured PIN code data to support faster searches and informed decisions.</p>
+</section>
+
 <h2 class="text-2xl font-semibold text-indigo-700 mb-3">Helpful Resources</h2>
 <p> We are committed to providing accurate, structured, and user-focused postal information. Learn more about how PincodeLocator.co.in works, our editorial standards, and the guidelines we follow to maintain content quality and reliability. You can also review our privacy policy and explore in-depth postal guides designed to help you better understand India’s PIN code system and postal services.</p>
 <ul class="list-disc pl-6 text-gray-700 leading-8">
