@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://pincodelocator.co.in/sitemap_index.php

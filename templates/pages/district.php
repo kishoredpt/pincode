@@ -1,4 +1,0 @@
-<h1><?= htmlspecialchars($data['summary']['district'], ENT_QUOTES, 'UTF-8') ?> District</h1>
-<p>State: <a href="/state/<?= htmlspecialchars(strtolower(str_replace(' ', '-', $data['summary']['statename'])), ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($data['summary']['statename'], ENT_QUOTES, 'UTF-8') ?></a></p>
-<p>Pincodes: <?= (int) $data['summary']['pincode_count'] ?> | Offices: <?= (int) $data['summary']['office_count'] ?></p>
-<ul><?php foreach ($data['areas'] as $area): ?><li><a href="/area/<?= htmlspecialchars($area['slug'], ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($area['area'], ENT_QUOTES, 'UTF-8') ?></a> - <a href="/pincode/<?= htmlspecialchars($area['pincode'], ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($area['pincode'], ENT_QUOTES, 'UTF-8') ?></a></li><?php endforeach; ?></ul>

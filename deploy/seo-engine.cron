@@ -1,6 +1,0 @@
-# SEO Engine automation
-0 * * * * cd /workspace/pincode/seo-engine && php detect-new-records.php >> /var/log/pincode-seo.log 2>&1
-0 */2 * * * cd /workspace/pincode/seo-engine && php page-generator.php >> /var/log/pincode-seo.log 2>&1
-0 */6 * * * cd /workspace/pincode/seo-engine && php link-builder.php >> /var/log/pincode-seo.log 2>&1
-30 2 * * * cd /workspace/pincode/seo-engine && php sitemap-generator.php >> /var/log/pincode-seo.log 2>&1
-0 3 * * 1,4 cd /workspace/pincode/seo-engine && php blog-generator.php >> /var/log/pincode-seo.log 2>&1
