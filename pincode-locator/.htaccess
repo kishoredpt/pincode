@@ -1,0 +1,7 @@
+RewriteEngine On
+RewriteBase /pincode-locator/
+
+RewriteRule ^state/([a-z0-9-]+)-pincode/?$ state/state.php?slug=$1 [L,QSA]
+RewriteRule ^district/([a-z0-9-]+)-pincode/?$ district/district.php?slug=$1 [L,QSA]
+RewriteRule ^pincode/([0-9]{6})-([a-z0-9-]+)/?$ pincode/pincode.php?pincode=$1&office=$2 [L,QSA]
+RewriteRule ^blog/([a-z0-9-]+)/?$ blog/article.php?slug=$1 [L,QSA]
