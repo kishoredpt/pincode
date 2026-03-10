@@ -326,11 +326,12 @@ elseif ($pageType === 'menu_page') {
 
 <!-- TOP BAR -->
 <div class="flex flex-col gap-4 md:flex-row md:justify-between md:items-center mb-6">
-<h1 class="text-2xl md:text-xl font-bold text-center md:text-left">📮 PincodeLocator.co.in</h1>
+<h1 class="text-2xl md:text-xl font-bold text-center md:text-left"><a href="/" class="inline-flex items-center gap-2 hover:text-indigo-700" aria-label="Go to home page">📮 <span>PincodeLocator.co.in</span></a></h1>
 
-<nav class="w-full md:w-auto grid grid-cols-3 gap-2 md:flex md:items-center md:gap-5 text-sm font-medium text-center">
+<nav class="w-full md:w-auto grid grid-cols-4 gap-2 md:flex md:items-center md:gap-5 text-sm font-medium text-center">
 <a class="nav-link" href="/">Home</a>
-<a class="nav-link" href="/author.php">Author</a>    
+<a class="nav-link" href="/author.php">Author</a>
+<a class="nav-link" href="/contact.php">Contact</a>
 <details class="menu-dropdown">
 <summary class="nav-link">Main ▾</summary>
 <div class="menu-panel text-sm font-medium">
@@ -338,7 +339,6 @@ elseif ($pageType === 'menu_page') {
 <div class="menu-section">
 <span class="menu-section-title">Quick Links</span>
 <a class="menu-item" href="/about.php">About</a>
-<a class="menu-item" href="/contact.php">Contact</a>
 <a class="menu-item" href="/privacy-policy.php">Privacy</a>
 <a class="menu-item" href="/terms.php">Terms</a>
 <a class="menu-item" href="/disclaimer.php">Disclaimer</a>
