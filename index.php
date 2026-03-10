@@ -568,7 +568,7 @@ else { ?>
 
       <div class="mt-6 bg-white border border-emerald-200 rounded-xl p-3">
         <div class="flex items-center justify-between gap-2 mb-2">
-          <h3 class="text-base font-semibold text-emerald-800">Near by pincodes</h3>
+          <h2 class="text-base font-semibold text-emerald-800">Near By Pincodes</h2>
           <button id="detectNearbyBtn" type="button" class="text-xs bg-emerald-600 text-white px-3 py-1.5 rounded hover:bg-emerald-700">Detect</button>
         </div>
         <p id="nearbyStatus" class="text-xs text-gray-600">Allow location access to find nearby post offices and pincodes.</p>
