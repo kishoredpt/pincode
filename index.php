@@ -585,7 +585,7 @@ else { ?>
       <?php if($route): ?>
       <div class="text-sm text-gray-700 mb-3">
       <?php foreach($breadcrumb as $index=>$bc): ?>
-      <?php if($index===0): ?><a href="<?= $bc['url'] ?>" class="hover:underline" aria-label="Home">🏠 <?= $bc['name'] ?></a><?php else: ?><a href="<?= $bc['url'] ?>" class="hover:underline"><?= $bc['name'] ?></a><?php endif; ?><?= $index < count($breadcrumb)-1 ? ' <span class="mx-1">›</span> ' : '' ?>
+      <a href="<?= $bc['url'] ?>" class="hover:underline"><?= $bc['name'] ?></a><?= $index < count($breadcrumb)-1 ? ' <span class="mx-1">›</span> ' : '' ?>
       <?php endforeach; ?>
       </div>
       <?php endif; ?>
@@ -615,7 +615,7 @@ else { ?>
 
     <aside class="space-y-4">
       <div>
-        <h3 class="text-3xl font-bold mb-2 inline-block bg-indigo-100 text-indigo-900 px-3 py-1 rounded-lg">Knowledge Hub</h3>
+        <h3 class="text-3xl font-bold border-b-4 border-slate-700 mb-2">Knowledge Hub</h3>
         <ul class="space-y-1 text-[#3f56d9] text-base">
           <?php foreach ($menuPageGroups as $categoryName => $groupItems): ?>
             <?php foreach ($groupItems as $groupItem): ?>
@@ -626,19 +626,7 @@ else { ?>
       </div>
 
       <div>
-        <h4 class="text-2xl font-bold mb-2 inline-block bg-indigo-100 text-indigo-900 px-3 py-1 rounded-lg">Top Tourist States</h4>
-        <ul class="space-y-1 text-indigo-700 text-base">
-          <li><a class="hover:underline" href="/rajasthan-pincode">▸ Rajasthan</a></li>
-          <li><a class="hover:underline" href="/kerala-pincode">▸ Kerala</a></li>
-          <li><a class="hover:underline" href="/goa-pincode">▸ Goa</a></li>
-          <li><a class="hover:underline" href="/himachal-pradesh-pincode">▸ Himachal Pradesh</a></li>
-          <li><a class="hover:underline" href="/uttarakhand-pincode">▸ Uttarakhand</a></li>
-          <li><a class="hover:underline" href="/tamil-nadu-pincode">▸ Tamil Nadu</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h4 class="text-3xl font-bold mb-2 inline-block bg-slate-100 text-slate-800 px-3 py-1 rounded-lg">Essential Pages</h4>
+        <h4 class="text-3xl font-bold border-b-4 border-slate-700 mb-2">Essential Pages</h4>
         <ul class="space-y-1 text-[#3f56d9] text-base">
           <li><a class="hover:underline" href="/contact.php">▸ Contact</a></li>
           <li><a class="hover:underline" href="/terms.php">▸ Terms</a></li>
