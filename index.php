@@ -566,6 +566,15 @@ else { ?>
 
       <div id="results" class="mt-5"></div>
 
+      <div class="mt-6 bg-white border border-emerald-200 rounded-xl p-3">
+        <div class="flex items-center justify-between gap-2 mb-2">
+          <h3 class="text-base font-semibold text-emerald-800">Near by pincodes</h3>
+          <button id="detectNearbyBtn" type="button" class="text-xs bg-emerald-600 text-white px-3 py-1.5 rounded hover:bg-emerald-700">Detect</button>
+        </div>
+        <p id="nearbyStatus" class="text-xs text-gray-600">Allow location access to find nearby post offices and pincodes.</p>
+        <div id="nearbyPincodes" class="mt-2 space-y-1 text-sm"></div>
+      </div>
+
       <div class="mt-6 border-t border-dashed border-slate-400 pt-4">
         <h3 class="text-xl font-semibold mb-2">Explore PIN Codes by State</h3>
         <div id="stateAuthorityList" class="space-y-3 max-h-[460px] overflow-auto pr-1"></div>
