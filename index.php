@@ -234,6 +234,28 @@ elseif($route && in_array($pageType,["state","district","pincode"],true)){
 <style>
   .nav-link { padding: 0.25rem 0.4rem; border-radius: 0.4rem; }
   .nav-link:hover { background: #eef2ff; }
+  .menu-dropdown { position: relative; }
+  .menu-dropdown summary { list-style: none; cursor: pointer; }
+  .menu-dropdown summary::-webkit-details-marker { display: none; }
+  .menu-panel {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.4rem);
+    min-width: 10rem;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
+    padding: 0.35rem;
+    z-index: 20;
+  }
+  .menu-item {
+    display: block;
+    padding: 0.35rem 0.5rem;
+    border-radius: 0.35rem;
+    text-align: left;
+  }
+  .menu-item:hover { background: #eef2ff; }
 </style>
 
 <div class="max-w-[1100px] mx-auto px-4 md:px-6 py-6 md:py-10">
@@ -242,14 +264,19 @@ elseif($route && in_array($pageType,["state","district","pincode"],true)){
 <div class="flex flex-col gap-4 md:flex-row md:justify-between md:items-center mb-6">
 <h1 class="text-2xl md:text-xl font-bold text-center md:text-left">📮 PincodeLocator.co.in</h1>
 
-<nav class="w-full md:w-auto grid grid-cols-3 gap-2 md:flex md:gap-5 text-sm font-medium text-center">
+<nav class="w-full md:w-auto grid grid-cols-3 gap-2 md:flex md:items-center md:gap-5 text-sm font-medium text-center">
 <a class="nav-link" href="/">Home</a>
-<a class="nav-link" href="/about.php">About</a>
 <a class="nav-link" href="/author.php">Author</a>    
-<a class="nav-link" href="/contact.php">Contact</a>
-<a class="nav-link" href="/privacy-policy.php">Privacy</a>
-<a class="nav-link" href="/terms.php">Terms</a>
-<a class="nav-link" href="/disclaimer.php">Disclaimer</a>
+<details class="menu-dropdown">
+<summary class="nav-link">Main ▾</summary>
+<div class="menu-panel text-sm font-medium">
+<a class="menu-item" href="/about.php">About</a>
+<a class="menu-item" href="/contact.php">Contact</a>
+<a class="menu-item" href="/privacy-policy.php">Privacy</a>
+<a class="menu-item" href="/terms.php">Terms</a>
+<a class="menu-item" href="/disclaimer.php">Disclaimer</a>
+</div>
+</details>
 </nav>
 </div>
 
