@@ -679,6 +679,43 @@ else { ?>
         <a href="/contact.php" class="inline-block bg-indigo-600 text-white px-3 py-2 rounded hover:bg-indigo-700">Contact Team</a>
       </section>
     </div>
+
+    <div class="mt-6 bg-gradient-to-r from-slate-900 via-indigo-900 to-blue-900 text-white rounded-xl p-4 md:p-5">
+      <h3 class="text-xl md:text-2xl font-bold mb-2">India Pincode Intelligence Desk</h3>
+      <p class="text-blue-100 text-sm md:text-base">Built for scale: discover postal data for metro cities, fast-growing districts, and high-commerce corridors through one search experience.</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4 text-sm">
+        <div class="bg-white/10 rounded-lg p-3"><b class="block text-lg">1.5L+</b><span>Post offices indexed</span></div>
+        <div class="bg-white/10 rounded-lg p-3"><b class="block text-lg">28+</b><span>States covered</span></div>
+        <div class="bg-white/10 rounded-lg p-3"><b class="block text-lg">700+</b><span>District clusters</span></div>
+        <div class="bg-white/10 rounded-lg p-3"><b class="block text-lg">24×7</b><span>Search availability</span></div>
+      </div>
+    </div>
+
+    <div class="mt-6 grid lg:grid-cols-3 gap-4">
+      <section class="bg-white border border-slate-200 rounded-xl p-4">
+        <h4 class="text-lg font-bold text-slate-800 mb-3">Top City Searches</h4>
+        <ul class="grid grid-cols-2 gap-2 text-sm text-indigo-700">
+          <li><a class="hover:underline" href="/delhi-pincode">Delhi</a></li>
+          <li><a class="hover:underline" href="/maharashtra-pincode">Maharashtra</a></li>
+          <li><a class="hover:underline" href="/karnataka-pincode">Karnataka</a></li>
+          <li><a class="hover:underline" href="/tamil-nadu-pincode">Tamil Nadu</a></li>
+          <li><a class="hover:underline" href="/west-bengal-pincode">West Bengal</a></li>
+          <li><a class="hover:underline" href="/telangana-pincode">Telangana</a></li>
+          <li><a class="hover:underline" href="/gujarat-pincode">Gujarat</a></li>
+          <li><a class="hover:underline" href="/uttar-pradesh-pincode">Uttar Pradesh</a></li>
+        </ul>
+      </section>
+
+      <section class="bg-white border border-slate-200 rounded-xl p-4 lg:col-span-2">
+        <h4 class="text-lg font-bold text-slate-800 mb-3">Frequently Asked Pincode Questions</h4>
+        <div class="grid md:grid-cols-2 gap-3 text-sm text-gray-700">
+          <details class="border rounded-lg p-3 bg-slate-50"><summary class="font-semibold cursor-pointer">How do I verify a correct pincode quickly?</summary><p class="mt-2">Use the PIN search box for direct checks, or choose State → District → Post Office to confirm the final delivery office.</p></details>
+          <details class="border rounded-lg p-3 bg-slate-50"><summary class="font-semibold cursor-pointer">Can one area have multiple post offices?</summary><p class="mt-2">Yes. A single pincode may include multiple branch/sub offices depending on delivery routes and administrative structure.</p></details>
+          <details class="border rounded-lg p-3 bg-slate-50"><summary class="font-semibold cursor-pointer">Why does pincode matter for e-commerce?</summary><p class="mt-2">Logistics partners use pincodes for serviceability, ETA calculation, warehouse mapping, and preventing failed deliveries.</p></details>
+          <details class="border rounded-lg p-3 bg-slate-50"><summary class="font-semibold cursor-pointer">Is this useful for KYC and bank forms?</summary><p class="mt-2">Absolutely. Accurate pincode-office mapping helps avoid rejection in KYC, insurance, and government documentation.</p></details>
+        </div>
+      </section>
+    </div>
   </div>
 </section>
 
