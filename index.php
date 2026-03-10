@@ -624,62 +624,6 @@ else { ?>
       </div>
     </aside>
   </div>
-
-  <div class="border-t border-blue-100 bg-white/80 p-4 md:p-6">
-    <div class="grid lg:grid-cols-2 gap-6 items-start">
-      <article class="bg-white border border-slate-200 rounded-xl p-4 md:p-5 shadow-sm">
-        <h3 class="text-2xl font-bold text-slate-800 mb-3">India Postal Map & Zone Visual Guide</h3>
-        <p class="text-gray-700 mb-4">Explore how India Post routing works with visual references. These graphics help users understand zone digits, sorting districts, and last-mile office mapping before they search by pincode.</p>
-        <div class="grid sm:grid-cols-2 gap-4">
-          <figure class="border border-slate-200 rounded-lg p-2 bg-slate-50">
-            <img src="/assets/images/postal-zones.svg" alt="India postal zones visual map" class="w-full h-auto">
-            <figcaption class="text-xs text-gray-600 mt-2">India postal zones overview</figcaption>
-          </figure>
-          <figure class="border border-slate-200 rounded-lg p-2 bg-slate-50">
-            <img src="/assets/images/pincode-system.svg" alt="Six digit pincode system explanation" class="w-full h-auto">
-            <figcaption class="text-xs text-gray-600 mt-2">6-digit PIN code breakdown</figcaption>
-          </figure>
-        </div>
-      </article>
-
-      <article class="bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 rounded-xl p-4 md:p-5">
-        <h3 class="text-2xl font-bold text-indigo-900 mb-3">High-Intent Pages People Search Daily</h3>
-        <p class="text-gray-700 mb-4">To serve millions of monthly users, this section focuses on practical postal needs: delivery checks, city-level pincode discovery, and India Post knowledge pages.</p>
-        <div class="grid sm:grid-cols-2 gap-2 text-sm">
-          <a href="/delhi-pincode" class="bg-white border rounded px-3 py-2 hover:bg-indigo-50">Delhi Pincode List</a>
-          <a href="/maharashtra-pincode" class="bg-white border rounded px-3 py-2 hover:bg-indigo-50">Maharashtra Pincode Lookup</a>
-          <a href="/karnataka-pincode" class="bg-white border rounded px-3 py-2 hover:bg-indigo-50">Karnataka Postal Areas</a>
-          <a href="/telangana-pincode" class="bg-white border rounded px-3 py-2 hover:bg-indigo-50">Telangana Office Finder</a>
-          <a href="/blog-post.php?slug=india-postal-zones-explained" class="bg-white border rounded px-3 py-2 hover:bg-indigo-50">Understand Postal Zones</a>
-          <a href="/blog-post.php?slug=how-speed-post-delivery-works" class="bg-white border rounded px-3 py-2 hover:bg-indigo-50">Speed Post Delivery Guide</a>
-        </div>
-      </article>
-    </div>
-
-    <div class="mt-6 grid lg:grid-cols-3 gap-4 text-sm">
-      <section class="bg-white border border-slate-200 rounded-xl p-4">
-        <h4 class="font-bold text-slate-800 mb-2">Why users trust this platform</h4>
-        <ul class="list-disc pl-5 text-gray-700 space-y-1">
-          <li>State → district → office browsing with instant results.</li>
-          <li>One-click pincode validation for shipping and forms.</li>
-          <li>Guides and policies linked transparently for reliability.</li>
-        </ul>
-      </section>
-      <section class="bg-white border border-slate-200 rounded-xl p-4">
-        <h4 class="font-bold text-slate-800 mb-2">Popular use-cases</h4>
-        <ul class="list-disc pl-5 text-gray-700 space-y-1">
-          <li>E-commerce delivery address verification.</li>
-          <li>Banking, KYC, and government form completion.</li>
-          <li>Courier network planning and serviceability checks.</li>
-        </ul>
-      </section>
-      <section class="bg-white border border-slate-200 rounded-xl p-4">
-        <h4 class="font-bold text-slate-800 mb-2">Grow with us</h4>
-        <p class="text-gray-700 mb-3">Have bulk postal data, a logistics partnership idea, or want city-specific landing pages? We actively collaborate on utility-first postal products.</p>
-        <a href="/contact.php" class="inline-block bg-indigo-600 text-white px-3 py-2 rounded hover:bg-indigo-700">Contact Team</a>
-      </section>
-    </div>
-  </div>
 </section>
 
 <?php } ?>
