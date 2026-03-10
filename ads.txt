@@ -1,0 +1,2 @@
+# Replace Xs with your actual AdSense publisher ID before applying.
+google.com, ca-pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
