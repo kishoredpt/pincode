@@ -21,6 +21,7 @@ if(preg_match('/^blog\/([a-zA-Z0-9-]+)$/',$requestPath,$blogMatch)){
 }
 
 require_once "config/db.php";
+require_once __DIR__ . "/includes/menu-pages.php";
 
 $route = $_GET['route'] ?? '';
 
@@ -35,6 +36,11 @@ if($route===''){
 
 $pageType="home";
 $pageData=[];
+$menuPages = getMenuPages();
+$menuPageGroups = [];
+foreach ($menuPages as $menuPageItem) {
+    $menuPageGroups[$menuPageItem['category']][] = $menuPageItem;
+}
 
 function toSlug($value){
     $value=strtolower(trim($value));
@@ -75,6 +81,20 @@ if($route && preg_match('/^(.+)-post-office-(\d{6})$/',$route,$officeMatch)){
     }
 }
 elseif($route){
+
+    if (str_starts_with($route, 'menu-')) {
+        $menuSlug = substr($route, 5);
+        $menuPage = getMenuPageBySlug($menuSlug);
+        if ($menuPage) {
+            $pageType = 'menu_page';
+            $pageData = $menuPage;
+        }
+    }
+
+    if ($pageType !== 'home') {
+        // Already resolved by custom route handler.
+    }
+    else{
 
     $slug=str_ends_with($route,'-pincode')
         ? substr($route,0,-8)
@@ -135,6 +155,7 @@ elseif($route){
             }
         }
     }
+    }
 }
 ?>
 
@@ -190,6 +211,11 @@ elseif($route && in_array($pageType,["state","district","pincode"],true)){
     $seoDescription = "Complete list of post offices and pincodes in $name state or district. Search locations, delivery offices and postal information.";
 
     $canonical = "https://pincodelocator.co.in/".$route;
+}
+elseif ($pageType === 'menu_page') {
+    $seoTitle = $pageData['title'] . " | Menu Knowledge Page";
+    $seoDescription = "Professional long-form map-based resource for " . $pageData['title'] . " with sections and subsections.";
+    $canonical = "https://pincodelocator.co.in/" . $route;
 }
 ?>
 
@@ -275,6 +301,13 @@ elseif($route && in_array($pageType,["state","district","pincode"],true)){
 <a class="menu-item" href="/privacy-policy.php">Privacy</a>
 <a class="menu-item" href="/terms.php">Terms</a>
 <a class="menu-item" href="/disclaimer.php">Disclaimer</a>
+<hr class="my-2">
+<?php foreach ($menuPageGroups as $categoryName => $groupItems): ?>
+<div class="px-2 py-1 text-[11px] uppercase text-gray-500 tracking-wide"><?= htmlspecialchars($categoryName) ?></div>
+<?php foreach ($groupItems as $groupItem): ?>
+<a class="menu-item" href="/menu-<?= htmlspecialchars($groupItem['slug']) ?>"><?= htmlspecialchars($groupItem['subsection']) ?> → <?= htmlspecialchars($groupItem['anchor_city']) ?></a>
+<?php endforeach; ?>
+<?php endforeach; ?>
 </div>
 </details>
 </nav>
@@ -465,6 +498,9 @@ elseif($pageType=="office"){
 </div>
 
 <?php }
+elseif($pageType=="menu_page"){
+    echo renderMenuPageContent($pageData);
+}
 else { ?>
 <div class="bg-white rounded-2xl p-6 md:p-10">
 <div class="text-center mb-10">
