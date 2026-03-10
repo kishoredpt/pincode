@@ -546,16 +546,16 @@ elseif($pageType=="menu_page"){
     echo renderMenuPageContent($pageData);
 }
 else { ?>
-<section class="bg-[#e7eff7] border border-[#c3d3e6] rounded-xl overflow-hidden">
-  <div class="bg-[#5d97c7] text-white px-4 py-2 flex flex-col md:flex-row md:items-center md:justify-between gap-2 text-sm font-semibold">
-    <div>Home &gt;&gt; Pincode Search Engine</div>
-    <a href="/contact.php" class="underline">For Custom/Business Map Quote</a>
+<section class="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 border border-blue-100 rounded-2xl overflow-hidden shadow-sm">
+  <div class="bg-gradient-to-r from-sky-700 via-blue-600 to-indigo-700 text-white px-4 py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-2 text-sm font-semibold">
+    <div class="tracking-wide">PIN Navigator • India Search Desk</div>
+    <a href="/contact.php" class="underline decoration-dotted underline-offset-4">Business / Data Partnership Enquiry</a>
   </div>
 
   <div class="grid lg:grid-cols-[320px_1fr_290px] gap-6 p-4 md:p-6">
     <aside>
-      <h2 class="text-4xl leading-tight font-bold mb-4">PINCode Search</h2>
-      <div class="bg-[#d3302f] text-white font-semibold text-center py-3 rounded">PIN CODE SEARCH TOOL</div>
+      <h2 class="text-4xl leading-tight font-extrabold mb-4 text-slate-800">Pincode Finder</h2>
+      <div class="bg-gradient-to-r from-rose-600 to-orange-500 text-white font-semibold text-center py-3 rounded-lg shadow">SMART PINCODE SEARCH</div>
 
       <div class="space-y-3 mt-4">
         <input type="text" id="pincodeInput" maxlength="6" placeholder="Enter 6-digit Pincode" class="w-full border border-gray-300 bg-white p-3 rounded" />
@@ -566,7 +566,7 @@ else { ?>
 
       <div id="results" class="mt-5"></div>
 
-      <div class="mt-6 border-t border-dashed border-gray-400 pt-4">
+      <div class="mt-6 border-t border-dashed border-slate-400 pt-4">
         <h3 class="text-xl font-semibold mb-2">Explore PIN Codes by State</h3>
         <div id="stateAuthorityList" class="space-y-3 max-h-[460px] overflow-auto pr-1"></div>
       </div>
@@ -581,12 +581,15 @@ else { ?>
       </div>
       <?php endif; ?>
 
-      <h3 class="text-3xl font-bold mb-3">Postal Index Number Codes</h3>
-      <h4 class="text-2xl font-semibold mb-3">About Pincode in India</h4>
+      <div class="inline-flex items-center gap-2 mb-3 bg-white border border-blue-200 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">
+        <span>●</span><span>Trusted Postal Lookup</span>
+      </div>
+      <h3 class="text-3xl font-bold mb-3 text-slate-800">Postal Index Number Directory</h3>
+      <h4 class="text-2xl font-semibold mb-3 text-indigo-900">How Pincode Search Works in India</h4>
       <div class="space-y-4 text-[28px] leading-relaxed md:text-[31px]" style="font-size:clamp(18px,1.45vw,31px)">
-        <p>India is a large country and it is difficult to remember PIN code of every locality. This layout keeps the search tool at left and knowledge links at right so users can find postal data faster.</p>
-        <p>Use state, district, and post-office selections to browse verified postal records, or type a 6-digit pincode for direct results. Existing dynamic APIs and results rendering remain unchanged.</p>
-        <p>The menu-style resource section links to existing pages in this website so visitors can continue reading guides, policies, and map-based topic pages without leaving the homepage flow.</p>
+        <p>India has millions of delivery points, so remembering every locality PIN is not practical. This interface combines lookup tools and guidance in one workspace for faster discovery.</p>
+        <p>You can search by 6-digit PIN directly or browse by state, district, and post office. The backend APIs and result rendering logic are retained exactly as before.</p>
+        <p>The right-side knowledge rail connects users to existing internal pages, helping visitors continue to verified policy, informational, and regional postal resources.</p>
       </div>
 
       <div class="mt-8 grid md:grid-cols-2 gap-3 text-sm">
@@ -599,7 +602,7 @@ else { ?>
 
     <aside class="space-y-4">
       <div>
-        <h3 class="text-3xl font-bold border-b-4 border-gray-700 mb-2">Menu Pages</h3>
+        <h3 class="text-3xl font-bold border-b-4 border-slate-700 mb-2">Knowledge Hub</h3>
         <ul class="space-y-1 text-[#3f56d9] text-base">
           <?php foreach ($menuPageGroups as $categoryName => $groupItems): ?>
             <?php foreach ($groupItems as $groupItem): ?>
@@ -610,7 +613,7 @@ else { ?>
       </div>
 
       <div>
-        <h4 class="text-3xl font-bold border-b-4 border-gray-700 mb-2">Core Pages</h4>
+        <h4 class="text-3xl font-bold border-b-4 border-slate-700 mb-2">Essential Pages</h4>
         <ul class="space-y-1 text-[#3f56d9] text-base">
           <li><a class="hover:underline" href="/contact.php">▸ Contact</a></li>
           <li><a class="hover:underline" href="/terms.php">▸ Terms</a></li>
