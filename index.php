@@ -585,7 +585,7 @@ else { ?>
       <?php if($route): ?>
       <div class="text-sm text-gray-700 mb-3">
       <?php foreach($breadcrumb as $index=>$bc): ?>
-      <?php if($index===0): ?><a href="<?= $bc['url'] ?>" class="hover:underline" aria-label="Home">🏠 <?= $bc['name'] ?></a><?php else: ?><a href="<?= $bc['url'] ?>" class="hover:underline"><?= $bc['name'] ?></a><?php endif; ?><?= $index < count($breadcrumb)-1 ? ' <span class="mx-1">›</span> ' : '' ?>
+      <a href="<?= $bc['url'] ?>" class="hover:underline"><?= $bc['name'] ?></a><?= $index < count($breadcrumb)-1 ? ' <span class="mx-1">›</span> ' : '' ?>
       <?php endforeach; ?>
       </div>
       <?php endif; ?>
@@ -615,7 +615,7 @@ else { ?>
 
     <aside class="space-y-4">
       <div>
-        <h3 class="text-3xl font-bold mb-2 inline-block bg-indigo-100 text-indigo-900 px-3 py-1 rounded-lg">Knowledge Hub</h3>
+        <h3 class="text-3xl font-bold border-b-4 border-slate-700 mb-2">Knowledge Hub</h3>
         <ul class="space-y-1 text-[#3f56d9] text-base">
           <?php foreach ($menuPageGroups as $categoryName => $groupItems): ?>
             <?php foreach ($groupItems as $groupItem): ?>
@@ -626,19 +626,7 @@ else { ?>
       </div>
 
       <div>
-        <h4 class="text-2xl font-bold mb-2 inline-block bg-indigo-100 text-indigo-900 px-3 py-1 rounded-lg">Top Tourist States</h4>
-        <ul class="space-y-1 text-indigo-700 text-base">
-          <li><a class="hover:underline" href="/rajasthan-pincode">▸ Rajasthan</a></li>
-          <li><a class="hover:underline" href="/kerala-pincode">▸ Kerala</a></li>
-          <li><a class="hover:underline" href="/goa-pincode">▸ Goa</a></li>
-          <li><a class="hover:underline" href="/himachal-pradesh-pincode">▸ Himachal Pradesh</a></li>
-          <li><a class="hover:underline" href="/uttarakhand-pincode">▸ Uttarakhand</a></li>
-          <li><a class="hover:underline" href="/tamil-nadu-pincode">▸ Tamil Nadu</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h4 class="text-3xl font-bold mb-2 inline-block bg-slate-100 text-slate-800 px-3 py-1 rounded-lg">Essential Pages</h4>
+        <h4 class="text-3xl font-bold border-b-4 border-slate-700 mb-2">Essential Pages</h4>
         <ul class="space-y-1 text-[#3f56d9] text-base">
           <li><a class="hover:underline" href="/contact.php">▸ Contact</a></li>
           <li><a class="hover:underline" href="/terms.php">▸ Terms</a></li>
@@ -695,25 +683,6 @@ else { ?>
         </div>
       </section>
     </div>
-
-    <section class="mt-6 bg-[#111317] text-gray-100 rounded-2xl border border-slate-700 overflow-hidden">
-      <div class="p-4 md:p-6">
-        <h3 class="text-2xl md:text-3xl font-bold mb-4">India Pincode Dot Map: A Visual Story of Postal Geography</h3>
-        <img src="/assets/images/pincode-dot-map.svg" alt="India pincode dot map showing first digit postal zones" class="w-full rounded-xl border border-slate-600 mb-6" loading="lazy">
-        <div class="space-y-4 text-sm md:text-base leading-7 text-gray-200">
-          <p>This map transforms postal data into a visual language that anyone can understand in seconds. At first glance, it looks like a vibrant piece of digital art, but every dot has an operational meaning tied to real mail movement across India. Each colored point represents a unique pincode beginning digit, and each digit corresponds to a larger postal region in the national sorting framework. Instead of reading long tables, users can instantly see how the country is segmented for speed and reliability. The value of this map is not only educational; it is practical. It helps students, businesses, and households understand why a correctly written pincode can reduce delivery errors, save time, and improve address accuracy across online and offline transactions every single day.</p>
-          <p>The strongest feature of this visual is density. You can observe clusters where settlement patterns are intense and logistics demand is high, while sparse zones reveal terrain constraints, lower population spread, or difficult transport corridors. Together, these dots show that the pincode system is not random. It is a designed network built to scale with geography, distance, and service requirements. From metro neighborhoods to remote villages, the map communicates the same core message: postal intelligence is a distributed infrastructure, and every code belongs to a wider routing logic. For users on this website, this perspective supports better decision-making. When someone verifies a code before shipping, filling KYC forms, or completing public-service applications, they are tapping into an optimized national map that has evolved over decades.</p>
-          <p>Color coding is what makes this map instantly readable. The first digit in a six-digit pincode acts like a macro key for direction and region. On this map, each color indicates one of those broad entry zones, helping viewers connect numbers to territory without memorizing technical documentation. In practical terms, a courier partner can estimate first-leg routing, a seller can check likely serviceability constraints, and a citizen can better understand why nearby towns may still belong to different sorting paths. That distinction often explains common address confusion where similar place names exist in multiple states. By pairing color bands with dot distribution, the map gives clarity that plain text often cannot. It turns abstract postal architecture into a pattern that can be learned visually and remembered easily by first-time users.</p>
-          <p>Another important insight is continuity. Even though India has varied terrain—coasts, plateaus, river basins, deserts, and mountain belts—the pincode network behaves like a connected system. The map demonstrates this continuity through uninterrupted flows of points that trace how regional sorting centers link outward to district hubs and then to delivery post offices. This layered routing is why a six-digit code matters so much. The first three digits direct mail into the right sorting district, and the last three identify local delivery scope. If any part is wrong, mail may still travel within the network but with extra loops, delays, or redirection. For digital commerce, those small inefficiencies multiply rapidly. This map therefore doubles as a quality reminder: accurate pincodes are one of the simplest ways to improve fulfillment performance at scale.</p>
-          <p>For researchers and policy observers, the map can be read as a public infrastructure heat layer. Dense dot fields can align with urban expansion, commercial activity, administrative importance, and transport accessibility. Sparse regions can indicate geographic barriers, ecological constraints, or lower service concentration. While this view does not replace official planning datasets, it offers a strong first-pass lens for understanding postal reach and demand patterns. On this website, we use that philosophy to structure discovery: users can search directly by code, or navigate state to district to office when they need contextual validation. The visual map supports both behavior types. It gives fast orientation for newcomers and a cross-check mechanism for power users who compare multiple regions before making logistics or operational decisions across India.</p>
-          <p>There is also a literacy advantage in visual postal tools. Many users know their locality name but not the exact hierarchy of district, division, or sorting unit. A dot map acts as an intuitive bridge between local memory and formal address structure. Families relocating for work, students filling institutional forms, and small entrepreneurs onboarding delivery partners all face this challenge regularly. When they see a map that links codes to meaningful regional colors, confusion drops quickly. That is why this section is intentionally placed near ad space and discovery modules: high-traffic users can learn while they search, and new visitors can convert from casual browsing into precise lookup actions. In product terms, better understanding means fewer failed queries, stronger trust, and longer session depth—exactly what a utility platform should aim for.</p>
-          <p>From an operations standpoint, this map highlights the scale of coordination behind routine deliveries. Each dot corresponds to a locality that depends on synchronization among sorting facilities, transport legs, scheduling windows, and address quality. When users enter an incomplete or incorrect pincode, they are not just making a minor typo; they are introducing friction into a chain that handles enormous daily volume. The visual therefore serves as both information and behavior design. It encourages careful entry, verification before submission, and awareness that pincodes are core routing data—not optional decoration in an address line. Our search tools are built around that principle. Whether users start with a number, a district, or a post office name, the goal is to return structured results that reduce ambiguity and help deliveries reach the right endpoint on time.</p>
-          <p>Business users can extract actionable strategy from this view as well. Sellers expanding to new states can compare regional spread and prioritize onboarding in areas with stronger network density. Service teams can pre-plan customer communication for locations where logistical timelines differ due to geographic complexity. Field operations can standardize address intake workflows by making pincode validation mandatory at the first touchpoint. Even marketing teams can use state-wise pincode readiness to align campaigns with realistic delivery promise windows. In short, the map is not only an educational artifact; it is a planning aid. When combined with our state and district pages, it becomes part of a complete decision stack that supports growth without sacrificing fulfillment reliability or customer trust.</p>
-          <p>The map also reflects inclusion. Postal infrastructure is one of the few systems that touches nearly every socioeconomic segment, from major metros to remote settlements. Seeing every region represented as data points reinforces that national serviceability is not confined to headline cities. This matters for public confidence and for digital adoption. People are more likely to transact online, complete formal registrations, and use institutional services when address systems are understandable and dependable. Our platform extends that mission by converting raw postal records into searchable, human-readable pathways. The dot map is the visual entry point; the lookup tools are the execution layer. Together, they help users move from “I think this is my area code” to “I verified the exact office and pincode I need,” which is a meaningful upgrade in practical digital literacy.</p>
-          <p>Ultimately, this map is a reminder that six digits can represent an entire logistics story. Behind each point is a neighborhood, a delivery route, a branch office, and a user expectation. By presenting that story visually, we make postal understanding more accessible, memorable, and useful. Our commitment is to keep this experience practical: fast search, transparent data pathways, and contextual guides that help users make confident choices. If you are a frequent shipper, a student, a traveler, a business operator, or someone updating official records, start with the map mindset—identify region, validate district, confirm office, and use the exact pincode. That simple workflow reduces friction for everyone in the network. As India’s digital and physical commerce continues to grow, postal clarity will remain a foundational advantage.</p>
-        </div>
-      </div>
-    </section>
 
     <div class="mt-6 grid lg:grid-cols-3 gap-4 text-sm">
       <section class="bg-white border border-slate-200 rounded-xl p-4">
