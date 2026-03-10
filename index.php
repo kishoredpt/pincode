@@ -267,21 +267,59 @@ elseif ($pageType === 'menu_page') {
     position: absolute;
     right: 0;
     top: calc(100% + 0.4rem);
-    min-width: 10rem;
+    width: min(92vw, 64rem);
+    max-height: min(72vh, 38rem);
+    overflow: auto;
     background: #fff;
     border: 1px solid #e5e7eb;
-    border-radius: 0.5rem;
-    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
-    padding: 0.35rem;
+    border-radius: 0.9rem;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+    padding: 0.85rem;
     z-index: 20;
+  }
+  .menu-section-grid {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  }
+  .menu-section {
+    background: linear-gradient(135deg, #f8faff 0%, #f3f4ff 100%);
+    border: 1px solid #e4e8ff;
+    border-radius: 0.75rem;
+    padding: 0.55rem;
+  }
+  .menu-section-title {
+    display: block;
+    padding: 0.35rem 0.5rem;
+    margin-bottom: 0.3rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: #4f46e5;
+    text-transform: uppercase;
+    font-weight: 700;
   }
   .menu-item {
     display: block;
-    padding: 0.35rem 0.5rem;
-    border-radius: 0.35rem;
+    padding: 0.35rem 0.55rem;
+    border-radius: 0.5rem;
     text-align: left;
+    transition: background-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
   }
-  .menu-item:hover { background: #eef2ff; }
+  .menu-item:hover {
+    background: #eef2ff;
+    color: #312e81;
+    transform: translateX(2px);
+  }
+  @media (max-width: 767px) {
+    .menu-panel {
+      position: fixed;
+      right: 0.6rem;
+      left: 0.6rem;
+      width: auto;
+      top: 4.2rem;
+      max-height: 74vh;
+    }
+  }
 </style>
 
 <div class="max-w-[1100px] mx-auto px-4 md:px-6 py-6 md:py-10">
@@ -296,18 +334,24 @@ elseif ($pageType === 'menu_page') {
 <details class="menu-dropdown">
 <summary class="nav-link">Main ▾</summary>
 <div class="menu-panel text-sm font-medium">
+<div class="menu-section-grid">
+<div class="menu-section">
+<span class="menu-section-title">Quick Links</span>
 <a class="menu-item" href="/about.php">About</a>
 <a class="menu-item" href="/contact.php">Contact</a>
 <a class="menu-item" href="/privacy-policy.php">Privacy</a>
 <a class="menu-item" href="/terms.php">Terms</a>
 <a class="menu-item" href="/disclaimer.php">Disclaimer</a>
-<hr class="my-2">
+</div>
 <?php foreach ($menuPageGroups as $categoryName => $groupItems): ?>
-<div class="px-2 py-1 text-[11px] uppercase text-gray-500 tracking-wide"><?= htmlspecialchars($categoryName) ?></div>
+<div class="menu-section">
+<span class="menu-section-title"><?= htmlspecialchars($categoryName) ?></span>
 <?php foreach ($groupItems as $groupItem): ?>
 <a class="menu-item" href="/menu-<?= htmlspecialchars($groupItem['slug']) ?>"><?= htmlspecialchars($groupItem['subsection']) ?> → <?= htmlspecialchars($groupItem['anchor_city']) ?></a>
 <?php endforeach; ?>
+</div>
 <?php endforeach; ?>
+</div>
 </div>
 </details>
 </nav>
