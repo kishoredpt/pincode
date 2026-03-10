@@ -568,7 +568,7 @@ else { ?>
 
       <div class="mt-6 bg-white border border-emerald-200 rounded-xl p-3">
         <div class="flex items-center justify-between gap-2 mb-2">
-          <h3 class="text-base font-semibold text-emerald-800">Near by pincodes (Auto Detection)</h3>
+          <h2 class="text-base font-semibold text-emerald-800">Near By Pincodes</h2>
           <button id="detectNearbyBtn" type="button" class="text-xs bg-emerald-600 text-white px-3 py-1.5 rounded hover:bg-emerald-700">Detect</button>
         </div>
         <p id="nearbyStatus" class="text-xs text-gray-600">Allow location access to find nearby post offices and pincodes.</p>
@@ -622,18 +622,6 @@ else { ?>
             <li><a class="hover:underline" href="/menu-<?= htmlspecialchars($groupItem['slug']) ?>">▸ <?= htmlspecialchars($groupItem['subsection']) ?></a></li>
             <?php endforeach; ?>
           <?php endforeach; ?>
-        </ul>
-      </div>
-
-      <div>
-        <h4 class="text-2xl font-bold border-b-4 border-emerald-700 mb-2 text-emerald-800">Top Tourist States</h4>
-        <ul class="space-y-1 text-[#1f7a52] text-base">
-          <li><a class="hover:underline" href="/rajasthan-pincode">▸ Rajasthan</a></li>
-          <li><a class="hover:underline" href="/kerala-pincode">▸ Kerala</a></li>
-          <li><a class="hover:underline" href="/goa-pincode">▸ Goa</a></li>
-          <li><a class="hover:underline" href="/himachal-pradesh-pincode">▸ Himachal Pradesh</a></li>
-          <li><a class="hover:underline" href="/uttarakhand-pincode">▸ Uttarakhand</a></li>
-          <li><a class="hover:underline" href="/tamil-nadu-pincode">▸ Tamil Nadu</a></li>
         </ul>
       </div>
 
