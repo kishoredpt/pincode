@@ -449,7 +449,7 @@ $res=$stmt->get_result();
 <?php while($row=$res->fetch_assoc()){
     $officeSlug=toSlug($row['officename']);
 ?>
-<div class="bg-white p-6 rounded-xl shadow">
+<div class="bg-white p-5 rounded-xl shadow w-full">
 <h3 class="font-semibold">
 <a class="text-indigo-700 hover:underline" href="/<?= $officeSlug ?>-post-office-<?= $row['pincode'] ?>">
 <?= htmlspecialchars($row['officename']) ?>
@@ -501,7 +501,7 @@ Below, you can explore detailed information about post offices linked to <?= htm
 
 <?php foreach($pageData as $row){ ?>
 
-<div class="bg-white p-6 rounded-xl shadow">
+<div class="bg-white p-5 rounded-xl shadow w-full">
 
 <h3 class="font-semibold">
 <?= htmlspecialchars($row['officename']) ?>
@@ -878,7 +878,7 @@ resultsDiv.innerHTML="No results found";
 return;
 }
 
-let html=`<div class="grid md:grid-cols-2 gap-6">`;
+let html=`<div class="grid grid-cols-1 gap-4">`;
 
 data.forEach(row=>{
 
@@ -894,7 +894,7 @@ href="https://www.google.com/maps?q=${row.latitude},${row.longitude}">
 const pincodeValue = row.pincode ?? row.Pincode ?? "";
 
 html+=`
-<div class="bg-white p-6 rounded-xl shadow">
+<div class="bg-white p-5 rounded-xl shadow w-full">
 <h3 class="font-semibold text-lg">${row.officename}</h3>
 <p>${row.district}, ${row.statename}</p>
 <p>Pincode: <b>${pincodeValue}</b></p>
