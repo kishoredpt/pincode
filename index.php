@@ -277,6 +277,24 @@ elseif ($pageType === 'menu_page') {
     padding: 0.85rem;
     z-index: 20;
   }
+  .menu-close-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.55rem;
+  }
+  .menu-close-btn {
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    padding: 0.25rem 0.55rem;
+    font-size: 0.75rem;
+    color: #374151;
+    background: #fff;
+    cursor: pointer;
+  }
+  .menu-close-btn:hover {
+    background: #f3f4f6;
+    color: #111827;
+  }
   .menu-section-grid {
     display: grid;
     gap: 0.75rem;
@@ -332,9 +350,12 @@ elseif ($pageType === 'menu_page') {
 <a class="nav-link" href="/">Home</a>
 <a class="nav-link" href="/author.php">Author</a>
 <a class="nav-link" href="/contact.php">Contact</a>
-<details class="menu-dropdown">
+<details class="menu-dropdown" id="mainMenuDropdown">
 <summary class="nav-link">Main ▾</summary>
 <div class="menu-panel text-sm font-medium">
+<div class="menu-close-row">
+<button type="button" class="menu-close-btn" id="mainMenuCloseBtn" aria-label="Close main menu">Close ✕</button>
+</div>
 <div class="menu-section-grid">
 <div class="menu-section">
 <span class="menu-section-title">Quick Links</span>
@@ -356,6 +377,26 @@ elseif ($pageType === 'menu_page') {
 </details>
 </nav>
 </div>
+
+<script>
+(function(){
+const mainMenuDropdown=document.getElementById("mainMenuDropdown");
+if(!mainMenuDropdown) return;
+
+const closeButton=document.getElementById("mainMenuCloseBtn");
+if(closeButton){
+closeButton.addEventListener("click",()=>{
+mainMenuDropdown.removeAttribute("open");
+});
+}
+
+mainMenuDropdown.querySelectorAll(".menu-item").forEach((menuLink)=>{
+menuLink.addEventListener("click",()=>{
+mainMenuDropdown.removeAttribute("open");
+});
+});
+})();
+</script>
 
 <!-- HEADER -->
 <?php
