@@ -764,7 +764,7 @@ else { ?>
     <section class="mt-6 bg-white border border-slate-200 rounded-xl p-4 md:p-6">
       <div class="grid lg:grid-cols-2 gap-6 items-start">
         <figure class="bg-slate-50 border border-slate-200 rounded-xl p-3">
-          <img src="/assets/images/pincode-dot-map.svg" alt="India map in dotted format showing postal coverage and routing context" class="w-full h-auto rounded-lg">
+          <img src="/public_html/assets/images/location/india-dot-map-context.svg" alt="India map in dotted format showing postal coverage and routing context" class="w-full h-auto rounded-lg">
           <figcaption class="text-xs text-gray-600 mt-3">India pincode dot map for visualizing regional spread, routing continuity, and last-mile delivery context.</figcaption>
         </figure>
         <article>
