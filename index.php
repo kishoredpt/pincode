@@ -769,7 +769,7 @@ else { ?>
         </figure>
         <article>
           <h3 class="text-2xl md:text-3xl font-bold text-slate-900 mb-3">India State PIN Prefix Map Context</h3>
-          <p class="text-gray-700 text-sm md:text-base leading-7 mb-4">India’s 2-digit PIN map helps users connect each state and union territory with the first two routing digits used in postal sorting. Northern clusters such as Delhi, Haryana, Punjab, and Himachal share nearby series, while western states like Gujarat, Rajasthan, and Maharashtra follow grouped ranges. Southern states including Karnataka, Kerala, Tamil Nadu, and Telangana appear in distinct bands, and eastern plus northeastern states show separate prefixes for faster regional handling. Use this map as a orientation layer: identify the state, match its leading PIN digits, then verify the full six-digit pincode and post office before shipping or documentation.</p>
+          <p class="text-gray-700 text-sm md:text-base leading-7 mb-4">This section explains how India’s 2-digit PIN prefixes are grouped across states and union territories for postal routing. Northern regions such as Delhi, Haryana, Punjab, and Himachal Pradesh generally use nearby series, while western states like Gujarat, Rajasthan, and Maharashtra follow clustered ranges. Southern states including Karnataka, Kerala, Tamil Nadu, Telangana, and Andhra Pradesh appear in distinct bands, and eastern plus northeastern regions use separate prefixes for faster regional sorting. Use the map as a quick reference: identify the state, match the leading PIN digits, and then verify the full six-digit pincode and post office before shipping or documentation.</p>
         </article>
       </div>
     </section>
