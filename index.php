@@ -49,6 +49,10 @@ function toSlug($value){
     return trim($value,'-');
 }
 
+$railTableCheck = $conn->query("SHOW TABLES LIKE 'railway_stations'");
+$mapTableCheck = $conn->query("SHOW TABLES LIKE 'pincode_nearest_railway_station'");
+$railwayTablesAvailable = ($railTableCheck && $railTableCheck->num_rows > 0 && $mapTableCheck && $mapTableCheck->num_rows > 0);
+
 /* =========================
 ROUTE ENGINE
 ========================= */

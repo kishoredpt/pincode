@@ -30,6 +30,16 @@ $stmt = $conn->prepare(
      LIMIT 50"
 );
 
+if (!$stmt) {
+    $stmt = $conn->prepare(
+        "SELECT officename, pincode, officetype, delivery, district, statename, latitude, longitude
+         FROM post_offices
+         WHERE pincode = ?
+         ORDER BY officename
+         LIMIT 50"
+    );
+}
+
 $stmt->bind_param('s', $q);
 $stmt->execute();
 $result = $stmt->get_result();
