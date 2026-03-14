@@ -7,3 +7,8 @@ ALTER TABLE post_offices ADD INDEX idx_updated_at (updated_at);
 
 ALTER TABLE articles ADD INDEX idx_articles_slug (slug);
 ALTER TABLE articles ADD INDEX idx_articles_created_at (created_at);
+
+-- Railway mapping indexes
+ALTER TABLE railway_stations ADD INDEX idx_major_station (is_major, station_name);
+ALTER TABLE pincode_nearest_railway_station ADD INDEX idx_pincode_distance (pincode, distance_km);
+

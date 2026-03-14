@@ -17,10 +17,16 @@ if (!preg_match('/^[0-9]{6}$/', $q)) {
 }
 
 $stmt = $conn->prepare(
-    "SELECT officename, pincode, officetype, delivery, district, statename, latitude, longitude
-     FROM post_offices
-     WHERE pincode = ?
-     ORDER BY officename
+    "SELECT po.officename, po.pincode, po.officetype, po.delivery, po.district, po.statename,
+            po.latitude, po.longitude,
+            rs.station_name AS nearest_station_name,
+            rs.station_code AS nearest_station_code,
+            pnr.distance_km AS nearest_station_distance_km
+     FROM post_offices po
+     LEFT JOIN pincode_nearest_railway_station pnr ON pnr.pincode = po.pincode
+     LEFT JOIN railway_stations rs ON rs.id = pnr.station_id
+     WHERE po.pincode = ?
+     ORDER BY po.officename
      LIMIT 50"
 );
 
