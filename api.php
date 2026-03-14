@@ -50,22 +50,12 @@ while ($row = $result->fetch_assoc()) {
 }
 
 $hasNearestContext = false;
-foreach ($data as &$row) {
-    $distanceValue = isset($row['nearest_station_distance_km']) ? (float)$row['nearest_station_distance_km'] : null;
-    $hasValidNearest = !empty($row['nearest_station_name'])
-        && !empty($row['nearest_station_code'])
-        && $distanceValue !== null
-        && $distanceValue <= 500.0;
-
-    if ($hasValidNearest) {
+foreach ($data as $row) {
+    if (!empty($row['nearest_station_name']) && !empty($row['nearest_station_code'])) {
         $hasNearestContext = true;
-    } else {
-        $row['nearest_station_name'] = null;
-        $row['nearest_station_code'] = null;
-        $row['nearest_station_distance_km'] = null;
+        break;
     }
 }
-unset($row);
 
 if (!$hasNearestContext && count($data) > 0) {
     $fallbackLat = null;
@@ -83,19 +73,9 @@ if (!$hasNearestContext && count($data) > 0) {
             && is_numeric($candidateLat)
             && is_numeric($candidateLon)
         ) {
-            $normalizedLat = (float) $candidateLat;
-            $normalizedLon = (float) $candidateLon;
-
-            if (
-                $normalizedLat >= 6.0
-                && $normalizedLat <= 38.0
-                && $normalizedLon >= 68.0
-                && $normalizedLon <= 98.0
-            ) {
-                $fallbackLat = $normalizedLat;
-                $fallbackLon = $normalizedLon;
-                break;
-            }
+            $fallbackLat = (float) $candidateLat;
+            $fallbackLon = (float) $candidateLon;
+            break;
         }
     }
 
@@ -108,9 +88,6 @@ if (!$hasNearestContext && count($data) > 0) {
                     ), 1) AS distance_km
              FROM railway_stations
              WHERE latitude IS NOT NULL AND longitude IS NOT NULL
-               AND latitude BETWEEN 6.0 AND 38.0
-               AND longitude BETWEEN 68.0 AND 98.0
-             HAVING distance_km IS NOT NULL
              ORDER BY distance_km ASC
              LIMIT 1"
         );
@@ -122,16 +99,12 @@ if (!$hasNearestContext && count($data) > 0) {
 
             if ($nearestRes && $nearestRes->num_rows > 0) {
                 $nearest = $nearestRes->fetch_assoc();
-                $nearestDistance = isset($nearest['distance_km']) ? (float)$nearest['distance_km'] : null;
-
-                if ($nearestDistance !== null && $nearestDistance <= 500.0) {
-                    foreach ($data as &$row) {
-                        $row['nearest_station_name'] = $nearest['station_name'] ?? null;
-                        $row['nearest_station_code'] = $nearest['station_code'] ?? null;
-                        $row['nearest_station_distance_km'] = $nearest['distance_km'] ?? null;
-                    }
-                    unset($row);
+                foreach ($data as &$row) {
+                    $row['nearest_station_name'] = $nearest['station_name'] ?? null;
+                    $row['nearest_station_code'] = $nearest['station_code'] ?? null;
+                    $row['nearest_station_distance_km'] = $nearest['distance_km'] ?? null;
                 }
+                unset($row);
             }
         }
     }
