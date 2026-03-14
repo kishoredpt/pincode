@@ -1023,6 +1023,24 @@ return;
 
 let html=`<div class="grid grid-cols-1 gap-4">`;
 
+const firstRow=data[0] || {};
+const nearestName=firstRow.nearest_station_name || "";
+const nearestCode=firstRow.nearest_station_code || "";
+const nearestDistanceRaw=firstRow.nearest_station_distance_km;
+const nearestDistance=
+nearestDistanceRaw !== undefined && nearestDistanceRaw !== null && nearestDistanceRaw !== ""
+? Number(nearestDistanceRaw).toFixed(1)
+: "";
+
+if(nearestName && nearestCode){
+html+=`
+<div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4">
+  <h3 class="font-semibold text-indigo-900">Nearest Railway Station</h3>
+  <p class="text-sm text-gray-800 mt-1">Station: <b>${escapeHtml(nearestName)}</b> (${escapeHtml(nearestCode)})</p>
+  <p class="text-sm text-gray-800">Approx Distance: <b>${escapeHtml(nearestDistance)}</b> km</p>
+</div>`;
+}
+
 data.forEach(row=>{
 
 let map="";
@@ -1038,9 +1056,9 @@ const pincodeValue = row.pincode ?? row.Pincode ?? "";
 
 html+=`
 <div class="bg-white p-5 rounded-xl shadow w-full">
-<h3 class="font-semibold text-lg">${row.officename}</h3>
-<p>${row.district}, ${row.statename}</p>
-<p>Pincode: <b>${pincodeValue}</b></p>
+<h3 class="font-semibold text-lg">${escapeHtml(row.officename || "")}</h3>
+<p>${escapeHtml(row.district || "")}, ${escapeHtml(row.statename || "")}</p>
+<p>Pincode: <b>${escapeHtml(pincodeValue)}</b></p>
 ${map}
 </div>`;
 });
@@ -1048,6 +1066,15 @@ ${map}
 html+="</div>";
 
 resultsDiv.innerHTML=html;
+}
+
+function escapeHtml(value){
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/\"/g,"&quot;")
+.replace(/'/g,"&#039;");
 }
 
 /* STATE AUTHORITY */
