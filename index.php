@@ -37,7 +37,6 @@ if($route===''){
 $pageType="home";
 $pageData=[];
 $nearestRailwayContext = null;
-$railwayTablesAvailable = false;
 $menuPages = getMenuPages();
 $menuPageGroups = [];
 foreach ($menuPages as $menuPageItem) {
@@ -160,71 +159,34 @@ elseif($route){
                 $pageData[]=$row;
             }
 
-            if ($railwayTablesAvailable) {
-                $pinLat = null;
-                $pinLon = null;
+            $pinLat = $pageData[0]['latitude'] ?? null;
+            $pinLon = $pageData[0]['longitude'] ?? null;
 
-                foreach ($pageData as $pinRow) {
-                    $candidateLat = strtolower(trim((string)($pinRow['latitude'] ?? '')));
-                    $candidateLon = strtolower(trim((string)($pinRow['longitude'] ?? '')));
-
-                    if (
-                        $candidateLat !== ''
-                        && $candidateLon !== ''
-                        && $candidateLat !== 'nan'
-                        && $candidateLon !== 'nan'
-                        && is_numeric($candidateLat)
-                        && is_numeric($candidateLon)
-                    ) {
-                        $pinLat = (float) $candidateLat;
-                        $pinLon = (float) $candidateLon;
-                        break;
-                    }
+            $stmtRail = $conn->prepare("\n                SELECT rs.station_name, rs.station_code, pnr.distance_km\n                FROM pincode_nearest_railway_station pnr\n                INNER JOIN railway_stations rs ON rs.id = pnr.station_id\n                WHERE pnr.pincode = ?\n                ORDER BY pnr.distance_km ASC\n                LIMIT 1\n            ");
+            if ($stmtRail) {
+                $stmtRail->bind_param("s", $slug);
+                $stmtRail->execute();
+                $railRes = $stmtRail->get_result();
+                if ($railRes && $railRes->num_rows > 0) {
+                    $nearestRailwayContext = $railRes->fetch_assoc();
                 }
+            }
 
-                $stmtRail = $conn->prepare("
-                SELECT rs.station_name, rs.station_code, pnr.distance_km
-                FROM pincode_nearest_railway_station pnr
-                INNER JOIN railway_stations rs ON rs.id = pnr.station_id
-                WHERE pnr.pincode = ?
-                ORDER BY pnr.distance_km ASC
-                LIMIT 1
-            ");
-                if ($stmtRail) {
-                    $stmtRail->bind_param("s", $slug);
-                    $stmtRail->execute();
-                    $railRes = $stmtRail->get_result();
-                    if ($railRes && $railRes->num_rows > 0) {
-                        $nearestRailwayContext = $railRes->fetch_assoc();
-                    }
-                }
+            if (
+                !$nearestRailwayContext
+                && is_numeric($pinLat)
+                && is_numeric($pinLon)
+            ) {
+                $lat = (float) $pinLat;
+                $lon = (float) $pinLon;
+                $stmtRailFallback = $conn->prepare("\n                    SELECT station_name, station_code,\n                           ROUND(6371 * ACOS(\n                               COS(RADIANS(?)) * COS(RADIANS(latitude)) * COS(RADIANS(longitude) - RADIANS(?)) +\n                               SIN(RADIANS(?)) * SIN(RADIANS(latitude))\n                           ), 1) AS distance_km\n                    FROM railway_stations\n                    WHERE latitude IS NOT NULL AND longitude IS NOT NULL\n                    ORDER BY distance_km ASC\n                    LIMIT 1\n                ");
 
-                if (
-                    !$nearestRailwayContext
-                    && is_numeric($pinLat)
-                    && is_numeric($pinLon)
-                ) {
-                    $lat = (float) $pinLat;
-                    $lon = (float) $pinLon;
-                    $stmtRailFallback = $conn->prepare("
-                    SELECT station_name, station_code,
-                           ROUND(6371 * ACOS(
-                               COS(RADIANS(?)) * COS(RADIANS(latitude)) * COS(RADIANS(longitude) - RADIANS(?)) +
-                               SIN(RADIANS(?)) * SIN(RADIANS(latitude))
-                           ), 1) AS distance_km
-                    FROM railway_stations
-                    WHERE latitude IS NOT NULL AND longitude IS NOT NULL
-                    ORDER BY distance_km ASC
-                    LIMIT 1
-                ");
-
-                    if ($stmtRailFallback) {
-                        $stmtRailFallback->bind_param("ddd", $lat, $lon, $lat);
-                        $stmtRailFallback->execute();
-                        $fallbackRes = $stmtRailFallback->get_result();
-                        if ($fallbackRes && $fallbackRes->num_rows > 0) {
-                            $nearestRailwayContext = $fallbackRes->fetch_assoc();
-                        }
+                if ($stmtRailFallback) {
+                    $stmtRailFallback->bind_param("ddd", $lat, $lon, $lat);
+                    $stmtRailFallback->execute();
+                    $fallbackRes = $stmtRailFallback->get_result();
+                    if ($fallbackRes && $fallbackRes->num_rows > 0) {
+                        $nearestRailwayContext = $fallbackRes->fetch_assoc();
                     }
                 }
             }
