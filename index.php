@@ -22,6 +22,8 @@ if(preg_match('/^blog\/([a-zA-Z0-9-]+)$/',$requestPath,$blogMatch)){
 
 require_once "config/db.php";
 require_once __DIR__ . "/includes/menu-pages.php";
+require_once __DIR__ . "/includes/slug.php";
+require_once __DIR__ . "/includes/site-settings.php";
 
 $route = $_GET['route'] ?? '';
 
@@ -44,15 +46,7 @@ foreach ($menuPages as $menuPageItem) {
 }
 
 function toSlug($value){
-    $value=(string)$value;
-    $value=html_entity_decode($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-    $value=iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $value);
-    if($value===false){
-        $value='';
-    }
-    $value=strtolower(trim($value));
-    $value=preg_replace('/[^a-z0-9]+/','-',$value);
-    return trim((string)$value,'-');
+    return slugify_text($value);
 }
 
 $railTableCheck = $conn->query("SHOW TABLES LIKE 'railway_stations'");
@@ -143,7 +137,7 @@ if($route && preg_match('/^nearest-railway-station-(\d{6})$/',$route,$railRouteM
 }
 elseif($route && preg_match('/^(.+)-post-office-(\d{6})$/',$route,$officeMatch)){
 
-    $officeSlug=$officeMatch[1];
+    $officeSlug=(string)$officeMatch[1];
     $pincode=$officeMatch[2];
 
     $stmt=$conn->prepare("\n        SELECT *\n        FROM post_offices\n        WHERE pincode=?\n        ORDER BY officename\n        LIMIT 100\n    ");
@@ -152,15 +146,50 @@ elseif($route && preg_match('/^(.+)-post-office-(\d{6})$/',$route,$officeMatch))
     $res=$stmt->get_result();
 
     $officeMatchRow=null;
+    $candidateRows=[];
 
     while($row=$res->fetch_assoc()){
-        if(toSlug($row['officename'])===$officeSlug){
+        $rowSlug = toSlug($row['officename'] ?? '');
+        if($rowSlug===''){
+            continue;
+        }
+        $candidateRows[] = ['row' => $row, 'slug' => $rowSlug];
+
+        if($rowSlug===$officeSlug){
             $officeMatchRow=$row;
             break;
         }
     }
 
+    if(!$officeMatchRow){
+        $normalizedOfficeSlug = toSlug(str_replace('-', ' ', $officeSlug));
+        if($normalizedOfficeSlug !== '' && !is_malformed_office_slug($normalizedOfficeSlug)){
+            $bestCandidate = null;
+            $bestDistance = null;
+
+            foreach($candidateRows as $candidate){
+                $distance = levenshtein($normalizedOfficeSlug, $candidate['slug']);
+                if($bestDistance===null || $distance < $bestDistance){
+                    $bestDistance = $distance;
+                    $bestCandidate = $candidate;
+                }
+            }
+
+            if($bestCandidate && $bestDistance !== null && $bestDistance <= 2){
+                $redirectUrl = '/'.$bestCandidate['slug'].'-post-office-'.$pincode;
+                header('Location: '.$redirectUrl, true, 301);
+                exit;
+            }
+        }
+    }
+
     if($officeMatchRow){
+        $canonicalSlug = toSlug($officeMatchRow['officename'] ?? '');
+        if($canonicalSlug !== '' && $officeSlug !== $canonicalSlug){
+            header('Location: /'.$canonicalSlug.'-post-office-'.$pincode, true, 301);
+            exit;
+        }
+
         $pageType="office";
         $pageData=$officeMatchRow;
     }
@@ -349,6 +378,9 @@ $seoDescription = "Search Indian PIN Codes, Post Offices, Districts and States a
 $canonical = "https://pincodelocator.co.in/";
 $metaRobots = "index, follow";
 
+$gscVerification = gsc_site_verification();
+$ga4Id = ga4_measurement_id();
+
 /* STATE PAGE */
 if($pageType=="office"){
 
@@ -420,6 +452,10 @@ elseif ($pageType === 'menu_page') {
 <meta name="twitter:title" content="<?= htmlspecialchars($seoTitle, ENT_QUOTES, "UTF-8") ?>">
 <meta name="twitter:description" content="<?= htmlspecialchars($seoDescription, ENT_QUOTES, "UTF-8") ?>">
 
+<?php if($gscVerification !== ''): ?>
+<meta name="google-site-verification" content="<?= htmlspecialchars($gscVerification, ENT_QUOTES, "UTF-8") ?>">
+<?php endif; ?>
+
 <?php if($route): ?>
 <script type="application/ld+json">
 {
@@ -454,6 +490,16 @@ elseif ($pageType === 'menu_page') {
  }
 }
 </script>
+
+<?php if($ga4Id !== ''): ?>
+<script async src="https://www.googletagmanager.com/gtag/js?id=<?= htmlspecialchars($ga4Id, ENT_QUOTES, "UTF-8") ?>"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '<?= htmlspecialchars($ga4Id, ENT_QUOTES, "UTF-8") ?>');
+</script>
+<?php endif; ?>
 
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -599,6 +645,23 @@ mainMenuDropdown.removeAttribute("open");
 });
 })();
 </script>
+
+<?php if($route): ?>
+<nav class="text-sm text-gray-600 mb-5" aria-label="Breadcrumb">
+  <ol class="flex flex-wrap items-center gap-2">
+    <?php foreach($breadcrumb as $i=>$bc): ?>
+      <li class="flex items-center gap-2">
+        <?php if($i < count($breadcrumb)-1): ?>
+          <a class="hover:text-indigo-700 hover:underline" href="<?= htmlspecialchars($bc['url']) ?>"><?= htmlspecialchars($bc['name']) ?></a>
+          <span aria-hidden="true">›</span>
+        <?php else: ?>
+          <span class="font-semibold text-gray-800"><?= htmlspecialchars($bc['name']) ?></span>
+        <?php endif; ?>
+      </li>
+    <?php endforeach; ?>
+  </ol>
+</nav>
+<?php endif; ?>
 
 <!-- HEADER -->
 <?php
@@ -907,6 +970,28 @@ $officeType = trim((string)($pageData['officetype'] ?? ''));
 $officeDelivery = trim((string)($pageData['delivery'] ?? ''));
 $districtSlug = $officeDistrict!=='' ? toSlug($officeDistrict) : '';
 $stateSlug = $officeState!=='' ? toSlug($officeState) : '';
+$officeDivision = trim((string)($pageData['divisionname'] ?? ''));
+$officeRegion = trim((string)($pageData['regionname'] ?? ''));
+$officeCircle = trim((string)($pageData['circlename'] ?? ''));
+$officeTaluk = trim((string)($pageData['taluk'] ?? ''));
+
+$relatedOffices = [];
+$relatedStmt = $conn->prepare("
+    SELECT officename,pincode,officetype,delivery,district,statename
+    FROM post_offices
+    WHERE pincode=? AND officename<>?
+    ORDER BY officename ASC
+    LIMIT 8
+");
+if($relatedStmt){
+    $relatedStmt->bind_param("ss",$officePin,$officeName);
+    $relatedStmt->execute();
+    $relatedRes = $relatedStmt->get_result();
+    while($relatedRes && $rel = $relatedRes->fetch_assoc()){
+        $relatedOffices[]=$rel;
+    }
+}
+$relatedCount = count($relatedOffices);
 ?>
 
 <h1 class="text-3xl font-bold mb-8">
@@ -938,6 +1023,97 @@ $stateSlug = $officeState!=='' ? toSlug($officeState) : '';
     Nearby hierarchy links: <?php if($districtSlug!==''): ?><a class="text-indigo-700 underline" href="/<?= htmlspecialchars($districtSlug) ?>-pincode"><?= htmlspecialchars($officeDistrict) ?> district PIN directory</a><?php endif; ?><?php if($districtSlug!=='' && $stateSlug!==''): ?> · <?php endif; ?><?php if($stateSlug!==''): ?><a class="text-indigo-700 underline" href="/<?= htmlspecialchars($stateSlug) ?>-pincode"><?= htmlspecialchars($officeState) ?> state PIN directory</a><?php endif; ?>.
   </p>
 </section>
+
+<section class="bg-indigo-50 border border-indigo-100 p-6 rounded-xl shadow mt-6 leading-7 text-gray-800">
+  <h2 class="text-2xl font-semibold mb-3">Detailed delivery profile and address guidance</h2>
+  <p class="mb-3">
+    <strong><?= htmlspecialchars($officeName) ?> Post Office</strong> serves PIN code <strong><?= htmlspecialchars($officePin) ?></strong> in
+    <strong><?= htmlspecialchars($officeDistrict) ?></strong>, <?= htmlspecialchars($officeState) ?>. For address formatting, include the house/locality name,
+    village or urban sector, <strong><?= htmlspecialchars($officeName) ?></strong> as the post office, district, state, and PIN in the final line.
+    This reduces sorting delays in automated and manual mail routing workflows.
+  </p>
+  <p class="mb-3">
+    Operationally, this office is tagged as <strong><?= htmlspecialchars($officeType!=='' ? $officeType : 'Not specified') ?></strong>
+    with delivery status <strong><?= htmlspecialchars($officeDelivery!=='' ? $officeDelivery : 'Not specified') ?></strong>.
+    <?= $officeTaluk!=='' ? 'It is mapped to taluk/tehsil: <strong>'.htmlspecialchars($officeTaluk).'</strong>.' : 'Taluk/tehsil details are not available in the current source record.' ?>
+    <?= $officeDivision!=='' ? 'Postal division: <strong>'.htmlspecialchars($officeDivision).'</strong>.' : '' ?>
+    <?= $officeRegion!=='' ? 'Region: <strong>'.htmlspecialchars($officeRegion).'</strong>.' : '' ?>
+    <?= $officeCircle!=='' ? 'Circle: <strong>'.htmlspecialchars($officeCircle).'</strong>.' : '' ?>
+  </p>
+  <p>
+    Practical use cases include ecommerce order validation, KYC address checks, beneficiary communication, and routing planning for important documents.
+    Always verify service windows, pickup availability, and holiday operations directly with official India Post channels before dispatching time-sensitive shipments.
+  </p>
+</section>
+
+<?php if($relatedCount>0): ?>
+<section class="bg-white p-6 rounded-xl shadow mt-6">
+  <h2 class="text-2xl font-semibold mb-4">Other post offices under PIN <?= htmlspecialchars($officePin) ?></h2>
+  <p class="text-gray-700 mb-3">Found <?= htmlspecialchars((string)$relatedCount) ?> related offices in the same PIN cluster for hierarchy and routing context.</p>
+  <div class="grid md:grid-cols-2 gap-3">
+    <?php foreach($relatedOffices as $rel): ?>
+      <?php $relSlug = toSlug($rel['officename'] ?? ''); ?>
+      <?php if($relSlug==='') continue; ?>
+      <a class="block border rounded-lg p-3 hover:bg-indigo-50" href="/<?= htmlspecialchars($relSlug) ?>-post-office-<?= htmlspecialchars($rel['pincode']) ?>">
+        <div class="font-semibold text-indigo-800"><?= htmlspecialchars($rel['officename']) ?> (<?= htmlspecialchars($rel['pincode']) ?>)</div>
+        <div class="text-sm text-gray-700"><?= htmlspecialchars($rel['district']) ?>, <?= htmlspecialchars($rel['statename']) ?></div>
+        <div class="text-xs text-gray-600">Type: <?= htmlspecialchars($rel['officetype'] ?? 'N/A') ?> · Delivery: <?= htmlspecialchars($rel['delivery'] ?? 'N/A') ?></div>
+      </a>
+    <?php endforeach; ?>
+  </div>
+</section>
+<?php endif; ?>
+
+<section class="bg-white p-6 rounded-xl shadow mt-6">
+  <h2 class="text-2xl font-semibold mb-4">FAQs for <?= htmlspecialchars($officeName) ?> Post Office</h2>
+  <div class="space-y-4 text-gray-800">
+    <div>
+      <h3 class="font-semibold">Which district and state does this office belong to?</h3>
+      <p><?= htmlspecialchars($officeName) ?> Post Office is listed in <?= htmlspecialchars($officeDistrict) ?> district, <?= htmlspecialchars($officeState) ?>.</p>
+    </div>
+    <div>
+      <h3 class="font-semibold">What is the PIN code for this office?</h3>
+      <p>The mapped PIN code for <?= htmlspecialchars($officeName) ?> Post Office is <strong><?= htmlspecialchars($officePin) ?></strong>.</p>
+    </div>
+    <div>
+      <h3 class="font-semibold">Can I use this page for official confirmation?</h3>
+      <p>This page is a structured reference. For mission-critical work, confirm final serviceability and timings on official India Post channels.</p>
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which district and state does this office belong to?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "<?= htmlspecialchars($officeName) ?> Post Office is listed in <?= htmlspecialchars($officeDistrict) ?> district, <?= htmlspecialchars($officeState) ?>."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the PIN code for this office?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The mapped PIN code for <?= htmlspecialchars($officeName) ?> Post Office is <?= htmlspecialchars($officePin) ?>."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use this page for official confirmation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This page is a structured reference. For mission-critical work, confirm final serviceability and timings on official India Post channels."
+      }
+    }
+  ]
+}
+</script>
 
 <?php }
 elseif($pageType=="menu_page"){
