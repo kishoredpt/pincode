@@ -23,7 +23,6 @@ if(preg_match('/^blog\/([a-zA-Z0-9-]+)$/',$requestPath,$blogMatch)){
 require_once "config/db.php";
 require_once __DIR__ . "/includes/menu-pages.php";
 require_once __DIR__ . "/includes/slug.php";
-require_once __DIR__ . "/includes/site-settings.php";
 
 $route = $_GET['route'] ?? '';
 
