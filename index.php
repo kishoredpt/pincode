@@ -374,6 +374,16 @@ elseif ($pageType === 'menu_page') {
 
 <link rel="canonical" href="<?= htmlspecialchars($canonical, ENT_QUOTES, "UTF-8") ?>">
 
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PincodeLocator.co.in">
+<meta property="og:title" content="<?= htmlspecialchars($seoTitle, ENT_QUOTES, "UTF-8") ?>">
+<meta property="og:description" content="<?= htmlspecialchars($seoDescription, ENT_QUOTES, "UTF-8") ?>">
+<meta property="og:url" content="<?= htmlspecialchars($canonical, ENT_QUOTES, "UTF-8") ?>">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="<?= htmlspecialchars($seoTitle, ENT_QUOTES, "UTF-8") ?>">
+<meta name="twitter:description" content="<?= htmlspecialchars($seoDescription, ENT_QUOTES, "UTF-8") ?>">
+
 <?php if($route): ?>
 <script type="application/ld+json">
 {
@@ -394,6 +404,20 @@ elseif ($pageType === 'menu_page') {
 <?php endif; ?>
 
 <meta name="robots" content="<?= htmlspecialchars($metaRobots, ENT_QUOTES, "UTF-8") ?>">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebSite",
+ "name": "PincodeLocator.co.in",
+ "url": "https://pincodelocator.co.in/",
+ "potentialAction": {
+   "@type": "SearchAction",
+   "target": "https://pincodelocator.co.in/{search_term_string}",
+   "query-input": "required name=search_term_string"
+ }
+}
+</script>
 
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -486,7 +510,7 @@ elseif ($pageType === 'menu_page') {
 
 <!-- TOP BAR -->
 <div class="flex flex-col gap-4 md:flex-row md:justify-between md:items-center mb-6">
-<h1 class="text-2xl md:text-xl font-bold text-center md:text-left"><a href="/" class="inline-flex items-center gap-2 hover:text-indigo-700" aria-label="Go to home page">📮 <span>PincodeLocator.co.in</span></a></h1>
+<div class="text-2xl md:text-xl font-bold text-center md:text-left"><a href="/" class="inline-flex items-center gap-2 hover:text-indigo-700" aria-label="Go to home page">📮 <span>PincodeLocator.co.in</span></a></div>
 
 <nav class="w-full md:w-auto grid grid-cols-4 gap-2 md:flex md:items-center md:gap-5 text-sm font-medium text-center">
 <a class="nav-link" href="/">Home</a>
@@ -864,7 +888,7 @@ else { ?>
 
   <div class="grid lg:grid-cols-[320px_1fr_290px] gap-6 p-4 md:p-6">
     <aside>
-      <h2 class="text-4xl leading-tight font-extrabold mb-4 text-slate-800">Pincode Finder</h2>
+      <h1 class="text-4xl leading-tight font-extrabold mb-4 text-slate-800">India Pincode Finder</h1>
       <div class="bg-gradient-to-r from-rose-600 to-orange-500 text-white font-semibold text-center py-3 rounded-lg shadow">SMART PINCODE SEARCH</div>
 
       <div class="space-y-3 mt-4">

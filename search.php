@@ -1,5 +1,6 @@
 <?php
 require_once 'config/db.php';
+header('X-Robots-Tag: noindex, nofollow', true);
 
 $q = trim($_GET['q'] ?? '');
 
