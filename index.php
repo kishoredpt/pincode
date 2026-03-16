@@ -172,11 +172,7 @@ elseif($route){
                 }
             }
 
-            if (
-                !$nearestRailwayContext
-                && is_numeric($pinLat)
-                && is_numeric($pinLon)
-            ) {
+            if (is_numeric($pinLat) && is_numeric($pinLon)) {
                 $lat = (float) $pinLat;
                 $lon = (float) $pinLon;
                 $stmtRailFallback = $conn->prepare("\n                    SELECT station_name, station_code,\n                           ROUND(6371 * ACOS(\n                               COS(RADIANS(?)) * COS(RADIANS(latitude)) * COS(RADIANS(longitude) - RADIANS(?)) +\n                               SIN(RADIANS(?)) * SIN(RADIANS(latitude))\n                           ), 1) AS distance_km\n                    FROM railway_stations\n                    WHERE latitude IS NOT NULL AND longitude IS NOT NULL\n                    ORDER BY distance_km ASC\n                    LIMIT 1\n                ");
@@ -186,7 +182,17 @@ elseif($route){
                     $stmtRailFallback->execute();
                     $fallbackRes = $stmtRailFallback->get_result();
                     if ($fallbackRes && $fallbackRes->num_rows > 0) {
-                        $nearestRailwayContext = $fallbackRes->fetch_assoc();
+                        $fallbackNearest = $fallbackRes->fetch_assoc();
+                        $mappedDistance = isset($nearestRailwayContext['distance_km']) ? (float)$nearestRailwayContext['distance_km'] : null;
+                        $fallbackDistance = isset($fallbackNearest['distance_km']) ? (float)$fallbackNearest['distance_km'] : null;
+
+                        if (
+                            !$nearestRailwayContext
+                            || !is_numeric($mappedDistance)
+                            || (is_numeric($fallbackDistance) && $fallbackDistance + 1 < $mappedDistance)
+                        ) {
+                            $nearestRailwayContext = $fallbackNearest;
+                        }
                     }
                 }
             }
