@@ -1038,15 +1038,6 @@ nearestDistanceRaw !== undefined && nearestDistanceRaw !== null && nearestDistan
 ? Number(nearestDistanceRaw).toFixed(1)
 : "";
 
-if(nearestName && nearestCode){
-html+=`
-<div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4">
-  <h3 class="font-semibold text-indigo-900">Nearest Railway Station</h3>
-  <p class="text-sm text-gray-800 mt-1">Station: <b>${escapeHtml(nearestName)}</b> (${escapeHtml(nearestCode)})</p>
-  <p class="text-sm text-gray-800">Approx Distance: <b>${escapeHtml(nearestDistance)}</b> km</p>
-</div>`;
-}
-
 data.forEach(row=>{
 
 let map="";
@@ -1059,15 +1050,30 @@ href="https://www.google.com/maps?q=${row.latitude},${row.longitude}">
 }
 
 const pincodeValue = row.pincode ?? row.Pincode ?? "";
+const pincodeDetailsLink = pincodeValue
+? `<a target="_blank"
+class="text-indigo-600 text-sm mt-2 inline-block"
+href="https://pincodelocator.co.in/${encodeURIComponent(pincodeValue)}">Click To know more about this ${escapeHtml(pincodeValue)}</a>`
+: "";
 
 html+=`
 <div class="bg-white p-5 rounded-xl shadow w-full">
 <h3 class="font-semibold text-lg">${escapeHtml(row.officename || "")}</h3>
 <p>${escapeHtml(row.district || "")}, ${escapeHtml(row.statename || "")}</p>
 <p>Pincode: <b>${escapeHtml(pincodeValue)}</b></p>
+${pincodeDetailsLink}
 ${map}
 </div>`;
 });
+
+if(nearestName && nearestCode){
+html+=`
+<div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4">
+  <h3 class="font-semibold text-indigo-900">Nearest Railway Station</h3>
+  <p class="text-sm text-gray-800 mt-1">Station: <b>${escapeHtml(nearestName)}</b> (${escapeHtml(nearestCode)})</p>
+  <p class="text-sm text-gray-800">Approx Distance: <b>${escapeHtml(nearestDistance)}</b> km</p>
+</div>`;
+}
 
 html+="</div>";
 
