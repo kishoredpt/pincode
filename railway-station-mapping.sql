@@ -76,3 +76,66 @@ CREATE TABLE IF NOT EXISTS pincode_station_distance_cache (
 --   distance_km = VALUES(distance_km),
 --   distance_source = VALUES(distance_source),
 --   mapped_at = CURRENT_TIMESTAMP;
+
+-- Targeted correction for known bad mapping.
+-- Reported issue: PIN 507165 was mapped to Vijayawada Junction (BZA),
+-- but nearest expected station is Khammam (KMT).
+-- This block is idempotent and can be run safely multiple times.
+INSERT INTO railway_stations (
+    station_code,
+    station_name,
+    state_name,
+    district_name,
+    latitude,
+    longitude,
+    is_major
+)
+VALUES (
+    'KMT',
+    'Khammam',
+    'TELANGANA',
+    'KHAMMAM',
+    17.2473000,
+    80.1514000,
+    1
+)
+ON DUPLICATE KEY UPDATE
+    station_name = VALUES(station_name),
+    state_name = VALUES(state_name),
+    district_name = VALUES(district_name),
+    latitude = VALUES(latitude),
+    longitude = VALUES(longitude),
+    is_major = VALUES(is_major);
+
+INSERT INTO pincode_nearest_railway_station (pincode, station_id, distance_km, distance_source)
+SELECT
+    '507165' AS pincode,
+    rs.id AS station_id,
+    ROUND(
+        6371 * ACOS(
+            COS(RADIANS(po_avg.latitude)) * COS(RADIANS(rs.latitude)) * COS(RADIANS(rs.longitude) - RADIANS(po_avg.longitude)) +
+            SIN(RADIANS(po_avg.latitude)) * SIN(RADIANS(rs.latitude))
+        ),
+        2
+    ) AS distance_km,
+    'manual_correction' AS distance_source
+FROM railway_stations rs
+CROSS JOIN (
+    SELECT
+        AVG(CAST(latitude AS DECIMAL(10,7))) AS latitude,
+        AVG(CAST(longitude AS DECIMAL(10,7))) AS longitude
+    FROM post_offices
+    WHERE pincode = '507165'
+      AND latitude IS NOT NULL
+      AND longitude IS NOT NULL
+      AND LOWER(TRIM(CAST(latitude AS CHAR))) <> 'nan'
+      AND LOWER(TRIM(CAST(longitude AS CHAR))) <> 'nan'
+) po_avg
+WHERE rs.station_code = 'KMT'
+  AND po_avg.latitude IS NOT NULL
+  AND po_avg.longitude IS NOT NULL
+ON DUPLICATE KEY UPDATE
+    station_id = VALUES(station_id),
+    distance_km = VALUES(distance_km),
+    distance_source = VALUES(distance_source),
+    mapped_at = CURRENT_TIMESTAMP;
