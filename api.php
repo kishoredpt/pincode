@@ -57,7 +57,7 @@ foreach ($data as $row) {
     }
 }
 
-if (!$hasNearestContext && count($data) > 0) {
+if (count($data) > 0) {
     $fallbackLat = null;
     $fallbackLon = null;
 
@@ -99,12 +99,30 @@ if (!$hasNearestContext && count($data) > 0) {
 
             if ($nearestRes && $nearestRes->num_rows > 0) {
                 $nearest = $nearestRes->fetch_assoc();
-                foreach ($data as &$row) {
-                    $row['nearest_station_name'] = $nearest['station_name'] ?? null;
-                    $row['nearest_station_code'] = $nearest['station_code'] ?? null;
-                    $row['nearest_station_distance_km'] = $nearest['distance_km'] ?? null;
+                $nearestDistance = isset($nearest['distance_km']) ? (float) $nearest['distance_km'] : null;
+
+                $mappedDistance = null;
+                foreach ($data as $row) {
+                    if (isset($row['nearest_station_distance_km']) && is_numeric($row['nearest_station_distance_km'])) {
+                        $mappedDistance = (float) $row['nearest_station_distance_km'];
+                        break;
+                    }
                 }
-                unset($row);
+
+                $shouldOverride = (
+                    !$hasNearestContext
+                    || !is_numeric($mappedDistance)
+                    || (is_numeric($nearestDistance) && $nearestDistance + 1 < $mappedDistance)
+                );
+
+                if ($shouldOverride) {
+                    foreach ($data as &$row) {
+                        $row['nearest_station_name'] = $nearest['station_name'] ?? null;
+                        $row['nearest_station_code'] = $nearest['station_code'] ?? null;
+                        $row['nearest_station_distance_km'] = $nearest['distance_km'] ?? null;
+                    }
+                    unset($row);
+                }
             }
         }
     }
