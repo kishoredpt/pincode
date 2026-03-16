@@ -1131,16 +1131,6 @@ else { ?>
       </div>
     </section>
 
-    <section class="mt-6 bg-white border border-indigo-200 rounded-xl p-4 md:p-5">
-      <h3 class="text-xl md:text-2xl font-bold text-indigo-900 mb-2">Nearest Railway Station for PIN Code</h3>
-      <p class="text-gray-700 text-sm md:text-base mb-4">Enter any 6-digit PIN code to open a dedicated railway-connectivity page with nearest station name, code, and distance context.</p>
-      <div class="grid md:grid-cols-[1fr_auto] gap-3 items-center">
-        <input type="text" id="railPinInput" maxlength="6" placeholder="Enter 6-digit PIN code" class="w-full border border-gray-300 bg-white p-3 rounded" />
-        <button id="railPinButton" type="button" class="bg-indigo-600 text-white px-4 py-3 rounded font-semibold hover:bg-indigo-700">Find Station</button>
-      </div>
-      <p id="railPinStatus" class="text-sm text-gray-600 mt-2">Example: <a class="text-indigo-700 underline" href="/nearest-railway-station-110001">110001</a>, <a class="text-indigo-700 underline" href="/nearest-railway-station-560001">560001</a></p>
-    </section>
-
     <div class="mt-6 bg-gradient-to-r from-slate-900 via-indigo-900 to-blue-900 text-white rounded-xl p-4 md:p-5">
       <h3 class="text-xl md:text-2xl font-bold mb-2">India Pincode Intelligence Desk</h3>
       <p class="text-blue-100 text-sm md:text-base">Built for scale: discover postal data for metro cities, fast-growing districts, and high-commerce corridors through one search experience.</p>
