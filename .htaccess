@@ -4,6 +4,9 @@ RewriteEngine On
 RewriteCond %{HTTP_HOST} ^www\.pincodelocator\.co\.in$ [NC]
 RewriteRule ^ https://pincodelocator.co.in%{REQUEST_URI} [L,R=301,NE]
 
+# Dynamic ads.txt from environment-backed config
+RewriteRule ^ads\.txt$ ads-txt.php [L,QSA]
+
 # Allow existing files
 RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^ - [L]

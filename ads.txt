@@ -1,2 +1,2 @@
-# Replace Xs with your actual AdSense publisher ID before applying.
-google.com, ca-pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
+# ads.txt is served dynamically via /ads-txt.php using ADSENSE_PUBLISHER_ID environment variable.
+# Configure ADSENSE_PUBLISHER_ID=ca-pub-################ to publish the production record.
