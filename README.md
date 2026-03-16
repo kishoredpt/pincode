@@ -2,16 +2,15 @@
 
 Postal directory website for India PIN code search and location discovery.
 
-## Local setup
+## Database setup (Hostinger compatible)
 
-Set database credentials using environment variables before running PHP:
+`config/db.php` now resolves credentials in this order:
 
-- `DB_HOST`
-- `DB_USER`
-- `DB_PASS`
-- `DB_NAME`
+1. `DB_HOST`, `DB_USER`, `DB_PASS`, `DB_NAME` from environment variables.
+2. Same keys from server-level variables (`$_SERVER` / `$_ENV`).
+3. Local file `config/db.hostinger.php` (if present).
 
-Example:
+### Option A: Environment variables
 
 ```bash
 export DB_HOST=localhost
@@ -21,8 +20,14 @@ export DB_NAME=your_database
 php -S 0.0.0.0:8000
 ```
 
+### Option B: Hostinger file-based config
+
+1. Copy `config/db.hostinger.example.php` to `config/db.hostinger.php`.
+2. Fill your Hostinger MySQL credentials from hPanel → Databases.
+3. Ensure `config/db.hostinger.php` is not committed (already ignored in `.gitignore`).
+
 ## SEO / crawl hygiene included
 
 - `robots.txt` blocks internal API/search utility endpoints from crawler indexation.
-- API/search endpoints now emit `X-Robots-Tag: noindex, nofollow`.
+- API/search endpoints emit `X-Robots-Tag: noindex, nofollow`.
 - Shared header and homepage output Open Graph/Twitter metadata and `WebSite` JSON-LD.
