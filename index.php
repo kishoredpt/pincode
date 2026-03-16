@@ -44,9 +44,15 @@ foreach ($menuPages as $menuPageItem) {
 }
 
 function toSlug($value){
+    $value=(string)$value;
+    $value=html_entity_decode($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $value=iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $value);
+    if($value===false){
+        $value='';
+    }
     $value=strtolower(trim($value));
     $value=preg_replace('/[^a-z0-9]+/','-',$value);
-    return trim($value,'-');
+    return trim((string)$value,'-');
 }
 
 $railTableCheck = $conn->query("SHOW TABLES LIKE 'railway_stations'");
@@ -146,21 +152,22 @@ elseif($route && preg_match('/^(.+)-post-office-(\d{6})$/',$route,$officeMatch))
     $res=$stmt->get_result();
 
     $officeMatchRow=null;
-    $fallbackRow=null;
 
     while($row=$res->fetch_assoc()){
-        if(!$fallbackRow){
-            $fallbackRow=$row;
-        }
         if(toSlug($row['officename'])===$officeSlug){
             $officeMatchRow=$row;
             break;
         }
     }
 
-    if($officeMatchRow || $fallbackRow){
+    if($officeMatchRow){
         $pageType="office";
-        $pageData=$officeMatchRow ?: $fallbackRow;
+        $pageData=$officeMatchRow;
+    }
+    else{
+        http_response_code(404);
+        require __DIR__."/404.php";
+        exit;
     }
 }
 elseif($route){
@@ -305,6 +312,35 @@ if($route){
         "name" => $name,
         "url" => "https://pincodelocator.co.in/".$route
     ];
+}
+
+if($pageType=="office"){
+    $officeState = trim((string)($pageData['statename'] ?? ''));
+    $officeDistrict = trim((string)($pageData['district'] ?? ''));
+    $officeNameForCrumb = trim((string)($pageData['officename'] ?? ''));
+
+    if($officeState!==''){
+        $stateRoute = toSlug($officeState)."-pincode";
+        $breadcrumb[] = [
+            "name" => $officeState,
+            "url" => "https://pincodelocator.co.in/".$stateRoute
+        ];
+    }
+
+    if($officeDistrict!==''){
+        $districtRoute = toSlug($officeDistrict)."-pincode";
+        $breadcrumb[] = [
+            "name" => $officeDistrict,
+            "url" => "https://pincodelocator.co.in/".$districtRoute
+        ];
+    }
+
+    if($officeNameForCrumb!==''){
+        $breadcrumb[] = [
+            "name" => $officeNameForCrumb." Post Office",
+            "url" => "https://pincodelocator.co.in/".$route
+        ];
+    }
 }
 
 $seoTitle = "India Pincode Search – Find Post Office, District & State";
@@ -862,18 +898,46 @@ POST OFFICE PAGE
 elseif($pageType=="office"){
 ?>
 
-<h2 class="text-3xl font-bold mb-8">
-<?= htmlspecialchars($pageData['officename']) ?> Post Office - <?= $pageData['pincode'] ?>
-</h2>
+<?php
+$officeName = trim((string)($pageData['officename'] ?? ''));
+$officePin = trim((string)($pageData['pincode'] ?? ''));
+$officeDistrict = trim((string)($pageData['district'] ?? ''));
+$officeState = trim((string)($pageData['statename'] ?? ''));
+$officeType = trim((string)($pageData['officetype'] ?? ''));
+$officeDelivery = trim((string)($pageData['delivery'] ?? ''));
+$districtSlug = $officeDistrict!=='' ? toSlug($officeDistrict) : '';
+$stateSlug = $officeState!=='' ? toSlug($officeState) : '';
+?>
+
+<h1 class="text-3xl font-bold mb-8">
+<?= htmlspecialchars($officeName) ?> Post Office - <?= htmlspecialchars($officePin) ?>
+</h1>
 
 <div class="bg-white p-6 rounded-xl shadow space-y-2">
-<p><b>Office Name:</b> <?= htmlspecialchars($pageData['officename']) ?></p>
-<p><b>Pincode:</b> <?= htmlspecialchars($pageData['pincode']) ?></p>
-<p><b>District:</b> <?= htmlspecialchars($pageData['district']) ?></p>
-<p><b>State:</b> <?= htmlspecialchars($pageData['statename']) ?></p>
-<p><b>Office Type:</b> <?= htmlspecialchars($pageData['officetype']) ?></p>
-<p><b>Delivery Status:</b> <?= htmlspecialchars($pageData['delivery']) ?></p>
+<p><b>Office Name:</b> <?= htmlspecialchars($officeName) ?></p>
+<p><b>Pincode:</b> <?= htmlspecialchars($officePin) ?></p>
+<p><b>District:</b> <?= htmlspecialchars($officeDistrict) ?></p>
+<p><b>State:</b> <?= htmlspecialchars($officeState) ?></p>
+<p><b>Office Type:</b> <?= htmlspecialchars($officeType) ?></p>
+<p><b>Delivery Status:</b> <?= htmlspecialchars($officeDelivery) ?></p>
 </div>
+
+<section class="bg-white p-6 rounded-xl shadow mt-6 leading-7 text-gray-800">
+  <h2 class="text-2xl font-semibold mb-3">Local postal context for <?= htmlspecialchars($officeName) ?></h2>
+  <p class="mb-3">
+    <?= htmlspecialchars($officeName) ?> is mapped under PIN code <strong><?= htmlspecialchars($officePin) ?></strong> in
+    <strong><?= htmlspecialchars($officeDistrict) ?></strong> district, <strong><?= htmlspecialchars($officeState) ?></strong>.
+    This page is designed to give a clear identity for this specific post office record so users can validate address components before dispatch.
+  </p>
+  <p class="mb-3">
+    Office type is listed as <strong><?= htmlspecialchars($officeType!=='' ? $officeType : 'Not specified') ?></strong> and
+    delivery status is <strong><?= htmlspecialchars($officeDelivery!=='' ? $officeDelivery : 'Not specified') ?></strong>.
+    For important shipments, always cross-check latest counter timings and service availability from official India Post channels.
+  </p>
+  <p>
+    Nearby hierarchy links: <?php if($districtSlug!==''): ?><a class="text-indigo-700 underline" href="/<?= htmlspecialchars($districtSlug) ?>-pincode"><?= htmlspecialchars($officeDistrict) ?> district PIN directory</a><?php endif; ?><?php if($districtSlug!=='' && $stateSlug!==''): ?> · <?php endif; ?><?php if($stateSlug!==''): ?><a class="text-indigo-700 underline" href="/<?= htmlspecialchars($stateSlug) ?>-pincode"><?= htmlspecialchars($officeState) ?> state PIN directory</a><?php endif; ?>.
+  </p>
+</section>
 
 <?php }
 elseif($pageType=="menu_page"){

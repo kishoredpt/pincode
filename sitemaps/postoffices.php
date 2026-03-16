@@ -3,6 +3,18 @@ require_once "../config/db.php";
 
 header("Content-Type: application/xml; charset=utf-8");
 
+function toSlug($value){
+    $value=(string)$value;
+    $value=html_entity_decode($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $value=iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $value);
+    if($value===false){
+        $value='';
+    }
+    $value=strtolower(trim($value));
+    $value=preg_replace('/[^a-z0-9]+/','-',$value);
+    return trim((string)$value,'-');
+}
+
 $limit = 10000;
 $page  = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 if($page < 1){
@@ -20,8 +32,10 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 while($row = $result->fetch_assoc()){
-$officeSlug=strtolower(preg_replace('/[^a-z0-9]+/','-',trim($row['officename'])));
-$officeSlug=trim($officeSlug,'-');
+$officeSlug=toSlug($row['officename']);
+if($officeSlug==='' || strlen($officeSlug)<3){
+    continue;
+}
 $url="https://pincodelocator.co.in/{$officeSlug}-post-office-{$row['pincode']}";
 ?>
 <url>
