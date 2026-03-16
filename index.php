@@ -566,11 +566,48 @@ $pinCode=trim((string)$pageData[0]['pincode']);
 $stateName=trim((string)$pageData[0]['statename']);
 $districtName=trim((string)$pageData[0]['district']);
 $officeName=trim((string)$pageData[0]['officename']);
+$districtOfficeCount=0;
+$districtPincodeCount=0;
+$districtSummaryStmt=$conn->prepare("SELECT COUNT(*) office_count, COUNT(DISTINCT pincode) pincode_count FROM post_offices WHERE district=? AND statename=?");
+
+if($districtSummaryStmt){
+    $districtSummaryStmt->bind_param("ss",$districtName,$stateName);
+    $districtSummaryStmt->execute();
+    $districtSummaryRes=$districtSummaryStmt->get_result();
+    if($districtSummaryRes && $districtSummaryRow=$districtSummaryRes->fetch_assoc()){
+        $districtOfficeCount=(int)($districtSummaryRow['office_count'] ?? 0);
+        $districtPincodeCount=(int)($districtSummaryRow['pincode_count'] ?? 0);
+    }
+    $districtSummaryStmt->close();
+}
+
+$districtMapQuery=trim($districtName.", ".$stateName.", India");
+$districtMapEmbedUrl="https://maps.google.com/maps?q=".rawurlencode($districtMapQuery)."&output=embed";
 ?>
 
 <h2 class="text-3xl font-bold mb-8">
 Pincode <?= htmlspecialchars($pinCode) ?>
 </h2>
+
+<section class="bg-white rounded-xl shadow p-6 mb-8">
+  <h3 class="text-xl font-semibold mb-3">District Map for <?= htmlspecialchars($districtName) ?>, <?= htmlspecialchars($stateName) ?></h3>
+  <div class="rounded-lg overflow-hidden border border-slate-200 mb-4">
+    <iframe
+      title="District map for <?= htmlspecialchars($districtName) ?>"
+      src="<?= htmlspecialchars($districtMapEmbedUrl) ?>"
+      width="100%"
+      height="320"
+      style="border:0;"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+  <p class="text-gray-700 mb-2">
+    PIN code <strong><?= htmlspecialchars($pinCode) ?></strong> falls in <strong><?= htmlspecialchars($districtName) ?></strong> district of <strong><?= htmlspecialchars($stateName) ?></strong>. Use this district-level map to understand the broader service geography around this pincode.
+  </p>
+  <p class="text-gray-700">
+    Postal records currently show <strong><?= htmlspecialchars((string)$districtOfficeCount) ?></strong> post offices and <strong><?= htmlspecialchars((string)$districtPincodeCount) ?></strong> unique pincodes in this district. This context is generated automatically from the mapped district of the searched pincode.
+  </p>
+</section>
 
 <section class="pincode-intro bg-white rounded-xl shadow p-6 mb-8 leading-7">
 
@@ -1038,15 +1075,6 @@ nearestDistanceRaw !== undefined && nearestDistanceRaw !== null && nearestDistan
 ? Number(nearestDistanceRaw).toFixed(1)
 : "";
 
-if(nearestName && nearestCode){
-html+=`
-<div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4">
-  <h3 class="font-semibold text-indigo-900">Nearest Railway Station</h3>
-  <p class="text-sm text-gray-800 mt-1">Station: <b>${escapeHtml(nearestName)}</b> (${escapeHtml(nearestCode)})</p>
-  <p class="text-sm text-gray-800">Approx Distance: <b>${escapeHtml(nearestDistance)}</b> km</p>
-</div>`;
-}
-
 data.forEach(row=>{
 
 let map="";
@@ -1059,15 +1087,30 @@ href="https://www.google.com/maps?q=${row.latitude},${row.longitude}">
 }
 
 const pincodeValue = row.pincode ?? row.Pincode ?? "";
+const pincodeDetailsLink = pincodeValue
+? `<a target="_blank"
+class="text-indigo-600 text-sm mt-2 inline-block"
+href="https://pincodelocator.co.in/${encodeURIComponent(pincodeValue)}">Click To know more about this ${escapeHtml(pincodeValue)}</a>`
+: "";
 
 html+=`
 <div class="bg-white p-5 rounded-xl shadow w-full">
 <h3 class="font-semibold text-lg">${escapeHtml(row.officename || "")}</h3>
 <p>${escapeHtml(row.district || "")}, ${escapeHtml(row.statename || "")}</p>
 <p>Pincode: <b>${escapeHtml(pincodeValue)}</b></p>
+${pincodeDetailsLink}
 ${map}
 </div>`;
 });
+
+if(nearestName && nearestCode){
+html+=`
+<div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4">
+  <h3 class="font-semibold text-indigo-900">Nearest Railway Station</h3>
+  <p class="text-sm text-gray-800 mt-1">Station: <b>${escapeHtml(nearestName)}</b> (${escapeHtml(nearestCode)})</p>
+  <p class="text-sm text-gray-800">Approx Distance: <b>${escapeHtml(nearestDistance)}</b> km</p>
+</div>`;
+}
 
 html+="</div>";
 
