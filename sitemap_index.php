@@ -14,6 +14,13 @@ if ($res) {
 
 $totalPostofficeSitemaps = max(1, (int) ceil($totalRows / $batchSize));
 
+$railRows = 0;
+$railRes = $conn->query("SELECT COUNT(DISTINCT pincode) AS total FROM pincode_nearest_railway_station");
+if ($railRes) {
+    $railRows = (int) (($railRes->fetch_assoc()['total'] ?? 0));
+}
+$railSitemaps = max(1, (int) ceil($railRows / $batchSize));
+
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 ?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -29,6 +36,12 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 <?php for ($i = 1; $i <= $totalPostofficeSitemaps; $i++): ?>
 <sitemap>
 <loc><?= $base ?>/sitemaps/postoffices.php?page=<?= $i ?></loc>
+</sitemap>
+<?php endfor; ?>
+
+<?php for ($i = 1; $i <= $railSitemaps; $i++): ?>
+<sitemap>
+<loc><?= $base ?>/sitemaps/railway-pages.php?page=<?= $i ?></loc>
 </sitemap>
 <?php endfor; ?>
 

@@ -57,7 +57,85 @@ $railwayTablesAvailable = ($railTableCheck && $railTableCheck->num_rows > 0 && $
 ROUTE ENGINE
 ========================= */
 
-if($route && preg_match('/^(.+)-post-office-(\d{6})$/',$route,$officeMatch)){
+if($route && preg_match('/^nearest-railway-station-(\d{6})$/',$route,$railRouteMatch)) {
+
+    $railPincode = $railRouteMatch[1];
+    $stmt = $conn->prepare("
+        SELECT pincode, officename, district, statename, latitude, longitude
+        FROM post_offices
+        WHERE pincode = ?
+        ORDER BY officename
+        LIMIT 1
+    ");
+
+    if ($stmt) {
+        $stmt->bind_param("s", $railPincode);
+        $stmt->execute();
+        $res = $stmt->get_result();
+
+        if ($res && $res->num_rows > 0) {
+            $pinRow = $res->fetch_assoc();
+            $nearestRailway = null;
+
+            $stmtMappedRail = $conn->prepare("
+                SELECT rs.station_name, rs.station_code, pnr.distance_km
+                FROM pincode_nearest_railway_station pnr
+                INNER JOIN railway_stations rs ON rs.id = pnr.station_id
+                WHERE pnr.pincode = ?
+                ORDER BY pnr.distance_km ASC
+                LIMIT 1
+            ");
+
+            if ($stmtMappedRail) {
+                $stmtMappedRail->bind_param("s", $railPincode);
+                $stmtMappedRail->execute();
+                $mappedRailRes = $stmtMappedRail->get_result();
+                if ($mappedRailRes && $mappedRailRes->num_rows > 0) {
+                    $nearestRailway = $mappedRailRes->fetch_assoc();
+                }
+            }
+
+            if (!$nearestRailway && is_numeric($pinRow['latitude'] ?? null) && is_numeric($pinRow['longitude'] ?? null)) {
+                $lat = (float) $pinRow['latitude'];
+                $lon = (float) $pinRow['longitude'];
+                $stmtRailFallback = $conn->prepare("
+                    SELECT station_name, station_code,
+                           ROUND(6371 * ACOS(
+                               COS(RADIANS(?)) * COS(RADIANS(latitude)) * COS(RADIANS(longitude) - RADIANS(?)) +
+                               SIN(RADIANS(?)) * SIN(RADIANS(latitude))
+                           ), 1) AS distance_km
+                    FROM railway_stations
+                    WHERE latitude IS NOT NULL AND longitude IS NOT NULL
+                    ORDER BY distance_km ASC
+                    LIMIT 1
+                ");
+
+                if ($stmtRailFallback) {
+                    $stmtRailFallback->bind_param("ddd", $lat, $lon, $lat);
+                    $stmtRailFallback->execute();
+                    $fallbackRailRes = $stmtRailFallback->get_result();
+                    if ($fallbackRailRes && $fallbackRailRes->num_rows > 0) {
+                        $nearestRailway = $fallbackRailRes->fetch_assoc();
+                    }
+                }
+            }
+
+            if ($nearestRailway) {
+                $pageType = "railway_pin";
+                $pageData = [
+                    "pincode" => $railPincode,
+                    "officename" => $pinRow['officename'] ?? '',
+                    "district" => $pinRow['district'] ?? '',
+                    "statename" => $pinRow['statename'] ?? '',
+                    "station_name" => $nearestRailway['station_name'] ?? '',
+                    "station_code" => $nearestRailway['station_code'] ?? '',
+                    "distance_km" => $nearestRailway['distance_km'] ?? ''
+                ];
+            }
+        }
+    }
+}
+elseif($route && preg_match('/^(.+)-post-office-(\d{6})$/',$route,$officeMatch)){
 
     $officeSlug=$officeMatch[1];
     $pincode=$officeMatch[2];
@@ -261,6 +339,19 @@ elseif($route && in_array($pageType,["state","district","pincode"],true)){
         $seoDescription = "Nearest railway station for PIN code $name is $stationName ($stationCode), approximately $distanceKm km away with India Post location context.";
     }
 
+    $canonical = "https://pincodelocator.co.in/".$route;
+}
+elseif($pageType === "railway_pin") {
+
+    $pin = $pageData['pincode'] ?? '';
+    $stationName = trim((string)($pageData['station_name'] ?? ''));
+    $stationCode = trim((string)($pageData['station_code'] ?? ''));
+    $distanceKm = $pageData['distance_km'] ?? '';
+    $districtName = trim((string)($pageData['district'] ?? ''));
+    $stateName = trim((string)($pageData['statename'] ?? ''));
+
+    $seoTitle = "Nearest Railway Station for $pin PIN Code | $stationName ($stationCode)";
+    $seoDescription = "Find the nearest railway station to PIN code $pin in $districtName, $stateName. Includes station code, approximate distance, and postal coverage context for address planning.";
     $canonical = "https://pincodelocator.co.in/".$route;
 }
 elseif ($pageType === 'menu_page') {
@@ -624,6 +715,7 @@ $railDistance = number_format((float)($nearestRailwayContext['distance_km'] ?? 0
   <p class="text-gray-800 mb-1"><strong>Station:</strong> <?= htmlspecialchars($railStationName) ?></p>
   <p class="text-gray-800 mb-1"><strong>Station Code:</strong> <?= htmlspecialchars($railStationCode) ?></p>
   <p class="text-gray-800"><strong>Distance:</strong> <?= htmlspecialchars($railDistance) ?> km</p>
+  <p class="mt-3"><a class="text-indigo-700 underline hover:no-underline" href="/nearest-railway-station-<?= urlencode($pinCode) ?>">View full railway connectivity page for PIN <?= htmlspecialchars($pinCode) ?></a></p>
 </div>
 
 <div class="mb-5 rounded-lg border border-emerald-200 bg-emerald-50 p-4">
@@ -680,6 +772,63 @@ Below, you can explore detailed information about post offices linked to <?= htm
 <?php } ?>
 
 </div>
+
+<?php }
+
+/* ===============================
+RAILWAY PIN PAGE
+=============================== */
+elseif($pageType=="railway_pin"){
+?>
+
+<?php
+$railPin = trim((string)($pageData['pincode'] ?? ''));
+$railOffice = trim((string)($pageData['officename'] ?? ''));
+$railDistrict = trim((string)($pageData['district'] ?? ''));
+$railState = trim((string)($pageData['statename'] ?? ''));
+$railStation = trim((string)($pageData['station_name'] ?? ''));
+$railCode = trim((string)($pageData['station_code'] ?? ''));
+$railDistance = number_format((float)($pageData['distance_km'] ?? 0), 1);
+$districtSlug = toSlug($railDistrict);
+$stateSlug = toSlug($railState);
+?>
+
+<h2 class="text-3xl font-bold mb-4">Nearest Railway Station for PIN Code <?= htmlspecialchars($railPin) ?></h2>
+<p class="text-gray-700 mb-6">Programmatically generated local page with postal + rail context for delivery planning, travel convenience, and location intelligence workflows.</p>
+
+<div class="grid md:grid-cols-2 gap-5 mb-8">
+  <div class="bg-white p-5 rounded-xl shadow">
+    <h3 class="text-xl font-semibold mb-3 text-indigo-900">Railway Connectivity Snapshot</h3>
+    <p><b>Nearest Railway Station:</b> <?= htmlspecialchars($railStation) ?></p>
+    <p><b>Station Code:</b> <?= htmlspecialchars($railCode) ?></p>
+    <p><b>Approx Distance:</b> <?= htmlspecialchars($railDistance) ?> km</p>
+    <p><b>Mapped PIN Code:</b> <?= htmlspecialchars($railPin) ?></p>
+  </div>
+  <div class="bg-white p-5 rounded-xl shadow">
+    <h3 class="text-xl font-semibold mb-3 text-indigo-900">Location Coverage</h3>
+    <p><b>Post Office:</b> <?= htmlspecialchars($railOffice) ?></p>
+    <p><b>District:</b> <?= htmlspecialchars($railDistrict) ?></p>
+    <p><b>State:</b> <?= htmlspecialchars($railState) ?></p>
+    <p><a class="text-indigo-700 underline" href="/<?= urlencode($railPin) ?>">Open full PIN code page</a></p>
+  </div>
+</div>
+
+<section class="bg-white rounded-xl shadow p-6 mb-8 leading-7 text-gray-800">
+  <h3 class="text-2xl font-semibold mb-3">About this PIN code railway page</h3>
+  <p class="mb-3">For PIN code <strong><?= htmlspecialchars($railPin) ?></strong>, the nearest mapped railway station is <strong><?= htmlspecialchars($railStation) ?></strong> (<?= htmlspecialchars($railCode) ?>), roughly <strong><?= htmlspecialchars($railDistance) ?> km</strong> away. This helps users validate local transport proximity while searching post office records.</p>
+  <p class="mb-3">These pages are generated from structured datasets and can scale across all mapped PIN codes. The format is intentionally policy-safe for ad-supported publishing: factual, navigation-friendly, and useful for address confirmation journeys.</p>
+  <p>Use this as a discovery page, then confirm exact travel, booking, and parcel timelines from official Indian Railways and India Post channels before making decisions.</p>
+</section>
+
+<section class="bg-white rounded-xl shadow p-6 mb-8">
+  <h3 class="text-2xl font-semibold mb-4">Related internal pages</h3>
+  <ul class="list-disc pl-5 space-y-2 text-indigo-700">
+    <li><a class="underline" href="/<?= urlencode($railPin) ?>">PIN code <?= htmlspecialchars($railPin) ?> post office directory</a></li>
+    <?php if($districtSlug !== ''): ?><li><a class="underline" href="/<?= htmlspecialchars($districtSlug) ?>-pincode"><?= htmlspecialchars($railDistrict) ?> district PIN listings</a></li><?php endif; ?>
+    <?php if($stateSlug !== ''): ?><li><a class="underline" href="/<?= htmlspecialchars($stateSlug) ?>-pincode"><?= htmlspecialchars($railState) ?> state PIN listings</a></li><?php endif; ?>
+    <li><a class="underline" href="/blog">Postal guides and delivery resources</a></li>
+  </ul>
+</section>
 
 <?php }
 
