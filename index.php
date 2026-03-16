@@ -22,6 +22,7 @@ if(preg_match('/^blog\/([a-zA-Z0-9-]+)$/',$requestPath,$blogMatch)){
 
 require_once "config/db.php";
 require_once __DIR__ . "/includes/menu-pages.php";
+require_once __DIR__ . "/includes/slug.php";
 
 $route = $_GET['route'] ?? '';
 
@@ -44,15 +45,7 @@ foreach ($menuPages as $menuPageItem) {
 }
 
 function toSlug($value){
-    $value=(string)$value;
-    $value=html_entity_decode($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-    $value=iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $value);
-    if($value===false){
-        $value='';
-    }
-    $value=strtolower(trim($value));
-    $value=preg_replace('/[^a-z0-9]+/','-',$value);
-    return trim((string)$value,'-');
+    return slugify_text($value);
 }
 
 $railTableCheck = $conn->query("SHOW TABLES LIKE 'railway_stations'");
@@ -143,7 +136,7 @@ if($route && preg_match('/^nearest-railway-station-(\d{6})$/',$route,$railRouteM
 }
 elseif($route && preg_match('/^(.+)-post-office-(\d{6})$/',$route,$officeMatch)){
 
-    $officeSlug=$officeMatch[1];
+    $officeSlug=(string)$officeMatch[1];
     $pincode=$officeMatch[2];
 
     $stmt=$conn->prepare("\n        SELECT *\n        FROM post_offices\n        WHERE pincode=?\n        ORDER BY officename\n        LIMIT 100\n    ");
@@ -152,15 +145,50 @@ elseif($route && preg_match('/^(.+)-post-office-(\d{6})$/',$route,$officeMatch))
     $res=$stmt->get_result();
 
     $officeMatchRow=null;
+    $candidateRows=[];
 
     while($row=$res->fetch_assoc()){
-        if(toSlug($row['officename'])===$officeSlug){
+        $rowSlug = toSlug($row['officename'] ?? '');
+        if($rowSlug===''){
+            continue;
+        }
+        $candidateRows[] = ['row' => $row, 'slug' => $rowSlug];
+
+        if($rowSlug===$officeSlug){
             $officeMatchRow=$row;
             break;
         }
     }
 
+    if(!$officeMatchRow){
+        $normalizedOfficeSlug = toSlug(str_replace('-', ' ', $officeSlug));
+        if($normalizedOfficeSlug !== '' && !is_malformed_office_slug($normalizedOfficeSlug)){
+            $bestCandidate = null;
+            $bestDistance = null;
+
+            foreach($candidateRows as $candidate){
+                $distance = levenshtein($normalizedOfficeSlug, $candidate['slug']);
+                if($bestDistance===null || $distance < $bestDistance){
+                    $bestDistance = $distance;
+                    $bestCandidate = $candidate;
+                }
+            }
+
+            if($bestCandidate && $bestDistance !== null && $bestDistance <= 2){
+                $redirectUrl = '/'.$bestCandidate['slug'].'-post-office-'.$pincode;
+                header('Location: '.$redirectUrl, true, 301);
+                exit;
+            }
+        }
+    }
+
     if($officeMatchRow){
+        $canonicalSlug = toSlug($officeMatchRow['officename'] ?? '');
+        if($canonicalSlug !== '' && $officeSlug !== $canonicalSlug){
+            header('Location: /'.$canonicalSlug.'-post-office-'.$pincode, true, 301);
+            exit;
+        }
+
         $pageType="office";
         $pageData=$officeMatchRow;
     }

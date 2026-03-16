@@ -1,18 +1,11 @@
 <?php
 require_once "../config/db.php";
+require_once "../includes/slug.php";
 
 header("Content-Type: application/xml; charset=utf-8");
 
 function toSlug($value){
-    $value=(string)$value;
-    $value=html_entity_decode($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-    $value=iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $value);
-    if($value===false){
-        $value='';
-    }
-    $value=strtolower(trim($value));
-    $value=preg_replace('/[^a-z0-9]+/','-',$value);
-    return trim((string)$value,'-');
+    return slugify_text($value);
 }
 
 $limit = 10000;
@@ -31,12 +24,17 @@ $stmt->bind_param("ii",$limit,$offset);
 $stmt->execute();
 $result = $stmt->get_result();
 
+$seen = [];
 while($row = $result->fetch_assoc()){
 $officeSlug=toSlug($row['officename']);
-if($officeSlug==='' || strlen($officeSlug)<3){
+if(is_malformed_office_slug($officeSlug)){
     continue;
 }
 $url="https://pincodelocator.co.in/{$officeSlug}-post-office-{$row['pincode']}";
+if(isset($seen[$url])){
+    continue;
+}
+$seen[$url] = true;
 ?>
 <url>
 <loc><?= htmlspecialchars($url) ?></loc>
