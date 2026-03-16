@@ -1,5 +1,9 @@
 RewriteEngine On
 
+# Enforce a single canonical host (non-www)
+RewriteCond %{HTTP_HOST} ^www\.pincodelocator\.co\.in$ [NC]
+RewriteRule ^ https://pincodelocator.co.in%{REQUEST_URI} [L,R=301,NE]
+
 # Allow existing files
 RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^ - [L]
