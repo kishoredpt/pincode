@@ -1,5 +1,6 @@
 <?php
 header('Content-Type: application/json');
+header('X-Robots-Tag: noindex, nofollow', true);
 require_once 'config/db.php';
 
 if ($conn->connect_error) {

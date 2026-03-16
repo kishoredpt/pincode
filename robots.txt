@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
 
+# Reduce crawl waste on utility endpoints and duplicate query routes.
+Disallow: /api.php
+Disallow: /api-location.php
+Disallow: /search.php
+Disallow: /?route=
+
 Sitemap: https://pincodelocator.co.in/sitemap_index.php
