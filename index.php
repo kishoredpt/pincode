@@ -1808,7 +1808,7 @@ class="text-indigo-600 text-sm mt-2 inline-block"
 href="https://pincodelocator.co.in/${encodeURIComponent(pincodeValue)}">Click To know more about this ${escapeHtml(pincodeValue)}</a>`
 : "";
 const copyButton = pincodeValue
-? `<button type="button" class="js-copy-pin mt-2 ml-2 inline-block rounded bg-indigo-600 px-3 py-1 text-xs font-semibold text-white hover:bg-indigo-700" data-pincode="${escapeHtml(pincodeValue)}">COPY</button>`
+? `<button type="button" class="js-copy-pin mt-2 ml-2 inline-block rounded bg-indigo-600 px-3 py-1 text-xs font-semibold text-white hover:bg-indigo-700" data-pincode="${escapeHtml(pincodeValue)}">COPY PINCODE</button>`
 : "";
 
 html+=`
