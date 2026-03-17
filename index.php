@@ -1055,6 +1055,58 @@ Below, you can explore detailed information about post offices linked to <?= htm
       <?php if($stateSlug!==''): ?><a class="text-indigo-700 underline" href="/<?= htmlspecialchars($stateSlug) ?>-pincode"><?= htmlspecialchars($stateName) ?> state pages</a><?php endif; ?>,
       or read <a class="text-indigo-700 underline" href="/blog">postal guides</a>.</p>
   </div>
+
+  <?php
+  $pincodeFaqSchema = [
+      '@context' => 'https://schema.org',
+      '@type' => 'FAQPage',
+      'mainEntity' => [
+          [
+              '@type' => 'Question',
+              'name' => 'Why is this PIN code important for courier and Speed Post?',
+              'acceptedAnswer' => [
+                  '@type' => 'Answer',
+                  'text' => "For {$pinCode} in {$districtName}, {$stateName}, carriers sort by PIN hierarchy first. A correct PIN drastically improves dispatch accuracy and reduces missorting."
+              ]
+          ],
+          [
+              '@type' => 'Question',
+              'name' => 'Can one PIN code serve multiple localities?',
+              'acceptedAnswer' => [
+                  '@type' => 'Answer',
+                  'text' => "Yes. PIN {$pinCode} in {$districtName}, {$stateName} can cover multiple neighborhoods or villages under the same postal jurisdiction."
+              ]
+          ],
+          [
+              '@type' => 'Question',
+              'name' => 'Should I use district name or city name in address lines?',
+              'acceptedAnswer' => [
+                  '@type' => 'Answer',
+                  'text' => "Use both whenever possible for addresses in {$districtName}, {$stateName}. Keep PIN {$pinCode} exact because it is the strongest routing signal in postal workflows."
+              ]
+          ],
+          [
+              '@type' => 'Question',
+              'name' => 'How often can postal mappings change?',
+              'acceptedAnswer' => [
+                  '@type' => 'Answer',
+                  'text' => "Operational boundaries and office handling can change over time in {$districtName}, {$stateName}. For critical deliveries under PIN {$pinCode}, verify with official India Post information before booking."
+              ]
+          ],
+          [
+              '@type' => 'Question',
+              'name' => 'Where can I continue browsing this location hierarchy?',
+              'acceptedAnswer' => [
+                  '@type' => 'Answer',
+                  'text' => "Continue from PIN {$pinCode} to district-level and state-level pages for {$districtName}, {$stateName}, or read postal guides for deeper address and routing context."
+              ]
+          ],
+      ],
+  ];
+  ?>
+  <script type="application/ld+json">
+<?= json_encode($pincodeFaqSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) ?>
+  </script>
 </section>
 
 <section class="bg-white rounded-xl shadow p-6 mb-8">
