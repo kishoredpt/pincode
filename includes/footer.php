@@ -11,8 +11,10 @@
 <a href="/author.php">Author</a> |
 <a href="/contact.php">Contact</a> |
 <a href="/privacy-policy.php">Privacy</a> |
+<a href="/terms.php">Terms</a> |
 <a href="/disclaimer.php">Disclaimer</a> |
 <a href="/editorial-policy.php">Editorial Policy</a> |
+<a href="/content-guidelines.php">Content Guidelines</a> |
 <a href="/data-source.php">Data Source</a>
 </div>
 
