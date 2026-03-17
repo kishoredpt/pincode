@@ -89,7 +89,7 @@ if ($type === "search") {
     }
 
     $stmt = $conn->prepare(
-        "SELECT po.officename,po.pincode,po.district,po.statename,po.latitude,po.longitude,po.delivery,po.officetype,
+        "SELECT po.officename,po.pincode,po.district,po.statename,po.latitude,po.longitude,po.delivery,po.officetype,po.divisionname,
                 rs.station_name AS nearest_station_name,
                 rs.station_code AS nearest_station_code,
                 pnr.distance_km AS nearest_station_distance_km
