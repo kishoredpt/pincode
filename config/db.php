@@ -28,6 +28,8 @@ $user = dbConfigValue('DB_USER', '');
 $pass = dbConfigValue('DB_PASS', '');
 $db = dbConfigValue('DB_NAME', '');
 
+$allowOptionalDb = defined('ALLOW_DB_OPTIONAL') && ALLOW_DB_OPTIONAL === true;
+
 $hostingerFile = __DIR__ . '/db.hostinger.php';
 if (($user === '' || $db === '') && is_file($hostingerFile)) {
     $hostingerConfig = require $hostingerFile;
@@ -41,6 +43,11 @@ if (($user === '' || $db === '') && is_file($hostingerFile)) {
 }
 
 if ($user === '' || $db === '') {
+    if ($allowOptionalDb) {
+        $conn = null;
+        return;
+    }
+
     http_response_code(503);
     echo '<h1>Service temporarily unavailable</h1><p>Database configuration is missing. Add DB_* env vars or create config/db.hostinger.php.</p>';
     exit;
@@ -50,6 +57,11 @@ mysqli_report(MYSQLI_REPORT_OFF);
 $conn = @new mysqli($host, $user, $pass, $db);
 
 if ($conn->connect_error) {
+    if ($allowOptionalDb) {
+        $conn = null;
+        return;
+    }
+
     http_response_code(503);
     echo '<h1>Service temporarily unavailable</h1><p>Please try again shortly.</p>';
     exit;

@@ -20,9 +20,11 @@ if(preg_match('/^blog\/([a-zA-Z0-9-]+)$/',$requestPath,$blogMatch)){
     exit;
 }
 
+define("ALLOW_DB_OPTIONAL", true);
 require_once "config/db.php";
 require_once __DIR__ . "/includes/menu-pages.php";
 require_once __DIR__ . "/includes/slug.php";
+require_once __DIR__ . "/includes/site-settings.php";
 
 $route = $_GET['route'] ?? '';
 
@@ -48,15 +50,25 @@ function toSlug($value){
     return slugify_text($value);
 }
 
-$railTableCheck = $conn->query("SHOW TABLES LIKE 'railway_stations'");
-$mapTableCheck = $conn->query("SHOW TABLES LIKE 'pincode_nearest_railway_station'");
-$railwayTablesAvailable = ($railTableCheck && $railTableCheck->num_rows > 0 && $mapTableCheck && $mapTableCheck->num_rows > 0);
+$dbAvailable = $conn instanceof mysqli;
+$railwayTablesAvailable = false;
+
+if($dbAvailable){
+    $railTableCheck = $conn->query("SHOW TABLES LIKE 'railway_stations'");
+    $mapTableCheck = $conn->query("SHOW TABLES LIKE 'pincode_nearest_railway_station'");
+    $railwayTablesAvailable = ($railTableCheck && $railTableCheck->num_rows > 0 && $mapTableCheck && $mapTableCheck->num_rows > 0);
+}
 
 /* =========================
 ROUTE ENGINE
 ========================= */
 
-if($route && preg_match('/^nearest-railway-station-(\d{6})$/',$route,$railRouteMatch)) {
+if(!$dbAvailable){
+    if($route && !str_starts_with($route, 'menu-')){
+        $metaRobots = 'noindex, follow';
+    }
+}
+elseif($route && preg_match('/^nearest-railway-station-(\d{6})$/',$route,$railRouteMatch)) {
 
     $railPincode = $railRouteMatch[1];
     $stmt = $conn->prepare("
@@ -796,6 +808,29 @@ if($districtSummaryStmt){
 
 $districtMapQuery=trim($districtName.", ".$stateName.", India");
 $districtMapEmbedUrl="https://maps.google.com/maps?q=".rawurlencode($districtMapQuery)."&output=embed";
+$stateSlug = $stateName!=='' ? toSlug($stateName) : '';
+$districtSlug = $districtName!=='' ? toSlug($districtName) : '';
+$nearbyPincodes = [];
+$nearbyStmt = $conn->prepare("
+    SELECT pincode, MIN(officename) AS sample_office, COUNT(*) AS office_count
+    FROM post_offices
+    WHERE district=? AND statename=? AND pincode<>?
+    GROUP BY pincode
+    ORDER BY pincode ASC
+    LIMIT 8
+");
+
+if($nearbyStmt){
+    $nearbyStmt->bind_param("sss",$districtName,$stateName,$pinCode);
+    $nearbyStmt->execute();
+    $nearbyRes=$nearbyStmt->get_result();
+    if($nearbyRes){
+        while($nearbyRow=$nearbyRes->fetch_assoc()){
+            $nearbyPincodes[]=$nearbyRow;
+        }
+    }
+    $nearbyStmt->close();
+}
 ?>
 
 <h2 class="text-3xl font-bold mb-8">
@@ -870,6 +905,45 @@ Residents, businesses, and logistics providers rely on accurate PIN code data to
 <p class="text-gray-700">
 Below, you can explore detailed information about post offices linked to <?= htmlspecialchars($pinCode) ?>, including district classification, office type, and locality coverage. For time-sensitive deliveries, users may verify operational details directly with the concerned postal office.
 </p>
+</section>
+
+<section class="bg-white rounded-xl shadow p-6 mb-8 leading-7 text-gray-800">
+  <h3 class="text-2xl font-semibold mb-4">Delivery Status, Address Use, and Service Notes</h3>
+  <p class="mb-4">PIN code <strong><?= htmlspecialchars($pinCode) ?></strong> is commonly used in address verification, shipment booking, KYC forms, and public-service document dispatch. For best delivery outcomes, always write the full address with house or building number, street/locality name, landmark (if any), post office name, district, state, and the exact six-digit PIN.</p>
+  <p class="mb-4">The delivery status label associated with a post office (for example, Delivery or Non-Delivery) helps indicate whether routine mail delivery is handled directly by that office or routed through a linked delivery center. Business users shipping invoices, legal notices, and replacement cards should use this PIN exactly as registered in customer records to reduce return-to-origin events and sorting delays.</p>
+  <p class="mb-4">For ecommerce and logistics teams, this page gives a practical location context for serviceability checks. Pair the PIN with locality and district details to avoid incorrect city mapping in checkout systems. If two locations have similar names, the PIN code should be treated as the final routing identifier in your order pipeline.</p>
+  <p class="mb-0">For government or compliance-sensitive communication, cross-check latest office timings, holidays, and operational notices using official India Post channels before dispatching time-bound documents.</p>
+</section>
+
+<section class="bg-white rounded-xl shadow p-6 mb-8">
+  <h3 class="text-2xl font-semibold mb-4">Nearby PIN Codes in <?= htmlspecialchars($districtName) ?> District</h3>
+  <?php if(!empty($nearbyPincodes)): ?>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+      <?php foreach($nearbyPincodes as $nearby): ?>
+        <a class="border border-slate-200 rounded-lg p-3 hover:bg-slate-50 block" href="/<?= htmlspecialchars((string)$nearby['pincode']) ?>">
+          <div class="font-semibold text-indigo-700">PIN <?= htmlspecialchars((string)$nearby['pincode']) ?></div>
+          <div class="text-sm text-gray-600"><?= htmlspecialchars((string)$nearby['sample_office']) ?></div>
+          <div class="text-xs text-gray-500 mt-1"><?= htmlspecialchars((string)$nearby['office_count']) ?> linked offices</div>
+        </a>
+      <?php endforeach; ?>
+    </div>
+  <?php else: ?>
+    <p class="text-gray-700 mb-5">Nearby PIN clusters are not available in the current dataset snapshot for this district.</p>
+  <?php endif; ?>
+
+  <h4 class="text-xl font-semibold mb-2">Frequently Asked Questions</h4>
+  <div class="space-y-3 text-gray-700 leading-7">
+    <p><strong>1) Why is this PIN code important for courier and Speed Post?</strong><br>Carriers sort by PIN hierarchy first. A correct PIN drastically improves dispatch accuracy and reduces missorting.</p>
+    <p><strong>2) Can one PIN code serve multiple localities?</strong><br>Yes. One delivery office can cover multiple neighborhoods or villages under the same PIN jurisdiction.</p>
+    <p><strong>3) Should I use district name or city name in address lines?</strong><br>Use both whenever possible. Keep the PIN code exact, because it is the strongest routing signal in postal workflows.</p>
+    <p><strong>4) How often can postal mappings change?</strong><br>Operational boundaries and office handling can change over time. For critical deliveries, verify with official India Post information before booking.</p>
+    <p><strong>5) Where can I continue browsing this location hierarchy?</strong><br>
+      Explore
+      <?php if($districtSlug!==''): ?><a class="text-indigo-700 underline" href="/<?= htmlspecialchars($districtSlug) ?>-pincode"><?= htmlspecialchars($districtName) ?> district pages</a><?php endif; ?>
+      <?php if($districtSlug!=='' && $stateSlug!==''): ?> and <?php endif; ?>
+      <?php if($stateSlug!==''): ?><a class="text-indigo-700 underline" href="/<?= htmlspecialchars($stateSlug) ?>-pincode"><?= htmlspecialchars($stateName) ?> state pages</a><?php endif; ?>,
+      or read <a class="text-indigo-700 underline" href="/blog">postal guides</a>.</p>
+  </div>
 </section>
 
 <div class="grid md:grid-cols-2 gap-5">
@@ -1352,6 +1426,13 @@ else { ?>
 </section>
 
 <?php } ?>
+
+<?php if(!$dbAvailable): ?>
+<section class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+  <h2 class="text-lg font-semibold text-amber-900 mb-1">Search is temporarily unavailable</h2>
+  <p class="text-amber-800">We are currently unable to connect to the postal database. You can still browse guides, policies, and informational pages while we restore search.</p>
+</section>
+<?php endif; ?>
 
 <?php if($pageType=="home"): ?>
 <script>

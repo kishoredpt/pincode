@@ -1,4 +1,5 @@
 <?php
+define('ALLOW_DB_OPTIONAL', true);
 require_once __DIR__ . '/config/db.php';
 $slug = trim($_GET['slug'] ?? '');
 
@@ -19,12 +20,6 @@ $article = null;
 $dbConn = null;
 if (isset($conn) && $conn instanceof mysqli && !$conn->connect_error) {
     $dbConn = $conn;
-} else {
-    mysqli_report(MYSQLI_REPORT_OFF);
-    $tmpConn = @new mysqli("localhost", "u854527538_kishore", "0044Ki05@123", "u854527538_pincode");
-    if (!$tmpConn->connect_error) {
-        $dbConn = $tmpConn;
-    }
 }
 
 if ($dbConn) {

@@ -1,2 +1,3 @@
-# ads.txt is served dynamically via /ads-txt.php using ADSENSE_PUBLISHER_ID environment variable.
-# Configure ADSENSE_PUBLISHER_ID=ca-pub-################ to publish the production record.
+# Primary behavior: /ads.txt is rewritten to /ads-txt.php via .htaccess.
+# Fallback for servers without rewrite: replace with your real AdSense publisher record.
+# Format: google.com, ca-pub-################, DIRECT, f08c47fec0942fa0

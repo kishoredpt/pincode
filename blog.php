@@ -1,4 +1,5 @@
 <?php
+define('ALLOW_DB_OPTIONAL', true);
 require_once __DIR__ . '/config/db.php';
 $pageTitle = "Blog | India Pincode Locator";
 $metaDescription = "Guides and practical articles on Indian pincodes, post offices, and addressing best practices.";
@@ -9,12 +10,6 @@ $articles = [];
 $dbConn = null;
 if (isset($conn) && $conn instanceof mysqli && !$conn->connect_error) {
     $dbConn = $conn;
-} else {
-    mysqli_report(MYSQLI_REPORT_OFF);
-    $tmpConn = @new mysqli("localhost", "u854527538_kishore", "0044Ki05@123", "u854527538_pincode");
-    if (!$tmpConn->connect_error) {
-        $dbConn = $tmpConn;
-    }
 }
 
 if ($dbConn) {
