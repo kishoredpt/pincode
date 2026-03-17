@@ -89,9 +89,15 @@ if ($type === "search") {
     }
 
     $stmt = $conn->prepare(
-        "SELECT officename,pincode,district,statename,latitude,longitude,delivery,officetype
-         FROM post_offices
-         WHERE statename=? AND district=? AND officename=?
+        "SELECT po.officename,po.pincode,po.district,po.statename,po.latitude,po.longitude,po.delivery,po.officetype,
+                rs.station_name AS nearest_station_name,
+                rs.station_code AS nearest_station_code,
+                pnr.distance_km AS nearest_station_distance_km
+         FROM post_offices po
+         LEFT JOIN pincode_nearest_railway_station pnr ON pnr.pincode = po.pincode
+         LEFT JOIN railway_stations rs ON rs.id = pnr.station_id
+         WHERE po.statename=? AND po.district=? AND po.officename=?
+         ORDER BY pnr.distance_km ASC
          LIMIT 50"
     );
     $stmt->bind_param("sss", $state, $district, $office);
@@ -101,6 +107,48 @@ if ($type === "search") {
     $data = [];
     while ($row = $result->fetch_assoc()) {
         $data[] = $row;
+    }
+
+    if (!empty($data)) {
+        foreach ($data as &$row) {
+            $hasMappedStation = !empty($row['nearest_station_name']) && !empty($row['nearest_station_code']);
+            $hasCoordinates = is_numeric($row['latitude'] ?? null) && is_numeric($row['longitude'] ?? null);
+
+            if ($hasMappedStation || !$hasCoordinates) {
+                continue;
+            }
+
+            $lat = (float) $row['latitude'];
+            $lon = (float) $row['longitude'];
+
+            $stmtNearest = $conn->prepare(
+                "SELECT station_name, station_code,
+                        ROUND(6371 * ACOS(
+                            COS(RADIANS(?)) * COS(RADIANS(latitude)) * COS(RADIANS(longitude) - RADIANS(?)) +
+                            SIN(RADIANS(?)) * SIN(RADIANS(latitude))
+                        ), 1) AS distance_km
+                 FROM railway_stations
+                 WHERE latitude IS NOT NULL AND longitude IS NOT NULL
+                 ORDER BY distance_km ASC
+                 LIMIT 1"
+            );
+
+            if (!$stmtNearest) {
+                continue;
+            }
+
+            $stmtNearest->bind_param("ddd", $lat, $lon, $lat);
+            $stmtNearest->execute();
+            $nearestRes = $stmtNearest->get_result();
+
+            if ($nearestRes && $nearestRes->num_rows > 0) {
+                $nearest = $nearestRes->fetch_assoc();
+                $row['nearest_station_name'] = $nearest['station_name'] ?? null;
+                $row['nearest_station_code'] = $nearest['station_code'] ?? null;
+                $row['nearest_station_distance_km'] = $nearest['distance_km'] ?? null;
+            }
+        }
+        unset($row);
     }
 
     echo json_encode($data);
