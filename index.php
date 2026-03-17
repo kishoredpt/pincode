@@ -917,11 +917,17 @@ Below, you can explore detailed information about post offices linked to <?= htm
 
 <section class="bg-white rounded-xl shadow p-6 mb-8">
   <h3 class="text-2xl font-semibold mb-4">Nearby PIN Codes in <?= htmlspecialchars($districtName) ?> District</h3>
+  <p class="text-gray-700 mb-4">
+    Browse nearby postal areas for stronger address validation and routing checks. These internal links help you compare surrounding service zones in
+    <a class="text-indigo-700 underline" href="/<?= htmlspecialchars($districtSlug) ?>-pincode"><?= htmlspecialchars($districtName) ?> district</a>
+    and
+    <a class="text-indigo-700 underline" href="/<?= htmlspecialchars($stateSlug) ?>-pincode"><?= htmlspecialchars($stateName) ?> state</a>.
+  </p>
   <?php if(!empty($nearbyPincodes)): ?>
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
       <?php foreach($nearbyPincodes as $nearby): ?>
-        <a class="border border-slate-200 rounded-lg p-3 hover:bg-slate-50 block" href="/<?= htmlspecialchars((string)$nearby['pincode']) ?>">
-          <div class="font-semibold text-indigo-700">PIN <?= htmlspecialchars((string)$nearby['pincode']) ?></div>
+        <a class="border border-slate-200 rounded-lg p-3 hover:bg-slate-50 block" href="/<?= htmlspecialchars((string)$nearby['pincode']) ?>-pincode" title="<?= htmlspecialchars((string)$nearby['pincode']) ?> PIN code in <?= htmlspecialchars($districtName) ?>, <?= htmlspecialchars($stateName) ?>">
+          <div class="font-semibold text-indigo-700"><?= htmlspecialchars((string)$nearby['pincode']) ?> PIN Code Details</div>
           <div class="text-sm text-gray-600"><?= htmlspecialchars((string)$nearby['sample_office']) ?></div>
           <div class="text-xs text-gray-500 mt-1"><?= htmlspecialchars((string)$nearby['office_count']) ?> linked offices</div>
         </a>
@@ -943,6 +949,32 @@ Below, you can explore detailed information about post offices linked to <?= htm
       <?php if($districtSlug!=='' && $stateSlug!==''): ?> and <?php endif; ?>
       <?php if($stateSlug!==''): ?><a class="text-indigo-700 underline" href="/<?= htmlspecialchars($stateSlug) ?>-pincode"><?= htmlspecialchars($stateName) ?> state pages</a><?php endif; ?>,
       or read <a class="text-indigo-700 underline" href="/blog">postal guides</a>.</p>
+  </div>
+</section>
+
+<section class="bg-white rounded-xl shadow p-6 mb-8">
+  <h3 class="text-2xl font-semibold mb-4">Explore More</h3>
+  <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+    <a class="border border-slate-200 rounded-lg p-3 hover:bg-slate-50 block" href="/<?= htmlspecialchars($pinCode) ?>-pincode">
+      <div class="font-semibold text-indigo-700">PIN <?= htmlspecialchars($pinCode) ?> Full Overview</div>
+      <div class="text-sm text-gray-600">Complete post office list, delivery notes, and address usage guidance.</div>
+    </a>
+    <?php if($districtSlug!==''): ?>
+    <a class="border border-slate-200 rounded-lg p-3 hover:bg-slate-50 block" href="/<?= htmlspecialchars($districtSlug) ?>-pincode">
+      <div class="font-semibold text-indigo-700"><?= htmlspecialchars($districtName) ?> District PIN Codes</div>
+      <div class="text-sm text-gray-600">Explore all district post offices and linked PIN directories.</div>
+    </a>
+    <?php endif; ?>
+    <?php if($stateSlug!==''): ?>
+    <a class="border border-slate-200 rounded-lg p-3 hover:bg-slate-50 block" href="/<?= htmlspecialchars($stateSlug) ?>-pincode">
+      <div class="font-semibold text-indigo-700"><?= htmlspecialchars($stateName) ?> State PIN Code Directory</div>
+      <div class="text-sm text-gray-600">Navigate state-level district links and postal hierarchy pages.</div>
+    </a>
+    <?php endif; ?>
+    <a class="border border-slate-200 rounded-lg p-3 hover:bg-slate-50 block" href="/blog">
+      <div class="font-semibold text-indigo-700">Postal Knowledge Guides</div>
+      <div class="text-sm text-gray-600">Read practical articles on routing, addressing, and delivery best practices.</div>
+    </a>
   </div>
 </section>
 
