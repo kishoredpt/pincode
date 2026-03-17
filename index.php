@@ -810,6 +810,18 @@ $districtMapQuery=trim($districtName.", ".$stateName.", India");
 $districtMapEmbedUrl="https://maps.google.com/maps?q=".rawurlencode($districtMapQuery)."&output=embed";
 $stateSlug = $stateName!=='' ? toSlug($stateName) : '';
 $districtSlug = $districtName!=='' ? toSlug($districtName) : '';
+$pinLastDigit = (int)substr($pinCode,-1);
+$pinVariantIndex = $pinLastDigit % 3;
+$nearbyImportanceCopy = [
+    "Nearby PIN codes often share sorting paths, transport corridors, and delivery dependencies with <strong>".htmlspecialchars($pinCode)."</strong>. Reviewing adjacent clusters helps you catch locality mismatches before booking a shipment.",
+    "Addresses that look similar can still map to different delivery beats. Comparing <strong>".htmlspecialchars($pinCode)."</strong> with neighboring PIN clusters in ".htmlspecialchars($districtName)." helps reduce failed pickups and rerouting delays.",
+    "When dispatch teams validate only one PIN code, hidden edge-case errors are easy to miss. A quick scan of nearby postal clusters around <strong>".htmlspecialchars($pinCode)."</strong> creates a more reliable routing decision."
+];
+$useCaseTitleVariants = [
+    "Practical Use Cases for PIN ".htmlspecialchars($pinCode),
+    "Where This PIN Code Helps in Daily Workflows",
+    "How People Actually Use PIN ".htmlspecialchars($pinCode)
+];
 $nearbyPincodes = [];
 $nearbyStmt = $conn->prepare("
     SELECT pincode, MIN(officename) AS sample_office, COUNT(*) AS office_count
@@ -833,15 +845,20 @@ if($nearbyStmt){
 }
 ?>
 
-<nav class="text-sm mb-4 text-gray-600">
-  <a href="/">Home</a> >
-  <?php if($stateSlug!==''): ?>
-    <a href="/<?= htmlspecialchars($stateSlug) ?>-pincode"><?= htmlspecialchars($stateName) ?></a> >
-  <?php endif; ?>
-  <?php if($districtSlug!==''): ?>
-    <a href="/<?= htmlspecialchars($districtSlug) ?>-pincode"><?= htmlspecialchars($districtName) ?></a> >
-  <?php endif; ?>
-  <span><?= htmlspecialchars($pinCode) ?></span>
+<nav class="text-sm mb-4 text-gray-600" aria-label="Pincode page breadcrumb">
+  <ol class="flex flex-wrap items-center gap-2">
+    <li><a class="hover:text-indigo-700 hover:underline" href="/">Home</a></li>
+    <?php if($stateSlug!==''): ?>
+      <li><span aria-hidden="true">›</span></li>
+      <li><a class="hover:text-indigo-700 hover:underline" href="/<?= htmlspecialchars($stateSlug) ?>-pincode"><?= htmlspecialchars($stateName) ?> pincode directory</a></li>
+    <?php endif; ?>
+    <?php if($districtSlug!==''): ?>
+      <li><span aria-hidden="true">›</span></li>
+      <li><a class="hover:text-indigo-700 hover:underline" href="/<?= htmlspecialchars($districtSlug) ?>-pincode"><?= htmlspecialchars($districtName) ?> district pincodes</a></li>
+    <?php endif; ?>
+    <li><span aria-hidden="true">›</span></li>
+    <li class="font-semibold text-gray-800">PIN <?= htmlspecialchars($pinCode) ?> details</li>
+  </ol>
 </nav>
 
 <h2 class="text-3xl font-bold mb-8">
@@ -944,18 +961,32 @@ Below, you can explore detailed information about post offices linked to <?= htm
     and
     <a class="text-indigo-700 underline" href="/<?= htmlspecialchars($stateSlug) ?>-pincode"><?= htmlspecialchars($stateName) ?> state</a>.
   </p>
+  <div class="mb-5 rounded-lg border border-slate-200 bg-slate-50 p-4">
+    <h4 class="text-lg font-semibold text-slate-800 mb-2">Why nearby PIN codes matter</h4>
+    <p class="text-gray-700 leading-7"><?= $nearbyImportanceCopy[$pinVariantIndex] ?></p>
+  </div>
   <?php if(!empty($nearbyPincodes)): ?>
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
       <?php foreach($nearbyPincodes as $nearby): ?>
+        <?php
+          $nearbyPin = (string)($nearby['pincode'] ?? '');
+          $nearbySampleOffice = trim((string)($nearby['sample_office'] ?? 'Post Office'));
+          $nearbyOfficeCount = (int)($nearby['office_count'] ?? 0);
+          $nearbyAnchor = [
+            "Explore PIN ".$nearbyPin." service profile",
+            "Check locality coverage for ".$nearbyPin,
+            "View postal offices under ".$nearbyPin
+          ][((int)substr($nearbyPin,-1)) % 3];
+        ?>
         <a class="border border-slate-200 rounded-lg p-3 hover:bg-slate-50 block" href="/<?= htmlspecialchars((string)$nearby['pincode']) ?>-pincode" title="<?= htmlspecialchars((string)$nearby['pincode']) ?> PIN code in <?= htmlspecialchars($districtName) ?>, <?= htmlspecialchars($stateName) ?>">
           <div class="font-semibold text-indigo-700">
-            <?= htmlspecialchars((string)$nearby['pincode']) ?> – Delivery Area Details
+            <?= htmlspecialchars($nearbyAnchor) ?>
           </div>
           <div class="text-sm text-gray-600">
-            Covers <?= htmlspecialchars((string)$nearby['sample_office']) ?> and nearby localities
+            Starts from <?= htmlspecialchars($nearbySampleOffice) ?> in <?= htmlspecialchars($districtName) ?>, <?= htmlspecialchars($stateName) ?>.
           </div>
           <div class="text-xs text-gray-500 mt-1">
-            <?= htmlspecialchars((string)$nearby['office_count']) ?> post offices • Compare delivery coverage
+            <?= htmlspecialchars((string)$nearbyOfficeCount) ?> mapped post offices • Useful for routing comparison and fallback dispatch planning.
           </div>
         </a>
       <?php endforeach; ?>
@@ -980,20 +1011,20 @@ Below, you can explore detailed information about post offices linked to <?= htm
 </section>
 
 <section class="bg-white rounded-xl shadow p-6 mb-8">
-  <h3 class="text-xl font-semibold mb-4">Common Use Cases for This PIN Code</h3>
+  <h3 class="text-xl font-semibold mb-4"><?= $useCaseTitleVariants[$pinVariantIndex] ?></h3>
 
   <ul class="list-disc pl-5 text-gray-700 space-y-2">
-    <li>Use <a class="text-indigo-700 underline" href="/<?= htmlspecialchars($pinCode) ?>-pincode">PIN <?= htmlspecialchars($pinCode) ?> details</a> for online shopping deliveries and courier address validation.</li>
+    <li>Before checkout or parcel booking, review the <a class="text-indigo-700 underline" href="/<?= htmlspecialchars($pinCode) ?>-pincode">complete delivery profile for PIN <?= htmlspecialchars($pinCode) ?></a> to reduce address mismatch risk.</li>
 
     <?php if($districtSlug!==''): ?>
-    <li>Verify all postal areas in <a class="text-indigo-700 underline" href="/<?= htmlspecialchars($districtSlug) ?>-pincode"><?= htmlspecialchars($districtName) ?> district</a> before bulk shipping.</li>
+    <li>For bulk orders, compare serviceability across the <a class="text-indigo-700 underline" href="/<?= htmlspecialchars($districtSlug) ?>-pincode"><?= htmlspecialchars($districtName) ?> district postal index</a> before assigning courier lanes.</li>
     <?php endif; ?>
 
     <?php if($stateSlug!==''): ?>
-    <li>Explore complete routing hierarchy in <a class="text-indigo-700 underline" href="/<?= htmlspecialchars($stateSlug) ?>-pincode"><?= htmlspecialchars($stateName) ?> state</a> for logistics planning.</li>
+    <li>Need inter-district planning? Use the <a class="text-indigo-700 underline" href="/<?= htmlspecialchars($stateSlug) ?>-pincode"><?= htmlspecialchars($stateName) ?> state pincode explorer</a> to validate expansion routes.</li>
     <?php endif; ?>
 
-    <li>Read <a class="text-indigo-700 underline" href="/blog">postal guides</a> to avoid common addressing mistakes.</li>
+    <li>For team training, share our <a class="text-indigo-700 underline" href="/blog">postal workflow guides and addressing checklists</a> so customer support can verify pins faster.</li>
   </ul>
 </section>
 
