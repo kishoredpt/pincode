@@ -833,6 +833,17 @@ if($nearbyStmt){
 }
 ?>
 
+<nav class="text-sm mb-4 text-gray-600">
+  <a href="/">Home</a> >
+  <?php if($stateSlug!==''): ?>
+    <a href="/<?= htmlspecialchars($stateSlug) ?>-pincode"><?= htmlspecialchars($stateName) ?></a> >
+  <?php endif; ?>
+  <?php if($districtSlug!==''): ?>
+    <a href="/<?= htmlspecialchars($districtSlug) ?>-pincode"><?= htmlspecialchars($districtName) ?></a> >
+  <?php endif; ?>
+  <span><?= htmlspecialchars($pinCode) ?></span>
+</nav>
+
 <h2 class="text-3xl font-bold mb-8">
 Pincode <?= htmlspecialchars($pinCode) ?>
 </h2>
