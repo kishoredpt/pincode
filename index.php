@@ -946,18 +946,10 @@ Below, you can explore detailed information about post offices linked to <?= htm
   </p>
   <?php if(!empty($nearbyPincodes)): ?>
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
-      <?php foreach($nearbyPincodes as $index => $nearby): ?>
-        <?php
-          $anchorOptions = [
-            (string)$nearby['pincode']." postal information",
-            (string)$nearby['pincode']." delivery zone",
-            (string)$nearby['pincode']." post office list",
-          ];
-          $anchorText = $anchorOptions[$index % 3];
-        ?>
-        <a class="border border-slate-200 rounded-lg p-3 hover:bg-slate-50 block" href="/<?= htmlspecialchars((string)$nearby['pincode']) ?>-pincode" title="<?= htmlspecialchars($anchorText) ?> in <?= htmlspecialchars($districtName) ?>, <?= htmlspecialchars($stateName) ?>">
+      <?php foreach($nearbyPincodes as $nearby): ?>
+        <a class="border border-slate-200 rounded-lg p-3 hover:bg-slate-50 block" href="/<?= htmlspecialchars((string)$nearby['pincode']) ?>-pincode" title="<?= htmlspecialchars((string)$nearby['pincode']) ?> PIN code in <?= htmlspecialchars($districtName) ?>, <?= htmlspecialchars($stateName) ?>">
           <div class="font-semibold text-indigo-700">
-            <?= htmlspecialchars($anchorText) ?>
+            <?= htmlspecialchars((string)$nearby['pincode']) ?> – Delivery Area Details
           </div>
           <div class="text-sm text-gray-600">
             Covers <?= htmlspecialchars((string)$nearby['sample_office']) ?> and nearby localities
