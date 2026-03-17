@@ -29,6 +29,7 @@ $firstRow = $result->fetch_assoc();
 
 echo "<h1>Pincode: " . htmlspecialchars($q) . "</h1>";
 echo "<h2>District: " . htmlspecialchars($firstRow['district']) . " | State: " . htmlspecialchars($firstRow['statename']) . "</h2>";
+echo "<p>This quick lookup view shows post offices mapped to the selected PIN code. For detailed context and policy pages, use the main site navigation.</p>";
 echo "<hr>";
 
 echo "<div style='display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;'>";
@@ -40,6 +41,11 @@ while ($row = $result->fetch_assoc()) {
 }
 
 echo "</div>";
+
+echo "<section style='margin-top:24px;'>";
+echo "<h3>How to use this result responsibly</h3>";
+echo "<p>This page is a utility lookup output for speed. Before using postal details in legal, financial, or high-value shipping workflows, verify the final address through official channels. You can also review our About, Editorial Policy, and Disclaimer pages from the website footer to understand our independent publishing model.</p>";
+echo "</section>";
 
 function renderCard($row): string {
     return "
