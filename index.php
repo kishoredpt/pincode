@@ -1607,6 +1607,18 @@ href="https://www.google.com/maps?q=${row.latitude},${row.longitude}">
 }
 
 const pincodeValue = row.pincode ?? row.Pincode ?? "";
+const officeName = row.officename || "";
+const officeType = row.officetype || "";
+const formattedOfficeName = officeType
+? `${officeName} (${officeType})`
+: officeName;
+const divisionName = row.divisionname || "";
+const introSentence = pincodeValue
+? `The PIN code <strong>${escapeHtml(pincodeValue)}</strong> belongs to <strong>${escapeHtml(formattedOfficeName)}</strong>, located in the ${escapeHtml(row.district || "")} district of ${escapeHtml(row.statename || "")}.`
+: "";
+const divisionSentence = divisionName
+? ` This post office falls under the ${escapeHtml(divisionName)} postal division and serves one of the key localities in the region.`
+: "";
 const pincodeDetailsLink = pincodeValue
 ? `<a target="_blank"
 class="text-indigo-600 text-sm mt-2 inline-block"
@@ -1615,9 +1627,7 @@ href="https://pincodelocator.co.in/${encodeURIComponent(pincodeValue)}">Click To
 
 html+=`
 <div class="bg-white p-5 rounded-xl shadow w-full">
-<h3 class="font-semibold text-lg">${escapeHtml(row.officename || "")}</h3>
-<p>${escapeHtml(row.district || "")}, ${escapeHtml(row.statename || "")}</p>
-<p>Pincode: <b>${escapeHtml(pincodeValue)}</b></p>
+<p>${introSentence}${divisionSentence}</p>
 ${pincodeDetailsLink}
 ${map}
 </div>`;
