@@ -26,7 +26,29 @@ if ($result->num_rows == 0) {
 }
 
 $firstRow = $result->fetch_assoc();
+$pageTitle = 'Search Results for PIN ' . $q . ' | India Pincode Locator';
+$metaDescription = 'Quick lookup results for PIN code ' . $q . ' in ' . $firstRow['district'] . ', ' . $firstRow['statename'] . ', including mapped post offices and delivery types.';
 
+function renderCard(array $row): string {
+    return "<div class='card'>
+<b>" . htmlspecialchars($row['officename']) . "</b><br>
+" . htmlspecialchars($row['officetype']) . "<br>
+Delivery: " . htmlspecialchars($row['delivery']) . "<br>
+District: " . htmlspecialchars($row['district']) . "<br>
+State: " . htmlspecialchars($row['statename']) . "
+</div>";
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><?= htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8'); ?></title>
+<meta name="description" content="<?= htmlspecialchars($metaDescription, ENT_QUOTES, 'UTF-8'); ?>">
+</head>
+<body>
+<?php
 echo "<h1>Pincode: " . htmlspecialchars($q) . "</h1>";
 echo "<h2>District: " . htmlspecialchars($firstRow['district']) . " | State: " . htmlspecialchars($firstRow['statename']) . "</h2>";
 echo "<p>This quick lookup view shows post offices mapped to the selected PIN code. For detailed context and policy pages, use the main site navigation.</p>";
@@ -41,18 +63,6 @@ while ($row = $result->fetch_assoc()) {
 }
 
 echo "</div>";
-
-echo "<section style='margin-top:24px;'>";
-echo "<h3>How to use this result responsibly</h3>";
-echo "<p>This page is a utility lookup output for speed. Before using postal details in legal, financial, or high-value shipping workflows, verify the final address through official channels. You can also review our About, Editorial Policy, and Disclaimer pages from the website footer to understand our independent publishing model.</p>";
-echo "</section>";
-
-function renderCard($row): string {
-    return "
-    <div style='padding:15px;border:1px solid #ddd;border-radius:8px;box-shadow:0 2px 5px rgba(0,0,0,0.05);'>
-        <strong>" . htmlspecialchars($row['officename']) . "</strong><br>
-        Type: " . htmlspecialchars($row['officetype']) . "<br>
-        Delivery: " . htmlspecialchars($row['delivery']) . "
-    </div>
-    ";
-}
+?>
+</body>
+</html>

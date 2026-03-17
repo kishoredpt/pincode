@@ -14,8 +14,20 @@ header("Location:dashboard.php"); exit;
 }
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Login | India Pincode Locator</title>
+<meta name="description" content="Secure admin login for India Pincode Locator editorial and operations dashboard access.">
+</head>
+<body>
+<h1>Admin Login</h1>
 <form method="POST">
 <input name="username" required>
 <input type="password" name="password" required>
 <button>Login</button>
 </form>
+</body>
+</html>
