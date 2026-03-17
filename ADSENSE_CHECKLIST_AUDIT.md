@@ -14,17 +14,17 @@ Scope: Codebase audit of `/workspace/pincode` (no live indexing/domain-age verif
 | 5 | E-E-A-T pages in footer navigation | ⚠️ PARTIAL PASS | About/Contact/Privacy/Disclaimer/Editorial Policy/Data Source were present; footer now includes Terms + Content Guidelines as well. |
 | 6 | Author profile page | ✅ PASS | Dedicated `author.php` page exists and is linked in navigation. |
 | 7 | Internal linking from pincode/office pages | ✅ PASS | Office and rail/pincode templates link to district/state pages and guides/blog. |
-| 8 | Technical SEO setup (sitemap, robots, mobile, clean URLs) | ✅ PASS (code-level) | Root `sitemap.xml`, `robots.txt`, canonical/meta/schema, viewport, and clean-route rewrites are present in repository. HTTPS/performance still depend on deployment runtime. |
+| 8 | Technical SEO setup (sitemap, robots, mobile, clean URLs) | ⚠️ PARTIAL PASS | `robots.txt`, sitemap index, canonical/meta, and mobile viewport exist. HTTPS and rewrite behavior depend on deployment/server config. |
 | 9 | 200+ indexed pages before applying | ⚠️ PARTIAL PASS | Sitemap generation is built for large DB-driven URL sets; actual indexed-page count must be validated in Search Console/Google `site:` query. |
-| 10 | Real user experience (search + no blank pages) | ✅ PASS | Home/policy routes render with DB-optional fallback and blog pages no longer hard-fail without DB credentials; custom 404 and route templates are implemented. |
-| 11 | `ads.txt` configured with real publisher ID | ⚠️ PARTIAL PASS | `/ads.txt` dynamic rule exists and publisher ID can be loaded from env or optional `config/adsense.php`; production still requires a real account ID. |
+| 10 | Real user experience (search + no blank pages) | ✅ PASS | Search/API pages and route handling exist; custom 404 and content templates are implemented. |
+| 11 | `ads.txt` configured with real publisher ID | ⚠️ PARTIAL FAIL | `ads.txt` exists but serves real entry only when `ADSENSE_PUBLISHER_ID` env var is set. |
 | 12 | Domain trust waiting period (2–3 weeks) | ❌ FAIL (repo-not-verifiable) | Not verifiable from source code; must be checked operationally before application. |
 
 ## Actionable Next Steps (Highest Impact)
 
-1. Set a real production publisher ID (env `ADSENSE_PUBLISHER_ID` or `config/adsense.php`) so `/ads.txt` serves final record.
-2. Validate indexed page count and domain age in Google Search Console before applying.
-3. Continue publishing unique long-form content for district/office templates to strengthen quality signals at scale.
+1. Keep footer compliance pages complete and always visible in every template/footer include.
+2. Set production `ADSENSE_PUBLISHER_ID` so `/ads.txt` returns a valid Google record.
+3. Validate indexed page count and domain age in Google Search Console before applying.
 
 ## Quick Verdict
 
