@@ -1596,6 +1596,34 @@ const detectNearbyBtn=document.getElementById("detectNearbyBtn");
 const nearbyStatus=document.getElementById("nearbyStatus");
 const nearbyPincodes=document.getElementById("nearbyPincodes");
 
+resultsDiv.addEventListener("click",async function(event){
+const copyBtn=event.target.closest(".js-copy-pin");
+if(!copyBtn){
+return;
+}
+
+const pin=copyBtn.getAttribute("data-pincode") || "";
+if(!/^\d{6}$/.test(pin)){
+return;
+}
+
+const originalText=copyBtn.textContent;
+
+try{
+await navigator.clipboard.writeText(pin);
+copyBtn.textContent="COPIED";
+setTimeout(()=>{
+copyBtn.textContent=originalText;
+},1500);
+}
+catch(_error){
+copyBtn.textContent="FAILED";
+setTimeout(()=>{
+copyBtn.textContent=originalText;
+},1500);
+}
+});
+
 /* PINCODE SEARCH */
 
 document.getElementById("pincodeInput")
@@ -1775,11 +1803,14 @@ const pincodeDetailsLink = pincodeValue
 class="text-indigo-600 text-sm mt-2 inline-block"
 href="https://pincodelocator.co.in/${encodeURIComponent(pincodeValue)}">Click To know more about this ${escapeHtml(pincodeValue)}</a>`
 : "";
+const copyButton = pincodeValue
+? `<button type="button" class="js-copy-pin mt-2 ml-2 inline-block rounded bg-indigo-600 px-3 py-1 text-xs font-semibold text-white hover:bg-indigo-700" data-pincode="${escapeHtml(pincodeValue)}">COPY</button>`
+: "";
 
 html+=`
 <div class="bg-white p-5 rounded-xl shadow w-full">
 <p>${introSentence}${divisionSentence}</p>
-${pincodeDetailsLink}
+${pincodeDetailsLink}${copyButton}
 ${map}
 </div>`;
 });
