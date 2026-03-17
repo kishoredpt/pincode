@@ -875,6 +875,10 @@ if($nearbyStmt){
 Pincode <?= htmlspecialchars($pinCode) ?>
 </h2>
 
+<button class="mb-8 rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700" onclick="navigator.clipboard.writeText('<?= htmlspecialchars($pinCode, ENT_QUOTES) ?>')">
+Copy Pincode
+</button>
+
 <section class="bg-white rounded-xl shadow p-6 mb-8">
   <h3 class="text-xl font-semibold mb-3">District Map for <?= htmlspecialchars($districtName) ?>, <?= htmlspecialchars($stateName) ?></h3>
   <div class="rounded-lg overflow-hidden border border-slate-200 mb-4">
