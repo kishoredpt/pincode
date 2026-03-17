@@ -1,6 +1,6 @@
 <?php
 $pageTitle = "Disclaimer | India Pincode Locator";
-$metaDescription = "Important legal and editorial disclaimer for India Pincode Locator, including data-use limits, verification advice, and liability boundaries.";
+$metaDescription = "Legal and editorial disclaimer covering ownership, data sources, verification limits, and contact transparency for India Pincode Locator.";
 include 'includes/header.php';
 ?>
 
@@ -8,79 +8,80 @@ include 'includes/header.php';
   <h1>Disclaimer</h1>
 
   <p>
-    The content on India Pincode Locator is published for informational and educational use.
-    We work to present postal data in a clear, structured format, but no directory can guarantee perfect real-time accuracy in all scenarios.
-    Administrative updates, operational changes, and local revisions may occur without immediate public synchronization.
+    India Pincode Locator publishes informational content about Indian PIN codes and post offices for educational and operational reference.
+    We work to keep pages clear and accurate, but users should understand the limits of non-official directory publishing.
   </p>
 
-  <h2>1) Independent Information Service</h2>
+  <h2>1) Who Operates This Website</h2>
   <p>
-    India Pincode Locator is an independent digital publisher.
-    We are not an official website of India Post, and we are not a government authority.
-    References to postal terms, post office names, and service categories are descriptive and used to help users understand location context.
+    This website is operated by <strong>Pincode Locator Editorial Services</strong>, an independent digital publishing team based in India.
+    We are <strong>not</strong> an official India Post website and we do not represent any government authority.
   </p>
 
-  <h2>2) Accuracy, Completeness, and Timeliness</h2>
+  <h2>2) Data Sources</h2>
   <p>
-    We compile and organize data from publicly available sources and internal review processes.
-    While we strive for consistency and clarity, we do not guarantee that every entry is complete, current, or suitable for legal reliance at every moment.
-    Users should independently verify mission-critical details when errors can cause material impact.
+    Our content is compiled from publicly available references, including official India Post materials, government/open datasets where available,
+    and internally maintained normalization records.
+    We use these sources to build readable pages, but source systems may change without immediate synchronization.
   </p>
 
-  <h2>3) No Legal, Financial, or Professional Advice</h2>
+  <h2>3) Accuracy, Completeness, and Timeliness</h2>
   <p>
-    Content on this website is not legal, financial, compliance, or regulatory advice.
-    It is not a substitute for official government communication or professional consultation.
-    Any action taken based on website content is at the user's own discretion and responsibility.
+    We aim for practical accuracy, yet we cannot guarantee every record is complete, current, or error-free at all times.
+    Boundary updates, office reclassification, and administrative revisions can affect real-world applicability.
+    Users must independently verify critical details before relying on any entry.
   </p>
 
-  <h2>4) Verification for Critical Use Cases</h2>
+  <h2>4) Editorial Policy and Independence</h2>
   <p>
-    For activities such as court filings, KYC submissions, formal contracts, insurance claims, financial onboarding,
-    and high-value logistics, always confirm address and postal details through official channels before final submission.
-    Our pages are meant to improve understanding and reduce lookup friction, not replace authoritative validation.
+    Page updates follow an editorial process that includes formatting checks, data quality review, and corrections based on credible evidence.
+    Advertising or sponsorship does not determine factual entries, correction outcomes, or publication decisions.
+    See our <a href="/editorial-policy.php">Editorial Policy</a> for full methodology.
   </p>
 
-  <h2>5) External Links and Third-Party Platforms</h2>
+  <h2>5) No Legal, Financial, or Professional Advice</h2>
   <p>
-    Some pages may include links to external websites, references, maps, or service providers.
-    We do not control third-party availability, data accuracy, security posture, or privacy policies.
-    Visiting external sites is subject to their own terms and policies.
+    Content on this website is not legal, tax, compliance, logistics, or financial advice.
+    It should not be treated as a substitute for official notices or professional consultation.
   </p>
 
-  <h2>6) Advertising and Sponsorship Transparency</h2>
+  <h2>6) Verification for High-Impact Use Cases</h2>
   <p>
-    This website may display ads from third-party networks, including Google AdSense.
-    Ads do not constitute endorsements by our editorial team.
-    Advertising relationships do not control factual page content, correction policy, or editorial decisions.
+    For KYC, court submissions, admissions, contracts, financial onboarding, or high-value shipments,
+    confirm final postal details through official channels before submission or dispatch.
   </p>
 
-  <h2>7) Limitation of Liability</h2>
+  <h2>7) Third-Party Links and Services</h2>
   <p>
-    To the fullest extent permitted by applicable law, India Pincode Locator and its contributors are not liable for direct,
-    indirect, incidental, or consequential losses arising from use of the website, inability to access the website,
-    or reliance on information presented here.
+    We may link to external sites for reference convenience.
+    We do not control third-party content, uptime, security, or privacy practices and cannot accept responsibility for them.
   </p>
 
-  <h2>8) User Responsibility</h2>
+  <h2>8) Limitation of Liability</h2>
   <p>
-    Users are responsible for evaluating whether information fits their specific situation.
-    If certainty is required, consult official postal offices or relevant authorities before dispatching goods or filing official records.
+    To the maximum extent permitted by law, India Pincode Locator and its contributors are not liable for direct or indirect losses
+    resulting from use of this website, inability to access it, or reliance on published information.
   </p>
 
-  <h2>9) Policy Updates</h2>
+  <h2>9) Contact Transparency and Corrections</h2>
   <p>
-    We may update this disclaimer to reflect legal, editorial, or operational changes.
-    Revised versions become effective upon publication on this page.
-    Continued use of the website implies acceptance of the latest published version.
+    We provide clear channels for corrections, legal notices, and policy questions.
+    Contact: <a href="mailto:support@pincodelocator.co.in">support@pincodelocator.co.in</a> (editorial support) and
+    <a href="mailto:policy@pincodelocator.co.in">policy@pincodelocator.co.in</a> (policy/compliance).
+    Response targets and communication scope are published on our <a href="/contact.php">Contact</a> page.
+  </p>
+
+  <h2>10) Policy Updates</h2>
+  <p>
+    We may update this disclaimer to reflect legal, operational, or editorial changes.
+    Updated versions take effect when published on this page.
   </p>
 
   <h2>Related Pages</h2>
   <p>
-    For additional clarity, review our
+    Please also review our
     <a href="/about.php">About</a>,
-    <a href="/author.php">Author</a>,
-    <a href="/editorial-policy.php">Editorial Policy</a>,
+    <a href="/data-source.php">Data Source</a>,
     <a href="/content-guidelines.php">Content Guidelines</a>,
     <a href="/privacy-policy.php">Privacy Policy</a>, and
     <a href="/terms.php">Terms</a> pages.

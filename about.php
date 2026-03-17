@@ -1,6 +1,6 @@
 <?php
 $pageTitle = "About Us | India Pincode Locator";
-$metaDescription = "Learn how India Pincode Locator researches, reviews, and publishes practical postal information for citizens, businesses, and logistics teams.";
+$metaDescription = "Learn who runs India Pincode Locator, how we source postal data, and how our editorial team reviews and updates content.";
 include 'includes/header.php';
 ?>
 
@@ -8,70 +8,63 @@ include 'includes/header.php';
   <h1>About India Pincode Locator</h1>
 
   <p>
-    India Pincode Locator is an independent postal information website built for everyday users who need reliable address and PIN code references.
-    We serve students filling forms, families sending parcels, small businesses planning deliveries, and operations teams validating shipping locations.
-    Our mission is simple: make Indian postal information easier to understand and easier to use in real life.
+    India Pincode Locator is an independent postal information website built for people who need reliable address and PIN code references.
+    We support students filling forms, families sending parcels, online sellers planning deliveries, and operations teams validating locations.
+    Our mission is to make Indian postal information easier to find, easier to understand, and easier to use responsibly.
   </p>
 
+  <h2>Who Runs This Site</h2>
   <p>
-    Instead of presenting raw records without context, we organize state, district, PIN code, and post office information in a human-readable format.
-    Each page is designed to answer common questions that appear during checkout, onboarding, KYC, courier booking, and official documentation.
-    Alongside directory data, we publish editorial explainers to help users avoid addressing mistakes that can delay mail movement.
+    This website is operated by <strong>Pincode Locator Editorial Services</strong>, a small India-based digital publishing team focused on public-interest reference content.
+    Day-to-day operations are managed by an editorial lead, a data quality reviewer, and a technical maintainer.
+    We are an independent publisher and are <strong>not affiliated with India Post</strong> or any government department.
   </p>
 
-  <h2>Why We Built This Platform</h2>
-  <p>
-    Postal data is public, but it is often difficult to navigate quickly when a user needs confirmation in seconds.
-    We built this project to reduce friction between "I need the right PIN code now" and "I found a trustworthy result I can use."
-    This means clear headings, practical examples, transparent policies, and updates that prioritize utility over search-engine shortcuts.
-  </p>
-
-  <h2>What You Can Expect on This Website</h2>
+  <h2>What We Publish</h2>
   <ul>
     <li>Searchable PIN code and post office references by state and district.</li>
-    <li>Structured pages that explain delivery office details in plain language.</li>
-    <li>Editorial guides on address formatting and postal process basics.</li>
-    <li>Trust pages that explain our review standards and data limitations.</li>
-    <li>Visible links to <a href="/author.php">author information</a>, <a href="/editorial-policy.php">editorial policy</a>, and <a href="/data-source.php">data source notes</a>.</li>
+    <li>Structured pages with branch type, delivery status, district, and state context.</li>
+    <li>Editorial explainers on addressing basics and postal workflow concepts.</li>
+    <li>Trust and policy pages describing our standards and limitations.</li>
   </ul>
 
-  <h2>Our Research and Review Workflow</h2>
+  <h2>Data Sources and Verification Approach</h2>
   <p>
-    We compile publicly available postal datasets, normalize fields for consistency, and review page output for clarity.
-    Our editorial team checks naming quality, removes obvious formatting noise, and writes practical context blocks for important page types.
-    When users report an issue, we investigate the entry and prioritize corrections that affect delivery understanding or address validation.
+    Our directory is built from publicly accessible postal and geographic reference datasets, including official India Post publications,
+    government open data records where available, and historical archival snapshots used for consistency checks.
+    We normalize naming formats, remove duplicate noise, and flag conflicting entries for editorial review.
   </p>
 
   <p>
-    Because postal operations can change over time, we strongly recommend official confirmation for legal filings, financial processing,
-    admissions, and high-value shipments. We do not claim to replace official postal channels; we provide a clear and faster reference layer
-    for educational and operational use.
+    We do not claim that every record reflects real-time operational changes.
+    For legal filings, banking/KYC, admissions, compliance, and high-value shipments, users should verify final details through official channels.
+    More source notes are available on our <a href="/data-source.php">Data Source</a> page.
   </p>
 
-  <h2>Editorial Independence and Trust</h2>
+  <h2>Editorial Policy and Independence</h2>
   <p>
-    India Pincode Locator is not operated by India Post and is not a government service.
-    We clearly disclose this across the site to avoid confusion.
-    Advertising and sponsorship never control factual postal entries.
-    The same correction workflow applies to all pages, whether or not they carry ads.
+    Every page is published under a documented editorial process: data ingestion, formatting checks, quality screening, and periodic refresh.
+    We correct factual issues when credible evidence is provided and record high-impact fixes for audit consistency.
+    Advertising does not decide factual outcomes, inclusion criteria, or correction priority.
+    Read the full policy on our <a href="/editorial-policy.php">Editorial Policy</a> page.
   </p>
 
-  <h2>How We Improve User Value Over Time</h2>
+  <h2>Contact Transparency</h2>
   <p>
-    We continuously improve this website by adding clearer explanations, better internal linking, and stronger context around postal use cases.
-    Recent updates focus on reducing thin pages and expanding content quality so every major page type explains "what this means" and "what to do next."
-    If you want to understand how we publish and update content, read our
+    We maintain a clear contact channel for users, publishers, and compliance queries.
+    Correction requests are reviewed in queue order and prioritized when they affect delivery reliability or official form accuracy.
+    You can reach our team at <a href="mailto:support@pincodelocator.co.in">support@pincodelocator.co.in</a>.
+    Full communication details, scope, and response expectations are listed on the <a href="/contact.php">Contact</a> page.
+  </p>
+
+  <h2>Related Trust Pages</h2>
+  <p>
+    For complete transparency, review our
+    <a href="/author.php">Author</a>,
+    <a href="/editorial-policy.php">Editorial Policy</a>,
     <a href="/content-guidelines.php">Content Guidelines</a>,
-    <a href="/editorial-policy.php">Editorial Policy</a>, and
-    <a href="/disclaimer.php">Disclaimer</a>.
-  </p>
-
-  <h2>Contact and Corrections</h2>
-  <p>
-    We welcome correction requests and practical feedback.
-    If you find an issue, share the full details (PIN code, post office name, district, state) through our
-    <a href="/contact.php">Contact page</a> so we can review quickly.
-    Responsible feedback helps keep this directory useful for everyone.
+    <a href="/disclaimer.php">Disclaimer</a>, and
+    <a href="/terms.php">Terms</a> pages.
   </p>
 </div>
 
