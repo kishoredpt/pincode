@@ -20,10 +20,37 @@ if (!function_exists('site_env')) {
     }
 }
 
+
+if (!function_exists('site_adsense_config')) {
+    function site_adsense_config(): array
+    {
+        static $config = null;
+        if ($config !== null) {
+            return $config;
+        }
+
+        $config = [];
+        $configFile = __DIR__ . '/../config/adsense.php';
+        if (is_file($configFile)) {
+            $loaded = require $configFile;
+            if (is_array($loaded)) {
+                $config = $loaded;
+            }
+        }
+
+        return $config;
+    }
+}
+
 if (!function_exists('adsense_publisher_id')) {
     function adsense_publisher_id(): string
     {
         $id = site_env('ADSENSE_PUBLISHER_ID', '');
+        if ($id === '') {
+            $config = site_adsense_config();
+            $id = trim((string)($config['publisher_id'] ?? ''));
+        }
+
         if ($id === '') {
             return '';
         }

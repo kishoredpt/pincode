@@ -31,3 +31,13 @@ php -S 0.0.0.0:8000
 - `robots.txt` blocks internal API/search utility endpoints from crawler indexation.
 - API/search endpoints emit `X-Robots-Tag: noindex, nofollow`.
 - Shared header and homepage output Open Graph/Twitter metadata and `WebSite` JSON-LD.
+
+
+## AdSense publisher config
+
+`/ads.txt` is routed to `ads-txt.php` (via `.htaccess`) and supports two config sources:
+
+1. `ADSENSE_PUBLISHER_ID` environment variable (recommended).
+2. Optional file `config/adsense.php` returning `publisher_id` (copy `config/adsense.example.php`).
+
+Example value format: `ca-pub-################`.
