@@ -20,9 +20,11 @@ if(preg_match('/^blog\/([a-zA-Z0-9-]+)$/',$requestPath,$blogMatch)){
     exit;
 }
 
+define("ALLOW_DB_OPTIONAL", true);
 require_once "config/db.php";
 require_once __DIR__ . "/includes/menu-pages.php";
 require_once __DIR__ . "/includes/slug.php";
+require_once __DIR__ . "/includes/site-settings.php";
 
 $route = $_GET['route'] ?? '';
 
@@ -48,15 +50,25 @@ function toSlug($value){
     return slugify_text($value);
 }
 
-$railTableCheck = $conn->query("SHOW TABLES LIKE 'railway_stations'");
-$mapTableCheck = $conn->query("SHOW TABLES LIKE 'pincode_nearest_railway_station'");
-$railwayTablesAvailable = ($railTableCheck && $railTableCheck->num_rows > 0 && $mapTableCheck && $mapTableCheck->num_rows > 0);
+$dbAvailable = $conn instanceof mysqli;
+$railwayTablesAvailable = false;
+
+if($dbAvailable){
+    $railTableCheck = $conn->query("SHOW TABLES LIKE 'railway_stations'");
+    $mapTableCheck = $conn->query("SHOW TABLES LIKE 'pincode_nearest_railway_station'");
+    $railwayTablesAvailable = ($railTableCheck && $railTableCheck->num_rows > 0 && $mapTableCheck && $mapTableCheck->num_rows > 0);
+}
 
 /* =========================
 ROUTE ENGINE
 ========================= */
 
-if($route && preg_match('/^nearest-railway-station-(\d{6})$/',$route,$railRouteMatch)) {
+if(!$dbAvailable){
+    if($route && !str_starts_with($route, 'menu-')){
+        $metaRobots = 'noindex, follow';
+    }
+}
+elseif($route && preg_match('/^nearest-railway-station-(\d{6})$/',$route,$railRouteMatch)) {
 
     $railPincode = $railRouteMatch[1];
     $stmt = $conn->prepare("
@@ -1414,6 +1426,13 @@ else { ?>
 </section>
 
 <?php } ?>
+
+<?php if(!$dbAvailable): ?>
+<section class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+  <h2 class="text-lg font-semibold text-amber-900 mb-1">Search is temporarily unavailable</h2>
+  <p class="text-amber-800">We are currently unable to connect to the postal database. You can still browse guides, policies, and informational pages while we restore search.</p>
+</section>
+<?php endif; ?>
 
 <?php if($pageType=="home"): ?>
 <script>
