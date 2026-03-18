@@ -465,6 +465,7 @@ if($pageType=="office"){
         ." Post Office, pincode ".$pageData['pincode']
         ." in ".$pageData['district'].", ".$pageData['statename'].".";
     $canonical = "https://pincodelocator.co.in/".$route;
+    $metaRobots = "noindex, follow";
 }
 elseif($route && in_array($pageType,["state","district","pincode"],true)){
 
@@ -501,6 +502,7 @@ elseif ($pageType === 'menu_page') {
     $seoTitle = $pageData['title'] . " | Menu Knowledge Page";
     $seoDescription = "Professional long-form map-based resource for " . $pageData['title'] . " with sections and subsections.";
     $canonical = "https://pincodelocator.co.in/" . $route;
+    $metaRobots = "noindex, follow";
 }
 ?>
 
@@ -1099,6 +1101,40 @@ if($nearbyStmt){
     }
     $nearbyStmt->close();
 }
+
+$officeTypeCounts = [];
+$deliveryStatusCounts = [];
+$sampleOfficeNames = [];
+
+foreach ($pageData as $officeRow) {
+    $officeType = trim((string)($officeRow['officetype'] ?? 'Unknown'));
+    $deliveryStatus = trim((string)($officeRow['delivery'] ?? 'Unknown'));
+    $officeLabel = trim((string)($officeRow['officename'] ?? ''));
+
+    if ($officeType === '') {
+        $officeType = 'Unknown';
+    }
+    if ($deliveryStatus === '') {
+        $deliveryStatus = 'Unknown';
+    }
+
+    $officeTypeCounts[$officeType] = ($officeTypeCounts[$officeType] ?? 0) + 1;
+    $deliveryStatusCounts[$deliveryStatus] = ($deliveryStatusCounts[$deliveryStatus] ?? 0) + 1;
+
+    if ($officeLabel !== '' && count($sampleOfficeNames) < 3) {
+        $sampleOfficeNames[] = $officeLabel;
+    }
+}
+
+$officeTypeSummary = [];
+foreach ($officeTypeCounts as $officeType => $count) {
+    $officeTypeSummary[] = $officeType . ' (' . $count . ')';
+}
+
+$deliverySummary = [];
+foreach ($deliveryStatusCounts as $deliveryStatus => $count) {
+    $deliverySummary[] = $deliveryStatus . ' (' . $count . ')';
+}
 ?>
 
 <nav class="text-sm mb-4 text-gray-600" aria-label="Pincode page breadcrumb">
@@ -1142,6 +1178,23 @@ Copy Pincode
   </p>
   <p class="text-gray-700">
     Postal records currently show <strong><?= htmlspecialchars((string)$districtOfficeCount) ?></strong> post offices and <strong><?= htmlspecialchars((string)$districtPincodeCount) ?></strong> unique pincodes in this district. This context is generated automatically from the mapped district of the searched pincode.
+  </p>
+</section>
+
+<section class="bg-indigo-50 border border-indigo-100 rounded-xl p-6 mb-8 leading-7">
+  <h3 class="text-xl font-semibold mb-3">PIN <?= htmlspecialchars($pinCode) ?> at a glance</h3>
+  <p class="text-gray-700 mb-3">
+    This PIN currently maps <strong><?= htmlspecialchars((string)count($pageData)) ?></strong> post office<?= count($pageData) === 1 ? '' : 's' ?>
+    in <strong><?= htmlspecialchars($districtName) ?></strong>, <strong><?= htmlspecialchars($stateName) ?></strong>.
+    Representative offices include <strong><?= htmlspecialchars(implode(', ', $sampleOfficeNames)) ?></strong>.
+  </p>
+  <p class="text-gray-700 mb-3">
+    The office mix under this PIN includes <?= htmlspecialchars(implode(', ', $officeTypeSummary)) ?>,
+    while delivery status in the current dataset is recorded as <?= htmlspecialchars(implode(', ', $deliverySummary)) ?>.
+  </p>
+  <p class="text-gray-700">
+    Use this summary to confirm whether the PIN represents a broader delivery cluster, a smaller branch-office pocket,
+    or a mixed postal service area before dispatching important parcels, forms, or verification documents.
   </p>
 </section>
 
