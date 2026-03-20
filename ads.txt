@@ -1,3 +1,1 @@
-# Primary behavior: /ads.txt is rewritten to /ads-txt.php via .htaccess.
-# Fallback for servers without rewrite: replace with your real AdSense publisher record.
-# Format: google.com, ca-pub-################, DIRECT, f08c47fec0942fa0
+google.com, ca-pub-REPLACE_WITH_REAL_ID, DIRECT, f08c47fec0942fa0
