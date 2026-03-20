@@ -1707,7 +1707,7 @@ else { ?>
 
   <div class="grid lg:grid-cols-[320px_1fr_290px] gap-6 p-4 md:p-6">
     <aside>
-      <h2 class="text-4xl leading-tight font-extrabold mb-4 text-slate-800">India Pincode Finder</h2>
+      <h2 class="text-4xl leading-tight font-extrabold mb-4 text-slate-800">India Pincode Locator</h2>
       <div class="bg-gradient-to-r from-rose-600 to-orange-500 text-white font-semibold text-center py-3 rounded-lg shadow">SMART PINCODE SEARCH</div>
 
       <div class="space-y-3 mt-4">
