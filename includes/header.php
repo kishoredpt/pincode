@@ -41,6 +41,8 @@ $resolvedCanonical = 'https://pincodelocator.co.in' . $canonicalPath;
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="<?= htmlspecialchars($resolvedTitle, ENT_QUOTES, 'UTF-8'); ?>">
 <meta name="twitter:description" content="<?= htmlspecialchars($resolvedDescription, ENT_QUOTES, 'UTF-8'); ?>">
+<?php $adsense = include __DIR__ . '/../config/adsense.php'; ?>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=<?php echo $adsense['publisher_id']; ?>" crossorigin="anonymous"></script>
 
 <script type="application/ld+json">
 {
