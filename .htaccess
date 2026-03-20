@@ -25,4 +25,6 @@ RewriteRule ^([a-zA-Z0-9-]+)/?$ index.php?route=$1 [L,QSA]
 # Sitemap
 RewriteRule ^sitemap.xml$ sitemap_index.php [L]
 
+RewriteRule ^blog/([a-zA-Z0-9-]+)$ blog-post.php?slug=$1 [L,QSA]
+
 ErrorDocument 404 /404.php
