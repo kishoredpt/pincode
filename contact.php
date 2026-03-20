@@ -30,7 +30,7 @@ include 'includes/header.php';
 
   <div class="card">
     <h3>🤝 Policy, Compliance, and Business Communication</h3>
-    <p>Email: <a href="mailto:support@pincodelocator.co.in">policy@pincodelocator.co.in</a></p>
+    <p>Email: <a href="mailto:support@pincodelocator.co.in">support@pincodelocator.co.in</a></p>
     <p>Use this channel for legal notices, policy clarifications, and partnership requests aligned with editorial standards.</p>
   </div>
 
