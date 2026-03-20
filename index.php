@@ -848,7 +848,7 @@ while($stateWords < $stateWordTarget){
 </h2>
 
 <section class="state-intro bg-white rounded-xl shadow p-6 mb-8 leading-7">
-<h2 class="text-2xl font-semibold text-indigo-700 mb-4"><?= htmlspecialchars($stateName) ?> PIN Code Directory – Dynamic Postal Overview</h2>
+<h2 class="text-2xl font-semibold text-indigo-700 mb-4"><?= htmlspecialchars($stateName) ?> PIN Code Directory – Overview</h2>
 
 <?php foreach($stateGeneratedParagraphs as $stateParagraph): ?>
 <p class="text-gray-700 mb-4"><?= $stateParagraph ?></p>
