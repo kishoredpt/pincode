@@ -4,16 +4,6 @@ require_once 'config/db.php';
 
 $base = "https://pincodelocator.co.in";
 $batchSize = 10000;
-$totalRows = 0;
-
-$res = $conn->query("SELECT COUNT(*) AS total FROM post_offices");
-if ($res) {
-    $row = $res->fetch_assoc();
-    $totalRows = (int) ($row['total'] ?? 0);
-}
-
-$totalPostofficeSitemaps = max(1, (int) ceil($totalRows / $batchSize));
-
 $railRows = 0;
 $railRes = $conn->query("SELECT COUNT(DISTINCT pincode) AS total FROM pincode_nearest_railway_station");
 if ($railRes) {
@@ -32,12 +22,6 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 <sitemap>
 <loc><?= $base ?>/sitemaps/districts.php</loc>
 </sitemap>
-
-<?php for ($i = 1; $i <= $totalPostofficeSitemaps; $i++): ?>
-<sitemap>
-<loc><?= $base ?>/sitemaps/postoffices.php?page=<?= $i ?></loc>
-</sitemap>
-<?php endfor; ?>
 
 <?php for ($i = 1; $i <= $railSitemaps; $i++): ?>
 <sitemap>
