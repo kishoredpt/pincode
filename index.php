@@ -653,6 +653,55 @@ gtag('config', '<?= htmlspecialchars($ga4Id, ENT_QUOTES, "UTF-8") ?>');
     color: #312e81;
     transform: translateX(2px);
   }
+
+  .home-side-ad {
+    position: fixed;
+    top: 12rem;
+    width: 10.5rem;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.85rem;
+    box-shadow: 0 16px 35px rgba(15, 23, 42, 0.12);
+    z-index: 30;
+    overflow: hidden;
+  }
+  .home-side-ad a {
+    display: block;
+    text-decoration: none;
+    color: #111827;
+    padding: 0.85rem 0.9rem;
+  }
+  .home-side-ad-left { left: 1rem; }
+  .home-side-ad-right { right: 1rem; }
+  .home-ad-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #4f46e5;
+    background: #eef2ff;
+    padding: 0.1rem 0.45rem;
+    border-radius: 999px;
+    margin-bottom: 0.45rem;
+  }
+  .home-side-ad h3 {
+    font-size: 1.05rem;
+    line-height: 1.2;
+    margin: 0.25rem 0;
+  }
+  .home-side-ad p {
+    margin: 0.35rem 0;
+    font-size: 0.83rem;
+    line-height: 1.3;
+  }
+  .home-ad-highlight {
+    color: #4f46e5;
+    font-weight: 600;
+  }
+  @media (max-width: 1360px) {
+    .home-side-ad { display: none; }
+  }
+
   @media (max-width: 767px) {
     .menu-panel {
       position: fixed;
@@ -664,6 +713,26 @@ gtag('config', '<?= htmlspecialchars($ga4Id, ENT_QUOTES, "UTF-8") ?>');
     }
   }
 </style>
+
+
+
+<div class="home-side-ad home-side-ad-left" aria-label="Happy Heavens Farm Houses advertisement">
+<a href="https://www.instagram.com/svcs_infradevelopers?igsh=MW10bDFxYmhjdnNzNQ==" title="Happy Heavens Farm Houses at Aler" target="_blank" rel="noopener noreferrer">
+<span class="home-ad-badge">Sponsored</span>
+<h3>Happy Heavens<br>Farm Houses</h3>
+<p>at Aler • SVCS Infra Developers</p>
+<p class="home-ad-highlight">Own your dream farmhouse with ultra luxury features.</p>
+</a>
+</div>
+
+<div class="home-side-ad home-side-ad-right" aria-label="Happy Heavens Farm Houses advertisement">
+<a href="https://www.instagram.com/svcs_infradevelopers?igsh=MW10bDFxYmhjdnNzNQ==" title="Happy Heavens Farm Houses at Aler" target="_blank" rel="noopener noreferrer">
+<span class="home-ad-badge">Sponsored</span>
+<h3>Happy Heavens<br>Farm Houses</h3>
+<p>at Aler • SVCS Infra Developers</p>
+<p class="home-ad-highlight">Visit Aler farmhouse project.</p>
+</a>
+</div>
 
 <div class="max-w-[1100px] mx-auto px-4 md:px-6 py-6 md:py-10">
 
