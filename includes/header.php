@@ -97,3 +97,22 @@ and district-wise postal coverage across all Indian states.
 </div>
 
 </div>
+
+<!-- Happy Heavens Farm Houses Side Advertisements (left/right) -->
+<div class="side-ad side-ad-left" aria-label="Happy Heavens Farm Houses advertisement" data-ad-slot="happy-heavens-left">
+<a href="https://pincodelocator.co.in/" title="Happy Heavens Farm Houses at Aler">
+<span class="ad-badge">Sponsored</span>
+<h3>Happy Heavens<br>Farm Houses</h3>
+<p>at Aler • SVCS Infra Developers</p>
+<p class="ad-highlight">Own your dream farmhouse with ultra luxury features.</p>
+</a>
+</div>
+
+<div class="side-ad side-ad-right" aria-label="Happy Heavens Farm Houses advertisement" data-ad-slot="happy-heavens-right">
+<a href="https://pincodelocator.co.in/" title="Happy Heavens Farm Houses at Aler">
+<span class="ad-badge">Sponsored</span>
+<h3>Happy Heavens<br>Farm Houses</h3>
+<p>at Aler • SVCS Infra Developers</p>
+<p class="ad-highlight">Visit Aler farmhouse project.</p>
+</a>
+</div>
