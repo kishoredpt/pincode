@@ -101,7 +101,7 @@ and district-wise postal coverage across all Indian states.
 <div class="side-ad side-ad-left" aria-label="Happy Heavens Farm Houses advertisement">
 <a href="https://www.instagram.com/svcs_infradevelopers?igsh=MW10bDFxYmhjdnNzNQ==" title="Happy Heavens Farm Houses at Aler" target="_blank" rel="noopener noreferrer">
 <span class="ad-badge">Sponsored</span>
-<h3>Happy Heavens<br>Farm Houses</h3>
+<h3><span class="ad-brand">Happy Heavens</span><br><span class="ad-brand">Farm Houses</span></h3>
 <p>at Aler • SVCS Infra Developers</p>
 <p class="ad-highlight">Own your dream farmhouse with ultra luxury features.</p>
 <div class="ad-images" aria-label="Happy Heavens Farm Houses ad gallery">
@@ -114,7 +114,7 @@ and district-wise postal coverage across all Indian states.
 <div class="side-ad side-ad-right" aria-label="Happy Heavens Farm Houses advertisement">
 <a href="https://www.instagram.com/svcs_infradevelopers?igsh=MW10bDFxYmhjdnNzNQ==" title="Happy Heavens Farm Houses at Aler" target="_blank" rel="noopener noreferrer">
 <span class="ad-badge">Sponsored</span>
-<h3>Happy Heavens<br>Farm Houses</h3>
+<h3><span class="ad-brand">Happy Heavens</span><br><span class="ad-brand">Farm Houses</span></h3>
 <p>at Aler • SVCS Infra Developers</p>
 <p class="ad-highlight">Visit Aler farmhouse project.</p>
 <div class="ad-images" aria-label="Happy Heavens Farm Houses ad gallery">

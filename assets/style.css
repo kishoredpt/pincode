@@ -12,7 +12,7 @@ footer{background:#0a2a66;color:white;padding:20px;margin-top:40px;text-align:ce
 .side-ad{
 position:fixed;
 top:140px;
-width:170px;
+width:200px;
 z-index:50;
 display:none;
 }
@@ -22,14 +22,15 @@ display:none;
 display:block;
 text-decoration:none;
 color:#fff;
-padding:14px 12px;
+padding:16px 14px;
 border-radius:10px;
 background:linear-gradient(160deg,#0f766e,#14532d);
 box-shadow:0 8px 18px rgba(0,0,0,0.2);
 font-size:13px;
 line-height:1.35;
 }
-.side-ad h3{margin:6px 0;font-size:21px;line-height:1.1;}
+.side-ad h3{margin:6px 0;font-size:24px;line-height:1.12;}
+.side-ad .ad-brand{display:inline-block;font-weight:800;background:linear-gradient(90deg,#fde047 0%,#fb7185 50%,#60a5fa 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 1px 0 rgba(0,0,0,0.2);}
 .side-ad p{margin:6px 0;}
 .side-ad .ad-badge{display:inline-block;font-size:10px;padding:2px 6px;background:rgba(255,255,255,0.18);border-radius:999px;}
 .side-ad .ad-highlight{font-weight:600;color:#dcfce7;}
