@@ -104,6 +104,10 @@ and district-wise postal coverage across all Indian states.
 <h3>Happy Heavens<br>Farm Houses</h3>
 <p>at Aler • SVCS Infra Developers</p>
 <p class="ad-highlight">Own your dream farmhouse with ultra luxury features.</p>
+<div class="ad-images" aria-label="Happy Heavens Farm Houses ad gallery">
+<img src="/assets/images/ads/happy-heavens-ad-1.jpg" alt="Happy Heavens Farm House advertisement artwork" loading="lazy">
+<img src="/assets/images/ads/happy-heavens-ad-2.jpg" alt="Happy Heavens Farm House sample villa" loading="lazy">
+</div>
 </a>
 </div>
 
@@ -113,5 +117,9 @@ and district-wise postal coverage across all Indian states.
 <h3>Happy Heavens<br>Farm Houses</h3>
 <p>at Aler • SVCS Infra Developers</p>
 <p class="ad-highlight">Visit Aler farmhouse project.</p>
+<div class="ad-images" aria-label="Happy Heavens Farm Houses ad gallery">
+<img src="/assets/images/ads/happy-heavens-ad-1.jpg" alt="Happy Heavens Farm House advertisement artwork" loading="lazy">
+<img src="/assets/images/ads/happy-heavens-ad-2.jpg" alt="Happy Heavens Farm House sample villa" loading="lazy">
+</div>
 </a>
 </div>
