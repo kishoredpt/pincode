@@ -698,6 +698,19 @@ gtag('config', '<?= htmlspecialchars($ga4Id, ENT_QUOTES, "UTF-8") ?>');
     color: #4f46e5;
     font-weight: 600;
   }
+  .home-ad-images {
+    display: grid;
+    gap: 0.45rem;
+    margin-top: 0.55rem;
+  }
+  .home-ad-images img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid rgba(79, 70, 229, 0.22);
+    background: #f8fafc;
+  }
   @media (max-width: 1360px) {
     .home-side-ad { display: none; }
   }
@@ -722,6 +735,10 @@ gtag('config', '<?= htmlspecialchars($ga4Id, ENT_QUOTES, "UTF-8") ?>');
 <h3>Happy Heavens<br>Farm Houses</h3>
 <p>at Aler • SVCS Infra Developers</p>
 <p class="home-ad-highlight">Own your dream farmhouse with ultra luxury features.</p>
+<div class="home-ad-images" aria-label="Happy Heavens Farm Houses ad gallery">
+<img src="/assets/images/ads/happy-heavens-ad-1.jpg" alt="Happy Heavens Farm House advertisement artwork" loading="lazy">
+<img src="/assets/images/ads/happy-heavens-ad-2.jpg" alt="Happy Heavens Farm House sample villa" loading="lazy">
+</div>
 </a>
 </div>
 
@@ -731,6 +748,10 @@ gtag('config', '<?= htmlspecialchars($ga4Id, ENT_QUOTES, "UTF-8") ?>');
 <h3>Happy Heavens<br>Farm Houses</h3>
 <p>at Aler • SVCS Infra Developers</p>
 <p class="home-ad-highlight">Visit Aler farmhouse project.</p>
+<div class="home-ad-images" aria-label="Happy Heavens Farm Houses ad gallery">
+<img src="/assets/images/ads/happy-heavens-ad-1.jpg" alt="Happy Heavens Farm House advertisement artwork" loading="lazy">
+<img src="/assets/images/ads/happy-heavens-ad-2.jpg" alt="Happy Heavens Farm House sample villa" loading="lazy">
+</div>
 </a>
 </div>
 
